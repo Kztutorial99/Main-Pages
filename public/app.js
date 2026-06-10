@@ -47,35 +47,43 @@ function goTo(index, dir) {
   const prev = current;
   current = next;
 
+  // Curved edges: direction=1 → incoming from right, leading edge = left side
+  const rIn  = direction === 1 ? '2.2rem 0 0 2.2rem' : '0 2.2rem 2.2rem 0';
+  const rOut = direction === 1 ? '0 2.2rem 2.2rem 0' : '2.2rem 0 0 2.2rem';
+
   // ── Set incoming slide starting state (no transition yet) ──
-  slides[current].style.transition = 'none';
-  slides[current].style.transform  = `translateX(${direction * 100}%)`;
-  slides[current].style.filter     = BLUR_IN;
-  slides[current].style.opacity    = '0.5';
-  slides[current].style.scale      = '0.97';
+  slides[current].style.transition   = 'none';
+  slides[current].style.transform    = `translateX(${direction * 100}%)`;
+  slides[current].style.filter       = BLUR_IN;
+  slides[current].style.opacity      = '0.5';
+  slides[current].style.scale        = '0.97';
+  slides[current].style.borderRadius = rIn;
 
   // Force reflow
   slides[current].offsetHeight;
 
   // ── Shared transition string ──
   const T = `transform ${SLIDE_DURATION}ms ${SLIDE_EASE},
-             filter    ${SLIDE_DURATION * 0.9}ms ${SLIDE_EASE},
-             opacity   ${SLIDE_DURATION * 0.75}ms ease,
-             scale     ${SLIDE_DURATION}ms ${SLIDE_EASE}`;
+             filter       ${SLIDE_DURATION * 0.9}ms ${SLIDE_EASE},
+             opacity      ${SLIDE_DURATION * 0.75}ms ease,
+             scale        ${SLIDE_DURATION}ms ${SLIDE_EASE},
+             border-radius ${Math.round(SLIDE_DURATION * 0.65)}ms ${SLIDE_EASE}`;
 
-  // ── Incoming: slide in + unblur + scale up to normal ──
-  slides[current].style.transition = T;
-  slides[current].style.transform  = 'translateX(0)';
-  slides[current].style.filter     = BLUR_NONE;
-  slides[current].style.opacity    = '1';
-  slides[current].style.scale      = '1';
+  // ── Incoming: slide in + unblur + straighten edges ──
+  slides[current].style.transition   = T;
+  slides[current].style.transform    = 'translateX(0)';
+  slides[current].style.filter       = BLUR_NONE;
+  slides[current].style.opacity      = '1';
+  slides[current].style.scale        = '1';
+  slides[current].style.borderRadius = '0';
 
-  // ── Outgoing: slide out + blur + fade + slight scale down ──
-  slides[prev].style.transition = T;
-  slides[prev].style.transform  = `translateX(${-direction * 100}%)`;
-  slides[prev].style.filter     = BLUR_IN;
-  slides[prev].style.opacity    = '0.3';
-  slides[prev].style.scale      = '0.96';
+  // ── Outgoing: slide out + blur + curve trailing edge ──
+  slides[prev].style.transition   = T;
+  slides[prev].style.transform    = `translateX(${-direction * 100}%)`;
+  slides[prev].style.filter       = BLUR_IN;
+  slides[prev].style.opacity      = '0.3';
+  slides[prev].style.scale        = '0.96';
+  slides[prev].style.borderRadius = rOut;
 
   slides[current].classList.add('active');
   slides[prev].classList.remove('active');
@@ -83,11 +91,11 @@ function goTo(index, dir) {
   dots.forEach((d, i) => d.classList.toggle('active', i === current));
 
   setTimeout(() => {
-    // Clean up outgoing slide state so it's ready to be incoming again
-    slides[prev].style.transition = 'none';
-    slides[prev].style.filter     = BLUR_IN;
-    slides[prev].style.opacity    = '0';
-    slides[prev].style.scale      = '1';
+    slides[prev].style.transition   = 'none';
+    slides[prev].style.filter       = BLUR_IN;
+    slides[prev].style.opacity      = '0';
+    slides[prev].style.scale        = '1';
+    slides[prev].style.borderRadius = '0';
     isAnimating = false;
   }, SLIDE_DURATION + 30);
 }
@@ -149,6 +157,31 @@ revealEls.forEach((el, i) => {
   el.style.transition = `opacity .5s ease ${i * 0.08}s, transform .5s ease ${i * 0.08}s`;
   observer.observe(el);
 });
+
+// ===== DARK / LIGHT THEME TOGGLE =====
+const themeToggle = document.getElementById('themeToggle');
+const iconMoon    = themeToggle.querySelector('.icon-moon');
+const iconSun     = themeToggle.querySelector('.icon-sun');
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('kz-theme', theme);
+  if (theme === 'light') {
+    iconMoon.style.display = 'none';
+    iconSun.style.display  = 'block';
+  } else {
+    iconMoon.style.display = 'block';
+    iconSun.style.display  = 'none';
+  }
+}
+
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme');
+  applyTheme(current === 'light' ? 'dark' : 'light');
+});
+
+// Restore saved preference
+applyTheme(localStorage.getItem('kz-theme') || 'dark');
 
 // ===== SMOOTH ANCHOR =====
 document.querySelectorAll('a[href^="#"]').forEach(a => {
