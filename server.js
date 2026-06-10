@@ -19,8 +19,18 @@ const mimeTypes = {
   '.webp': 'image/webp',
 };
 
+const routes = {
+  '/':        'index.html',
+  '/topik':   'topik.html',
+  '/legal':   'legal.html',
+};
+
 const server = http.createServer((req, res) => {
-  let filePath = path.join(PUBLIC_DIR, req.url === '/' ? 'index.html' : req.url);
+  const urlPath = req.url.split('?')[0].split('#')[0];
+  const mapped = routes[urlPath];
+  let filePath = mapped
+    ? path.join(PUBLIC_DIR, mapped)
+    : path.join(PUBLIC_DIR, urlPath);
 
   if (!filePath.startsWith(PUBLIC_DIR)) {
     res.writeHead(403);
