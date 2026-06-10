@@ -10,16 +10,16 @@
   --grad:        linear-gradient(135deg, #0A84FF 0%, #5E5CE6 100%);
   --grad-border: linear-gradient(135deg, rgba(10,132,255,.5), rgba(94,92,230,.5));
 
-  --bg:      #04091A;
-  --bg2:     #060D22;
-  --bg3:     #07102A;
-  --surface: rgba(255,255,255,.055);
-  --surface2:rgba(255,255,255,.09);
-  --border:  rgba(255,255,255,.09);
-  --b-blue:  rgba(10,132,255,.22);
+  --bg:      #070E20;
+  --bg2:     #0A1328;
+  --bg3:     #0D1832;
+  --surface: rgba(255,255,255,.085);
+  --surface2:rgba(255,255,255,.13);
+  --border:  rgba(255,255,255,.13);
+  --b-blue:  rgba(10,132,255,.30);
 
-  --text:       #F2F2F7;
-  --text-muted: rgba(242,242,247,.48);
+  --text:       #F5F5FA;
+  --text-muted: rgba(242,242,247,.70);
   --white: #fff;
 
   --r-xs:  8px;
@@ -44,8 +44,8 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   background-image:
-    radial-gradient(ellipse 90% 55% at 15% 5%,  rgba(10,132,255,.09) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 45% at 85% 85%, rgba(94,92,230,.08) 0%, transparent 60%);
+    radial-gradient(ellipse 90% 55% at 15% 5%,  rgba(10,132,255,.15) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 45% at 85% 85%, rgba(94,92,230,.13) 0%, transparent 60%);
   background-attachment: fixed;
 }
 
@@ -242,9 +242,17 @@ body {
   text-align: center;
 }
 .intro-tagline {
-  font-size: clamp(.9rem, 2vw, 1.05rem);
-  color: var(--text-muted); font-weight: 500;
-  margin-bottom: 1.1rem; line-height: 1.6;
+  font-size: clamp(1rem, 2.4vw, 1.22rem);
+  color: var(--text); font-weight: 600;
+  margin-bottom: 1.1rem; line-height: 1.65;
+  letter-spacing: -.01em;
+}
+.intro-tagline .grad-text {
+  background: linear-gradient(90deg, #0A84FF 0%, #5AC8FA 45%, #5E5CE6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
 }
 .intro-badges {
   display: flex; flex-wrap: wrap; gap: .6rem;
@@ -567,6 +575,48 @@ body {
   transition: color var(--ease); cursor: pointer;
 }
 .footer-col ul li a:hover { color: var(--white); }
+
+/* ===== IWX TEAM SUPPORT ===== */
+.footer-support {
+  display: flex; align-items: center; gap: 1rem;
+  justify-content: center;
+  padding: 1.4rem 0 1rem;
+}
+.footer-support-label {
+  font-size: .72rem; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+}
+.footer-support-badge {
+  display: flex; align-items: center; gap: .65rem;
+  background: rgba(255,255,255,.055);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--r-full);
+  padding: .35rem .9rem .35rem .45rem;
+  transition: background var(--ease), border-color var(--ease), box-shadow var(--ease);
+}
+.footer-support-badge:hover {
+  background: rgba(255,255,255,.09);
+  border-color: rgba(180,180,220,.25);
+  box-shadow: 0 0 18px rgba(180,180,255,.08);
+}
+.iwx-logo {
+  width: 30px; height: 30px;
+  border-radius: var(--r-full);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.iwx-name {
+  font-size: .82rem; font-weight: 700;
+  color: rgba(255,255,255,.75);
+  letter-spacing: .06em;
+}
+.iwx-accent {
+  background: linear-gradient(90deg, #7B8CFF 0%, #A9B4FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
 .footer-divider {
   height: 1px;
