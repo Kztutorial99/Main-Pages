@@ -54,26 +54,6 @@
         <img src="banner2.png" alt="Termux & Linux Banner" />
       </div>
 
-      <!-- Slide 3 — Gradient slide -->
-      <div class="slide slide-gradient" data-slide="2">
-        <div class="slide-content">
-          <p class="slide-tag">Open Source Indonesia</p>
-          <h1>Belajar <span class="accent">Linux</span><br/>dari Nol</h1>
-          <p class="slide-desc">Dari instalasi sampai scripting — semua ada di channel @Kz.tutorial</p>
-          <div class="slide-btns">
-            <a href="#videos" class="btn-primary">Tonton Gratis</a>
-            <a href="https://www.youtube.com/@Kz.tutorial" target="_blank" class="btn-outline">YouTube Channel</a>
-          </div>
-        </div>
-        <div class="slide-code-anim" aria-hidden="true">
-          <pre><span class="code-blue">~</span> $ termux-setup-storage
-<span class="code-blue">~</span> $ pkg update &amp;&amp; pkg upgrade
-<span class="code-blue">~</span> $ pkg install python git
-<span class="code-blue">~</span> $ pip install requests
-<span class="code-blue">~</span> $ python3 main.py<span class="cursor">▌</span></pre>
-        </div>
-      </div>
-
     </div>
 
     <!-- Slider Controls -->
@@ -84,7 +64,6 @@
     <div class="slider-dots" id="sliderDots">
       <button class="dot active" data-index="0"></button>
       <button class="dot" data-index="1"></button>
-      <button class="dot" data-index="2"></button>
     </div>
   </section>
 
@@ -239,42 +218,39 @@
 
   <!-- ABOUT SECTION -->
   <section class="about-section" id="about">
-    <div class="section-inner about-grid">
-      <div class="about-text">
+    <div class="section-inner">
+      <div class="about-header">
         <p class="section-eyebrow">👤 About</p>
         <h2>Tentang <span class="accent">@Kz.tutorial</span></h2>
-        <p>Channel YouTube yang berfokus pada tutorial <strong>Termux</strong>, <strong>Linux</strong>, dan dunia Open Source. Cocok untuk pemula hingga yang sudah berpengalaman.</p>
-        <ul class="about-list">
-          <li><span class="list-icon">&gt;_</span> Tutorial Termux lengkap & praktis</li>
-          <li><span class="list-icon">🐧</span> Panduan Linux dari dasar</li>
-          <li><span class="list-icon">⚙️</span> Tools, Scripts & Automation</li>
-          <li><span class="list-icon">💻</span> Tips & Trik Open Source</li>
-        </ul>
-        <a href="https://www.youtube.com/@Kz.tutorial" target="_blank" class="btn-primary" style="margin-top:2rem;display:inline-flex;align-items:center;gap:.6rem;">
+        <p class="about-desc">Channel YouTube yang berfokus pada tutorial <strong>Termux</strong>, <strong>Linux</strong>, dan dunia Open Source. Cocok untuk pemula hingga yang sudah berpengalaman.</p>
+      </div>
+      <div class="about-cards">
+        <div class="about-card">
+          <span class="about-card-icon">⌨️</span>
+          <h4>Tutorial Termux</h4>
+          <p>Panduan lengkap & praktis untuk Termux di Android</p>
+        </div>
+        <div class="about-card">
+          <span class="about-card-icon">🐧</span>
+          <h4>Linux Hub</h4>
+          <p>Panduan Linux dari dasar hingga tingkat lanjut</p>
+        </div>
+        <div class="about-card">
+          <span class="about-card-icon">⚙️</span>
+          <h4>Tools & Scripts</h4>
+          <p>Automation, scripting, dan tools open source pilihan</p>
+        </div>
+        <div class="about-card">
+          <span class="about-card-icon">💡</span>
+          <h4>Tips & Trik</h4>
+          <p>Tips eksklusif dunia open source dan command line</p>
+        </div>
+      </div>
+      <div class="about-cta">
+        <a href="https://www.youtube.com/@Kz.tutorial" target="_blank" class="btn-primary">
           <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 0 0 .5 6.19C0 8.04 0 12 0 12s0 3.96.5 5.81a3.02 3.02 0 0 0 2.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14C24 15.96 24 12 24 12s0-3.96-.5-5.81zM9.75 15.52V8.48L15.82 12l-6.07 3.52z"/></svg>
           Subscribe di YouTube
         </a>
-      </div>
-      <div class="about-terminal">
-        <div class="terminal-header">
-          <span class="t-dot t-red"></span>
-          <span class="t-dot t-yellow"></span>
-          <span class="t-dot t-green"></span>
-          <span class="t-title">bash — @Kz.tutorial</span>
-        </div>
-        <div class="terminal-body">
-          <p><span class="t-green">kz@tutorial</span><span class="t-white">:</span><span class="t-blue">~</span><span class="t-white">$</span> whoami</p>
-          <p class="t-out">@Kz.tutorial</p>
-          <p><span class="t-green">kz@tutorial</span><span class="t-white">:</span><span class="t-blue">~</span><span class="t-white">$</span> cat about.txt</p>
-          <p class="t-out">Nama     : Kz.tutorial</p>
-          <p class="t-out">Platform : YouTube</p>
-          <p class="t-out">Fokus    : Termux & Linux</p>
-          <p class="t-out">Bahasa   : Indonesia</p>
-          <p class="t-out">Status   : Active</p>
-          <p><span class="t-green">kz@tutorial</span><span class="t-white">:</span><span class="t-blue">~</span><span class="t-white">$</span> echo $MOTTO</p>
-          <p class="t-out t-green">"Command. Learn. Create."</p>
-          <p><span class="t-green">kz@tutorial</span><span class="t-white">:</span><span class="t-blue">~</span><span class="t-white">$</span> <span class="cursor">▌</span></p>
-        </div>
       </div>
     </div>
   </section>

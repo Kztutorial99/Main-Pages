@@ -17,7 +17,7 @@ const slides = Array.from(document.querySelectorAll('.slide'));
 const dots   = Array.from(document.querySelectorAll('.dot'));
 const prevBtn = document.getElementById('sliderPrev');
 const nextBtn = document.getElementById('sliderNext');
-const TOTAL = slides.length;
+const TOTAL = 2;
 let current = 0;
 let autoTimer = null;
 let isAnimating = false;
@@ -66,27 +66,6 @@ wrapper.addEventListener('touchend', e => {
   if (Math.abs(diff) > 50) { goTo(diff > 0 ? current + 1 : current - 1); startAuto(); }
 }, { passive: true });
 
-// Sync gradient slide height to image banner height
-function syncGradientHeight() {
-  const imgSlide = document.querySelector('.slide-img');
-  const gradSlide = document.querySelector('.slide-gradient');
-  if (!imgSlide || !gradSlide) return;
-  const img = imgSlide.querySelector('img');
-  if (img && img.naturalHeight > 0) {
-    const h = imgSlide.getBoundingClientRect().height || img.offsetHeight;
-    if (h > 0) {
-      gradSlide.style.minHeight = h + 'px';
-      gradSlide.style.height = h + 'px';
-    }
-  }
-}
-window.addEventListener('load', syncGradientHeight);
-window.addEventListener('resize', syncGradientHeight);
-const firstImg = document.querySelector('.slide-img img');
-if (firstImg) {
-  firstImg.addEventListener('load', syncGradientHeight);
-  if (firstImg.complete) syncGradientHeight();
-}
 
 startAuto();
 
