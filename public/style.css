@@ -99,6 +99,20 @@ body {
   border-radius: var(--r-sm); padding: .2rem .55rem;
   box-shadow: 0 2px 16px var(--blue-glow);
 }
+.logo-avatar {
+  width: 34px; height: 34px;
+  border-radius: var(--r-full);
+  object-fit: cover;
+  padding: 0;
+  background: none;
+  border: 2px solid rgba(10,132,255,.55);
+  box-shadow: 0 0 10px var(--blue-glow);
+  transition: box-shadow var(--ease), border-color var(--ease);
+}
+.nav-logo:hover .logo-avatar {
+  border-color: var(--blue);
+  box-shadow: 0 0 18px var(--blue-glow);
+}
 .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
 .nav-links a {
   color: var(--text-muted); text-decoration: none;
