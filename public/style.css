@@ -220,7 +220,7 @@ body {
 }
 .slider-wrapper {
   position: relative; width: 100%;
-  aspect-ratio: 1584 / 672;
+  aspect-ratio: 1983 / 793;
   border-radius: 1.5rem;
   overflow: hidden;
   box-shadow: 0 8px 48px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.07);
@@ -238,11 +238,8 @@ body {
 
 .slide-img { width: 100%; height: 100%; }
 .slide-img img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  /* Subtle Ken-Burns float on active slide */
-  transition: transform 7s ease;
+  width: 100%; height: 100%; object-fit: contain; display: block;
 }
-.slide.active .slide-img img { transform: scale(1.04); }
 
 /* ===== STYLED BANNER SLIDES ===== */
 .slide-styled {
