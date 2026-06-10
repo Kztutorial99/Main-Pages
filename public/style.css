@@ -117,6 +117,21 @@ body {
   border: 2px solid rgba(10,132,255,.55);
   box-shadow: 0 0 10px var(--blue-glow);
   transition: box-shadow var(--ease), border-color var(--ease);
+  /* Blokir drag & select */
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+/* Re-enable pointer events only on the link, bukan gambar langsung */
+.nav-logo { pointer-events: auto; }
+.iwx-logo {
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
 }
 .nav-logo:hover .logo-avatar {
   border-color: var(--blue);
