@@ -1035,10 +1035,8 @@ body {
   bottom: 1.5rem;
   right: 1.5rem;
   z-index: 900;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: .75rem;
+  width: 56px;
+  height: 56px;
 }
 
 /* Main button */
@@ -1083,13 +1081,16 @@ body {
 
 /* Popup menu */
 .fab-menu {
+  position: absolute;
+  bottom: calc(100% + .75rem);
+  right: 0;
   background: var(--bg2);
   border: 1px solid var(--b-blue);
   border-radius: var(--r-md);
   padding: .5rem .5rem .6rem;
   min-width: 240px;
   box-shadow: 0 8px 40px rgba(0,0,0,.55), 0 0 0 1px rgba(10,132,255,.12);
-  transform: translateY(12px) scale(.95);
+  transform: translateY(10px) scale(.95);
   opacity: 0;
   pointer-events: none;
   transition: transform .25s cubic-bezier(.34,1.56,.64,1), opacity .2s;
@@ -1151,6 +1152,7 @@ body {
 .fab-item:hover .fab-item-arrow { opacity: 1; color: var(--blue); }
 
 @media (max-width: 480px) {
-  .fab-support { bottom: 1rem; right: 1rem; }
-  .fab-menu { min-width: 210px; }
+  .fab-support { bottom: 1rem; right: 1rem; width: 52px; height: 52px; }
+  .fab-btn { width: 52px; height: 52px; }
+  .fab-menu { min-width: 0; width: calc(100vw - 2rem); right: 0; }
 }
