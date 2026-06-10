@@ -176,8 +176,10 @@ function applyTheme(theme) {
 }
 
 themeToggle.addEventListener('click', () => {
-  const current = document.documentElement.getAttribute('data-theme');
-  applyTheme(current === 'light' ? 'dark' : 'light');
+  const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  document.documentElement.classList.add('theme-transitioning');
+  applyTheme(next);
+  setTimeout(() => document.documentElement.classList.remove('theme-transitioning'), 400);
 });
 
 // Restore saved preference
