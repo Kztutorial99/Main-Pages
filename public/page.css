@@ -49,10 +49,12 @@
 
 /* Page eyebrow */
 .page-eyebrow {
+  display: inline-flex; align-items: center; gap: .4rem;
   font-size: .74rem; font-weight: 700; letter-spacing: .14em;
   text-transform: uppercase; color: var(--blue-light);
   font-family: var(--mono); margin-bottom: .6rem;
 }
+.page-eyebrow svg { width: 13px; height: 13px; flex-shrink: 0; }
 
 /* Page title */
 .page-hero h1 {
@@ -126,7 +128,7 @@
   border-color: rgba(10,132,255,.45);
   box-shadow: 0 0 20px rgba(10,132,255,.2);
 }
-.tpc-icon { font-size: 1.6rem; line-height: 1; }
+.tpc-icon-wrap svg { width: 24px; height: 24px; color: var(--blue-light); flex-shrink: 0; }
 
 .tpc-body { flex: 1; }
 .tpc-body h3 {
@@ -165,7 +167,7 @@
   margin-bottom: 0;
 }
 .legal-page-tab {
-  display: inline-flex; align-items: center; gap: .5rem;
+  display: inline-flex; align-items: center; gap: .45rem;
   padding: .72rem 1.5rem;
   border-radius: var(--r-md) var(--r-md) 0 0;
   border: 1px solid rgba(255,255,255,.09);
@@ -226,10 +228,16 @@
   box-shadow: 0 8px 28px rgba(0,0,0,.28);
 }
 .legal-block-icon {
-  font-size: 1.75rem;
-  margin-bottom: .75rem;
-  display: block;
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px;
+  background: rgba(10,132,255,.09);
+  border: 1px solid rgba(10,132,255,.18);
+  border-radius: var(--r-md);
+  margin-bottom: .9rem;
+  flex-shrink: 0;
 }
+.legal-block-icon svg { width: 22px; height: 22px; color: var(--blue-light); }
+.legal-page-tab svg { width: 15px; height: 15px; flex-shrink: 0; }
 .legal-block h3 {
   font-size: .95rem; font-weight: 700; color: var(--white);
   margin-bottom: .55rem; letter-spacing: -.01em;

@@ -317,7 +317,7 @@ document.querySelectorAll('.video-card, .about-card').forEach(card => {
 // ===== COUNTER ANIMATION on section eyebrows =====
 (function() {
   const counters = [
-    { el: document.querySelector('.section-eyebrow'), prefix: '🔥 Paling Banyak Ditonton' },
+    { el: document.querySelector('.section-eyebrow'), prefix: 'Paling Banyak Ditonton' },
   ];
   // Number count-up for stats if they exist
   document.querySelectorAll('[data-count]').forEach(el => {
