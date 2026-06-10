@@ -899,17 +899,80 @@ body {
   position: fixed;
   inset: 0;
   z-index: 99999;
-  background: #070E20;
   pointer-events: none;
-  opacity: 1;
-  transition: opacity 380ms cubic-bezier(.4, 0, .2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  /* Dark base */
+  background: linear-gradient(135deg, #060c1c 0%, #0a1228 50%, #060c1c 100%);
+
+  /* Enter: slide in from right */
+  transform: translateX(100%);
+  transition: transform 420ms cubic-bezier(.77, 0, .18, 1);
 }
+
+/* Glowing sweep line */
+#page-transition::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: -3px;
+  width: 3px;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(10,132,255,.6) 20%,
+    #0A84FF 50%,
+    rgba(94,92,230,.8) 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 18px 4px rgba(10,132,255,.7), 0 0 40px 8px rgba(10,132,255,.3);
+  animation: sweep-line 420ms cubic-bezier(.77,0,.18,1) forwards;
+}
+
+/* Subtle grid texture on overlay */
+#page-transition::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(10,132,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10,132,255,.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0;
+  animation: grid-fade 420ms ease forwards;
+}
+
+@keyframes sweep-line {
+  0%   { left: -3px; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+@keyframes grid-fade {
+  0%   { opacity: 0; }
+  30%  { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Phase: covering screen */
+#page-transition.covering {
+  transform: translateX(0);
+}
+
+/* Phase: leaving screen — slide out to left */
 #page-transition.leaving {
-  opacity: 0;
+  transform: translateX(-100%);
+  transition: transform 400ms cubic-bezier(.77, 0, .18, 1);
 }
+#page-transition.leaving::before {
+  left: 100%;
+  animation: none;
+}
+
 #page-transition.gone {
-  opacity: 0;
-  pointer-events: none;
   display: none;
 }
 

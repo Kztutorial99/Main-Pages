@@ -1,21 +1,24 @@
 // ===== PAGE TRANSITION =====
 (function () {
-  const DURATION = 380; // ms for each phase
+  const COVER_DURATION = 420; // ms slide-in (covering)
+  const LEAVE_DURATION = 400; // ms slide-out (leaving)
 
-  // Create overlay once
+  // Create overlay
   const overlay = document.createElement('div');
   overlay.id = 'page-transition';
   document.body.appendChild(overlay);
 
-  // PAGE ENTER — overlay visible → fade out
+  // ── PAGE ENTER ──
+  // Overlay starts off-screen right (translateX(100%) via CSS default).
+  // Force it to slide OUT to the left so the page is revealed.
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       overlay.classList.add('leaving');
-      setTimeout(() => overlay.classList.add('gone'), DURATION);
+      setTimeout(() => overlay.classList.add('gone'), LEAVE_DURATION + 50);
     });
   });
 
-  // LINK CLICK — fade in → navigate
+  // ── LINK CLICK — slide IN, navigate, new page slides OUT ──
   document.addEventListener('click', function (e) {
     const anchor = e.target.closest('a');
     if (!anchor) return;
@@ -23,19 +26,24 @@
     const href = anchor.getAttribute('href');
     if (!href) return;
 
-    // Only intercept same-origin internal links (not hash-only, not external, not new tab)
-    const isExternal = anchor.target === '_blank' || anchor.hostname !== location.hostname;
-    const isHashOnly = href.startsWith('#');
+    const isExternal   = anchor.target === '_blank' ||
+                         (anchor.hostname && anchor.hostname !== location.hostname);
+    const isHashOnly   = href.startsWith('#');
     const isJavascript = href.startsWith('javascript');
     if (isExternal || isHashOnly || isJavascript) return;
 
     e.preventDefault();
 
-    // Fade in overlay
-    overlay.classList.remove('gone', 'leaving');
+    // Reset to off-screen right, then slide in
+    overlay.classList.remove('gone', 'leaving', 'covering');
+    // Force reflow so transition fires
+    overlay.offsetHeight; // eslint-disable-line no-unused-expressions
 
-    setTimeout(() => {
-      window.location.href = href;
-    }, DURATION);
+    requestAnimationFrame(() => {
+      overlay.classList.add('covering');
+      setTimeout(() => {
+        window.location.href = href;
+      }, COVER_DURATION);
+    });
   });
 })();
