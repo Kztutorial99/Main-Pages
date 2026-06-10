@@ -140,23 +140,28 @@ videoData.forEach(({ id, elId }) => {
     .catch(() => { el.textContent = 'Kz.tutorial Video'; });
 });
 
-// ===== SCROLL REVEAL =====
-const revealEls = document.querySelectorAll('.video-card, .about-card, .intro-badge');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
+// ===== SCROLL REVEAL — per-group so stagger starts fresh each section =====
+function makeRevealGroup(selector, dur, stagger) {
+  const els = document.querySelectorAll(selector);
+  if (!els.length) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
       entry.target.style.opacity = '1';
       entry.target.style.transform = 'translateY(0)';
-      observer.unobserve(entry.target);
-    }
+      obs.unobserve(entry.target);
+    });
+  }, { threshold: 0.08 });
+  els.forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = `opacity ${dur} cubic-bezier(.25,.46,.45,.94) ${i * stagger}s, transform ${dur} cubic-bezier(.25,.46,.45,.94) ${i * stagger}s`;
+    obs.observe(el);
   });
-}, { threshold: 0.1 });
-revealEls.forEach((el, i) => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(28px)';
-  el.style.transition = `opacity .5s ease ${i * 0.08}s, transform .5s ease ${i * 0.08}s`;
-  observer.observe(el);
-});
+}
+makeRevealGroup('.video-card',  '.3s',  0.07);
+makeRevealGroup('.about-card',  '.32s', 0.09);
+makeRevealGroup('.intro-badge', '.35s', 0.05);
 
 // ===== SMOOTH ANCHOR =====
 document.querySelectorAll('a[href^="#"]').forEach(a => {
