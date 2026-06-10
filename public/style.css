@@ -894,6 +894,25 @@ body {
   background-clip: text;
 }
 
+/* ===== PAGE TRANSITION OVERLAY ===== */
+#page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #070E20;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 380ms cubic-bezier(.4, 0, .2, 1);
+}
+#page-transition.leaving {
+  opacity: 0;
+}
+#page-transition.gone {
+  opacity: 0;
+  pointer-events: none;
+  display: none;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 960px) {
   .nav-links { display: none; }
