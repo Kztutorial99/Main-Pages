@@ -1046,10 +1046,15 @@ body {
   border-radius: var(--r-full);
   background: var(--grad);
   border: none; cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 4px 24px rgba(10,132,255,.45);
   transition: box-shadow .25s, transform .2s;
   flex-shrink: 0;
+}
+.fab-btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(10,132,255,.55), 0 4px 24px rgba(10,132,255,.45);
 }
 .fab-btn:hover {
   box-shadow: 0 6px 32px rgba(10,132,255,.6);
