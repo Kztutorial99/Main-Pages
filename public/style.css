@@ -385,11 +385,14 @@ body {
   border: 1px solid rgba(10,132,255,.22);
   color: var(--blue-light);
   letter-spacing: .02em;
-  transition: background var(--ease), border-color var(--ease);
+  cursor: default;
+  transition: background var(--ease), border-color var(--ease), box-shadow var(--ease), transform var(--ease);
 }
 .intro-badge:hover {
-  background: rgba(10,132,255,.18);
-  border-color: rgba(10,132,255,.45);
+  background: rgba(10,132,255,.20);
+  border-color: rgba(10,132,255,.55);
+  box-shadow: 0 0 16px rgba(10,132,255,.22);
+  transform: translateY(-3px) scale(1.06);
 }
 
 /* ===== TICKER ===== */
@@ -459,9 +462,46 @@ body {
   background: linear-gradient(90deg, transparent, var(--blue), rgba(94,92,230,.8), transparent);
   opacity: .45;
 }
+/* Layout: video #1 full width atas, #2 & #3 dua kolom bawah */
 .videos-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 1.6rem; margin-bottom: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1.6rem;
+  margin-bottom: 3rem;
+}
+.videos-grid .video-card:first-child {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  grid-template-rows: 1fr;
+  overflow: hidden;
+}
+.videos-grid .video-card:first-child .video-thumb-wrap {
+  aspect-ratio: unset;
+  height: 100%;
+  min-height: 240px;
+}
+.videos-grid .video-card:first-child .video-info {
+  padding: 2rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.videos-grid .video-card:first-child .video-title {
+  font-size: 1.15rem;
+  -webkit-line-clamp: 3;
+  min-height: unset;
+  margin-bottom: .75rem;
+}
+.videos-grid .video-card:first-child .video-badge {
+  font-size: .72rem;
+  margin-bottom: 1rem;
+}
+.videos-grid .video-card:first-child .video-rank {
+  top: 1.1rem; left: 1.1rem;
+  font-size: .75rem;
+  padding: .28rem .8rem;
 }
 
 /* Video Card */
@@ -858,7 +898,14 @@ body {
 @media (max-width: 960px) {
   .nav-links { display: none; }
   .hamburger { display: flex; }
-  .videos-grid { grid-template-columns: 1fr 1fr; }
+  .videos-grid { grid-template-columns: 1fr; }
+  .videos-grid .video-card:first-child {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+  .videos-grid .video-card:first-child .video-thumb-wrap {
+    height: auto; min-height: unset; aspect-ratio: 16/9;
+  }
   .about-cards { grid-template-columns: 1fr 1fr; }
   .footer-top { grid-template-columns: 1fr; gap: 2rem; }
   .footer-nav-cols { grid-template-columns: repeat(3, 1fr); }
