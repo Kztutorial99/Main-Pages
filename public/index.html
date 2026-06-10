@@ -42,19 +42,20 @@
 
   <!-- HERO SLIDER -->
   <section class="hero" id="home">
-    <div class="slider-track" id="sliderTrack">
+    <div class="slider-wrapper" id="sliderWrapper">
+
       <!-- Slide 1 — Banner Image 1 -->
-      <div class="slide slide-img">
+      <div class="slide slide-img active" data-slide="0">
         <img src="banner1.jpeg" alt="Termux & Linux Hub Banner" />
       </div>
 
       <!-- Slide 2 — Banner Image 2 -->
-      <div class="slide slide-img">
+      <div class="slide slide-img" data-slide="1">
         <img src="banner2.png" alt="Termux & Linux Banner" />
       </div>
 
       <!-- Slide 3 — Gradient slide -->
-      <div class="slide slide-gradient">
+      <div class="slide slide-gradient" data-slide="2">
         <div class="slide-content">
           <p class="slide-tag">Open Source Indonesia</p>
           <h1>Belajar <span class="accent">Linux</span><br/>dari Nol</h1>
@@ -65,13 +66,14 @@
           </div>
         </div>
         <div class="slide-code-anim" aria-hidden="true">
-          <pre><span class="code-green">~</span> $ termux-setup-storage
-<span class="code-green">~</span> $ pkg update &amp;&amp; pkg upgrade
-<span class="code-green">~</span> $ pkg install python git
-<span class="code-green">~</span> $ pip install requests
-<span class="code-green">~</span> $ python3 main.py<span class="cursor">▌</span></pre>
+          <pre><span class="code-blue">~</span> $ termux-setup-storage
+<span class="code-blue">~</span> $ pkg update &amp;&amp; pkg upgrade
+<span class="code-blue">~</span> $ pkg install python git
+<span class="code-blue">~</span> $ pip install requests
+<span class="code-blue">~</span> $ python3 main.py<span class="cursor">▌</span></pre>
         </div>
       </div>
+
     </div>
 
     <!-- Slider Controls -->

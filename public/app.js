@@ -1,35 +1,3 @@
-// ===== SYNC SLIDE HEIGHTS =====
-// Make gradient slide match the banner image height
-function syncSlideHeights() {
-  const imgSlides = document.querySelectorAll('.slide-img');
-  const gradientSlide = document.querySelector('.slide-gradient');
-  if (!imgSlides.length || !gradientSlide) return;
-  // Use the first loaded image as reference
-  let maxH = 0;
-  imgSlides.forEach(slide => {
-    const img = slide.querySelector('img');
-    if (img && img.naturalHeight > 0) {
-      const rendered = img.getBoundingClientRect().height;
-      if (rendered > maxH) maxH = rendered;
-    }
-  });
-  if (maxH > 0) {
-    gradientSlide.style.minHeight = maxH + 'px';
-    gradientSlide.style.height = maxH + 'px';
-  }
-}
-
-// Run after images load
-window.addEventListener('load', syncSlideHeights);
-window.addEventListener('resize', syncSlideHeights);
-
-// Also trigger when first image loads
-const firstBanner = document.querySelector('.slide-img img');
-if (firstBanner) {
-  firstBanner.addEventListener('load', syncSlideHeights);
-  if (firstBanner.complete) syncSlideHeights();
-}
-
 // ===== NAVBAR SCROLL =====
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
@@ -39,30 +7,43 @@ window.addEventListener('scroll', () => {
 // ===== HAMBURGER =====
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
-hamburger.addEventListener('click', () => {
-  mobileMenu.classList.toggle('open');
-});
+hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
 mobileMenu.querySelectorAll('a').forEach(a => {
   a.addEventListener('click', () => mobileMenu.classList.remove('open'));
 });
 
-// ===== HERO SLIDER =====
-const track = document.getElementById('sliderTrack');
-const dots = document.querySelectorAll('.dot');
+// ===== HERO SLIDER (FADE-BASED) =====
+const slides = Array.from(document.querySelectorAll('.slide'));
+const dots   = Array.from(document.querySelectorAll('.dot'));
 const prevBtn = document.getElementById('sliderPrev');
 const nextBtn = document.getElementById('sliderNext');
-const TOTAL = 3;
+const TOTAL = slides.length;
 let current = 0;
 let autoTimer = null;
 let isAnimating = false;
 
 function goTo(index) {
-  if (isAnimating) return;
+  if (isAnimating || index === current) return;
   isAnimating = true;
+
+  const prev = current;
   current = (index + TOTAL) % TOTAL;
-  track.style.transform = `translateX(-${current * (100 / TOTAL)}%)`;
+
+  // Mark old slide as leaving (absolute, fades out)
+  slides[prev].classList.remove('active');
+  slides[prev].classList.add('leaving');
+
+  // Show new slide
+  slides[current].classList.add('active');
+
+  // Update dots
   dots.forEach((d, i) => d.classList.toggle('active', i === current));
-  setTimeout(() => { isAnimating = false; }, 750);
+
+  // After transition, clean up leaving class
+  setTimeout(() => {
+    slides[prev].classList.remove('leaving');
+    isAnimating = false;
+  }, 780);
 }
 
 function startAuto() {
@@ -73,22 +54,39 @@ function startAuto() {
 prevBtn.addEventListener('click', () => { goTo(current - 1); startAuto(); });
 nextBtn.addEventListener('click', () => { goTo(current + 1); startAuto(); });
 dots.forEach(dot => {
-  dot.addEventListener('click', () => {
-    goTo(+dot.dataset.index);
-    startAuto();
-  });
+  dot.addEventListener('click', () => { goTo(+dot.dataset.index); startAuto(); });
 });
 
-// Touch/swipe support
+// Touch / swipe
 let touchStartX = 0;
-track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-track.addEventListener('touchend', e => {
+const wrapper = document.getElementById('sliderWrapper');
+wrapper.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+wrapper.addEventListener('touchend', e => {
   const diff = touchStartX - e.changedTouches[0].clientX;
-  if (Math.abs(diff) > 50) {
-    goTo(diff > 0 ? current + 1 : current - 1);
-    startAuto();
-  }
+  if (Math.abs(diff) > 50) { goTo(diff > 0 ? current + 1 : current - 1); startAuto(); }
 }, { passive: true });
+
+// Sync gradient slide height to image banner height
+function syncGradientHeight() {
+  const imgSlide = document.querySelector('.slide-img');
+  const gradSlide = document.querySelector('.slide-gradient');
+  if (!imgSlide || !gradSlide) return;
+  const img = imgSlide.querySelector('img');
+  if (img && img.naturalHeight > 0) {
+    const h = imgSlide.getBoundingClientRect().height || img.offsetHeight;
+    if (h > 0) {
+      gradSlide.style.minHeight = h + 'px';
+      gradSlide.style.height = h + 'px';
+    }
+  }
+}
+window.addEventListener('load', syncGradientHeight);
+window.addEventListener('resize', syncGradientHeight);
+const firstImg = document.querySelector('.slide-img img');
+if (firstImg) {
+  firstImg.addEventListener('load', syncGradientHeight);
+  if (firstImg.complete) syncGradientHeight();
+}
 
 startAuto();
 
@@ -98,18 +96,12 @@ const videoData = [
   { id: '4h8A771ipAE', elId: 'title2' },
   { id: 'jkAyvGKsA7c', elId: 'title3' },
 ];
-
 videoData.forEach(({ id, elId }) => {
   const el = document.getElementById(elId);
   fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`)
     .then(r => r.json())
-    .then(data => {
-      if (data && data.title) el.textContent = data.title;
-      else el.textContent = 'Kz.tutorial Video';
-    })
-    .catch(() => {
-      el.textContent = 'Kz.tutorial Video';
-    });
+    .then(data => { if (data?.title) el.textContent = data.title; else el.textContent = 'Kz.tutorial Video'; })
+    .catch(() => { el.textContent = 'Kz.tutorial Video'; });
 });
 
 // ===== SCROLL REVEAL =====
@@ -123,10 +115,9 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.1 });
-
 revealEls.forEach((el, i) => {
   el.style.opacity = '0';
-  el.style.transform = 'translateY(30px)';
+  el.style.transform = 'translateY(28px)';
   el.style.transition = `opacity .5s ease ${i * 0.08}s, transform .5s ease ${i * 0.08}s`;
   observer.observe(el);
 });
