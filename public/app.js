@@ -158,33 +158,6 @@ revealEls.forEach((el, i) => {
   observer.observe(el);
 });
 
-// ===== DARK / LIGHT THEME TOGGLE =====
-const themeToggle = document.getElementById('themeToggle');
-const iconMoon    = themeToggle.querySelector('.icon-moon');
-const iconSun     = themeToggle.querySelector('.icon-sun');
-
-function applyTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('kz-theme', theme);
-  if (theme === 'light') {
-    iconMoon.style.display = 'none';
-    iconSun.style.display  = 'block';
-  } else {
-    iconMoon.style.display = 'block';
-    iconSun.style.display  = 'none';
-  }
-}
-
-themeToggle.addEventListener('click', () => {
-  const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-  document.documentElement.classList.add('theme-transitioning');
-  applyTheme(next);
-  setTimeout(() => document.documentElement.classList.remove('theme-transitioning'), 400);
-});
-
-// Restore saved preference
-applyTheme(localStorage.getItem('kz-theme') || 'dark');
-
 // ===== SMOOTH ANCHOR =====
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
