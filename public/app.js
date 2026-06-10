@@ -43,12 +43,12 @@ function goTo(index) {
   setTimeout(() => {
     slides[prev].classList.remove('leaving');
     isAnimating = false;
-  }, 780);
+  }, 1400);
 }
 
 function startAuto() {
   clearInterval(autoTimer);
-  autoTimer = setInterval(() => goTo(current + 1), 4500);
+  autoTimer = setInterval(() => goTo(current + 1), 5500);
 }
 
 prevBtn.addEventListener('click', () => { goTo(current - 1); startAuto(); });
@@ -84,7 +84,7 @@ videoData.forEach(({ id, elId }) => {
 });
 
 // ===== SCROLL REVEAL =====
-const revealEls = document.querySelectorAll('.video-card, .about-terminal, .about-text, .stat-item');
+const revealEls = document.querySelectorAll('.video-card, .about-card, .intro-badge');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
