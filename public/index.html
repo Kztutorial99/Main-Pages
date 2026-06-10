@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kz.tutorial — Termux & Linux Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">
+        <span class="logo-icon">&gt;_</span>
+        <span class="logo-text">Kz<span class="accent">.</span>tutorial</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#videos">Videos</a></li>
+        <li><a href="#about">About</a></li>
+        <li>
+          <a href="https://www.youtube.com/@Kz.tutorial" target="_blank" class="nav-cta">
+            Subscribe
+          </a>
+        </li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#home">Home</a>
+      <a href="#videos">Videos</a>
+      <a href="#about">About</a>
+      <a href="https://www.youtube.com/@Kz.tutorial" target="_blank">Subscribe</a>
+    </div>
+  </nav>
+
+  <!-- HERO SLIDER -->
+  <section class="hero" id="home">
+    <div class="slider-track" id="sliderTrack">
+      <!-- Slide 1 — Banner Image 1 -->
+      <div class="slide slide-img">
+        <img src="banner1.jpeg" alt="Termux & Linux Hub Banner" />
+        <div class="slide-overlay">
+          <div class="slide-content">
+            <p class="slide-tag">Pusat Panduan Termux & Linux</p>
+            <h1>Termux <span class="accent">&</span> Linux Hub</h1>
+            <p class="slide-desc">Tutorial, Tips & Trik Open Source langsung dari @Kz.tutorial</p>
+            <div class="slide-btns">
+              <a href="https://www.youtube.com/@Kz.tutorial" target="_blank" class="btn-primary">Kunjungi Channel</a>
+              <a href="#videos" class="btn-outline">Lihat Video</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 — Banner Image 2 -->
+      <div class="slide slide-img">
+        <img src="banner2.png" alt="Termux & Linux Banner" />
+        <div class="slide-overlay">
+          <div class="slide-content">
+            <p class="slide-tag">Command. Learn. Create.</p>
+            <h1>Powerful Tools<span class="accent">.</span><br/>Endless Possibilities<span class="accent">.</span></h1>
+            <p class="slide-desc">Kuasai Termux, Linux, Tools & Development bersama @Kz.tutorial</p>
+            <div class="slide-btns">
+              <a href="https://www.youtube.com/@Kz.tutorial" target="_blank" class="btn-primary">Subscribe Sekarang</a>
+              <a href="#videos" class="btn-outline">Top Videos</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 — Gradient slide -->
+      <div class="slide slide-gradient">
+        <div class="slide-content">
+          <p class="slide-tag">Open Source Indonesia</p>
+          <h1>Belajar <span class="accent">Linux</span><br/>dari Nol</h1>
+          <p class="slide-desc">Dari instalasi sampai scripting — semua ada di channel @Kz.tutorial</p>
+          <div class="slide-btns">
+            <a href="#videos" class="btn-primary">Tonton Gratis</a>
+            <a href="https://www.youtube.com/@Kz.tutorial" target="_blank" class="btn-outline">YouTube Channel</a>
+          </div>
+        </div>
+        <div class="slide-code-anim" aria-hidden="true">
+          <pre><span class="code-green">~</span> $ termux-setup-storage
+<span class="code-green">~</span> $ pkg update &amp;&amp; pkg upgrade
+<span class="code-green">~</span> $ pkg install python git
+<span class="code-green">~</span> $ pip install requests
+<span class="code-green">~</span> $ python3 main.py<span class="cursor">▌</span></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slider Controls -->
+    <button class="slider-btn slider-prev" id="sliderPrev" aria-label="Previous">&#8249;</button>
+    <button class="slider-btn slider-next" id="sliderNext" aria-label="Next">&#8250;</button>
+
+    <!-- Dots -->
+    <div class="slider-dots" id="sliderDots">
+      <button class="dot active" data-index="0"></button>
+      <button class="dot" data-index="1"></button>
+      <button class="dot" data-index="2"></button>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <span class="stat-icon">📺</span>
+        <div>
+          <span class="stat-num">@Kz.tutorial</span>
+          <span class="stat-label">YouTube Channel</span>
+        </div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-icon">🐧</span>
+        <div>
+          <span class="stat-num">Linux</span>
+          <span class="stat-label">Open Source</span>
+        </div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-icon">&gt;_</span>
+        <div>
+          <span class="stat-num">Termux</span>
+          <span class="stat-label">Android Terminal</span>
+        </div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-icon">⚡</span>
+        <div>
+          <span class="stat-num">Gratis</span>
+          <span class="stat-label">Semua Tutorial</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP VIDEOS SECTION -->
+  <section class="videos-section" id="videos">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="section-eyebrow">🔥 Paling Banyak Ditonton</p>
+        <h2>Top <span class="accent">Videos</span></h2>
+        <p class="section-sub">Video terpopuler dari channel @Kz.tutorial</p>
+      </div>
+
+      <div class="videos-grid">
+
+        <!-- Video 1 -->
+        <div class="video-card" data-rank="1">
+          <div class="video-rank">#1</div>
+          <div class="video-thumb-wrap">
+            <a href="https://www.youtube.com/watch?v=C3AEE8_Mzpk" target="_blank" class="video-thumb-link">
+              <img
+                src="https://img.youtube.com/vi/C3AEE8_Mzpk/maxresdefault.jpg"
+                onerror="this.src='https://img.youtube.com/vi/C3AEE8_Mzpk/hqdefault.jpg'"
+                alt="Video 1 Thumbnail"
+                class="video-thumb"
+                loading="lazy"
+              />
+              <div class="play-overlay">
+                <div class="play-btn">
+                  <svg viewBox="0 0 24 24" fill="white" width="32" height="32"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="video-info">
+            <span class="video-badge">Most Viewed</span>
+            <h3 class="video-title" id="title1">Loading...</h3>
+            <p class="video-channel">@Kz.tutorial</p>
+            <a href="https://www.youtube.com/watch?v=C3AEE8_Mzpk" target="_blank" class="video-watch-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.19 8.19 0 0 0 4.79 1.52V6.75a4.85 4.85 0 0 1-1.02-.06z"/></svg>
+              Tonton Sekarang
+            </a>
+          </div>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="video-card" data-rank="2">
+          <div class="video-rank">#2</div>
+          <div class="video-thumb-wrap">
+            <a href="https://www.youtube.com/watch?v=4h8A771ipAE" target="_blank" class="video-thumb-link">
+              <img
+                src="https://img.youtube.com/vi/4h8A771ipAE/maxresdefault.jpg"
+                onerror="this.src='https://img.youtube.com/vi/4h8A771ipAE/hqdefault.jpg'"
+                alt="Video 2 Thumbnail"
+                class="video-thumb"
+                loading="lazy"
+              />
+              <div class="play-overlay">
+                <div class="play-btn">
+                  <svg viewBox="0 0 24 24" fill="white" width="32" height="32"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="video-info">
+            <span class="video-badge video-badge-2">Top Rated</span>
+            <h3 class="video-title" id="title2">Loading...</h3>
+            <p class="video-channel">@Kz.tutorial</p>
+            <a href="https://www.youtube.com/watch?v=4h8A771ipAE" target="_blank" class="video-watch-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.19 8.19 0 0 0 4.79 1.52V6.75a4.85 4.85 0 0 1-1.02-.06z"/></svg>
+              Tonton Sekarang
+            </a>
+          </div>
+        </div>
+
+        <!-- Video 3 -->
+        <div class="video-card" data-rank="3">
+          <div class="video-rank">#3</div>
+          <div class="video-thumb-wrap">
+            <a href="https://www.youtube.com/watch?v=jkAyvGKsA7c" target="_blank" class="video-thumb-link">
+              <img
+                src="https://img.youtube.com/vi/jkAyvGKsA7c/maxresdefault.jpg"
+                onerror="this.src='https://img.youtube.com/vi/jkAyvGKsA7c/hqdefault.jpg'"
+                alt="Video 3 Thumbnail"
+                class="video-thumb"
+                loading="lazy"
+              />
+              <div class="play-overlay">
+                <div class="play-btn">
+                  <svg viewBox="0 0 24 24" fill="white" width="32" height="32"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="video-info">
+            <span class="video-badge video-badge-3">Trending</span>
+            <h3 class="video-title" id="title3">Loading...</h3>
+            <p class="video-channel">@Kz.tutorial</p>
+            <a href="https://www.youtube.com/watch?v=jkAyvGKsA7c" target="_blank" class="video-watch-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.19 8.19 0 0 0 4.79 1.52V6.75a4.85 4.85 0 0 1-1.02-.06z"/></svg>
+              Tonton Sekarang
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="view-all-wrap">
+        <a href="https://www.youtube.com/@Kz.tutorial" target="_blank" class="btn-view-all">
+          Lihat Semua Video di YouTube
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="about-section" id="about">
+    <div class="section-inner about-grid">
+      <div class="about-text">
+        <p class="section-eyebrow">👤 About</p>
+        <h2>Tentang <span class="accent">@Kz.tutorial</span></h2>
+        <p>Channel YouTube yang berfokus pada tutorial <strong>Termux</strong>, <strong>Linux</strong>, dan dunia Open Source. Cocok untuk pemula hingga yang sudah berpengalaman.</p>
+        <ul class="about-list">
+          <li><span class="list-icon">&gt;_</span> Tutorial Termux lengkap & praktis</li>
+          <li><span class="list-icon">🐧</span> Panduan Linux dari dasar</li>
+          <li><span class="list-icon">⚙️</span> Tools, Scripts & Automation</li>
+          <li><span class="list-icon">💻</span> Tips & Trik Open Source</li>
+        </ul>
+        <a href="https://www.youtube.com/@Kz.tutorial" target="_blank" class="btn-primary" style="margin-top:2rem;display:inline-flex;align-items:center;gap:.6rem;">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 0 0 .5 6.19C0 8.04 0 12 0 12s0 3.96.5 5.81a3.02 3.02 0 0 0 2.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14C24 15.96 24 12 24 12s0-3.96-.5-5.81zM9.75 15.52V8.48L15.82 12l-6.07 3.52z"/></svg>
+          Subscribe di YouTube
+        </a>
+      </div>
+      <div class="about-terminal">
+        <div class="terminal-header">
+          <span class="t-dot t-red"></span>
+          <span class="t-dot t-yellow"></span>
+          <span class="t-dot t-green"></span>
+          <span class="t-title">bash — @Kz.tutorial</span>
+        </div>
+        <div class="terminal-body">
+          <p><span class="t-green">kz@tutorial</span><span class="t-white">:</span><span class="t-blue">~</span><span class="t-white">$</span> whoami</p>
+          <p class="t-out">@Kz.tutorial</p>
+          <p><span class="t-green">kz@tutorial</span><span class="t-white">:</span><span class="t-blue">~</span><span class="t-white">$</span> cat about.txt</p>
+          <p class="t-out">Nama     : Kz.tutorial</p>
+          <p class="t-out">Platform : YouTube</p>
+          <p class="t-out">Fokus    : Termux & Linux</p>
+          <p class="t-out">Bahasa   : Indonesia</p>
+          <p class="t-out">Status   : Active</p>
+          <p><span class="t-green">kz@tutorial</span><span class="t-white">:</span><span class="t-blue">~</span><span class="t-white">$</span> echo $MOTTO</p>
+          <p class="t-out t-green">"Command. Learn. Create."</p>
+          <p><span class="t-green">kz@tutorial</span><span class="t-white">:</span><span class="t-blue">~</span><span class="t-white">$</span> <span class="cursor">▌</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="logo-icon">&gt;_</span>
+        <span class="logo-text">Kz<span class="accent">.</span>tutorial</span>
+      </div>
+      <p class="footer-tagline">Termux & Linux Hub — Pusat Panduan Open Source</p>
+      <div class="footer-links">
+        <a href="https://www.youtube.com/@Kz.tutorial" target="_blank">YouTube</a>
+      </div>
+      <p class="footer-copy">&copy; 2025 Kz.tutorial. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
