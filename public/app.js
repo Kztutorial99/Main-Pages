@@ -22,12 +22,17 @@ let current = 0;
 let autoTimer = null;
 let isAnimating = false;
 
-const SLIDE_DURATION = 700; // ms
-const SLIDE_EASE = 'cubic-bezier(0.16, 1, 0.3, 1)'; // easeOutExpo — silky float landing
+const SLIDE_DURATION = 820; // ms
+const SLIDE_EASE     = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'; // easeOutQuad — silky & natural
+const BLUR_IN        = 'blur(14px)';
+const BLUR_NONE      = 'blur(0px)';
 
-// Init: slide 0 visible at center, rest hidden to the right
+// Init: slide 0 visible, rest hidden right + blurred
 slides.forEach((s, i) => {
-  s.style.transform = i === 0 ? 'translateX(0)' : 'translateX(100%)';
+  s.style.transform  = i === 0 ? 'translateX(0)'   : 'translateX(100%)';
+  s.style.filter     = i === 0 ? BLUR_NONE          : BLUR_IN;
+  s.style.opacity    = i === 0 ? '1'                : '0';
+  s.style.scale      = '1';
   s.style.transition = 'none';
 });
 
@@ -36,34 +41,55 @@ function goTo(index, dir) {
   const next = (index + TOTAL) % TOTAL;
   if (next === current) return;
 
-  // Direction: 1 = slide left (next), -1 = slide right (prev)
   const direction = dir !== undefined ? dir : (next > current ? 1 : -1);
   isAnimating = true;
 
   const prev = current;
   current = next;
 
-  // Position incoming slide off-screen instantly (no transition)
+  // ── Set incoming slide starting state (no transition yet) ──
   slides[current].style.transition = 'none';
-  slides[current].style.transform = `translateX(${direction * 100}%)`;
+  slides[current].style.transform  = `translateX(${direction * 100}%)`;
+  slides[current].style.filter     = BLUR_IN;
+  slides[current].style.opacity    = '0.5';
+  slides[current].style.scale      = '0.97';
 
-  // Force reflow so the browser registers the starting position
+  // Force reflow
   slides[current].offsetHeight;
 
-  // Animate both slides simultaneously
-  const t = `transform ${SLIDE_DURATION}ms ${SLIDE_EASE}`;
-  slides[current].style.transition = t;
-  slides[current].style.transform = 'translateX(0)';
+  // ── Shared transition string ──
+  const T = `transform ${SLIDE_DURATION}ms ${SLIDE_EASE},
+             filter    ${SLIDE_DURATION * 0.9}ms ${SLIDE_EASE},
+             opacity   ${SLIDE_DURATION * 0.75}ms ease,
+             scale     ${SLIDE_DURATION}ms ${SLIDE_EASE}`;
 
-  slides[prev].style.transition = t;
-  slides[prev].style.transform = `translateX(${-direction * 100}%)`;
+  // ── Incoming: slide in + unblur + scale up to normal ──
+  slides[current].style.transition = T;
+  slides[current].style.transform  = 'translateX(0)';
+  slides[current].style.filter     = BLUR_NONE;
+  slides[current].style.opacity    = '1';
+  slides[current].style.scale      = '1';
+
+  // ── Outgoing: slide out + blur + fade + slight scale down ──
+  slides[prev].style.transition = T;
+  slides[prev].style.transform  = `translateX(${-direction * 100}%)`;
+  slides[prev].style.filter     = BLUR_IN;
+  slides[prev].style.opacity    = '0.3';
+  slides[prev].style.scale      = '0.96';
 
   slides[current].classList.add('active');
   slides[prev].classList.remove('active');
 
   dots.forEach((d, i) => d.classList.toggle('active', i === current));
 
-  setTimeout(() => { isAnimating = false; }, SLIDE_DURATION);
+  setTimeout(() => {
+    // Clean up outgoing slide state so it's ready to be incoming again
+    slides[prev].style.transition = 'none';
+    slides[prev].style.filter     = BLUR_IN;
+    slides[prev].style.opacity    = '0';
+    slides[prev].style.scale      = '1';
+    isAnimating = false;
+  }, SLIDE_DURATION + 30);
 }
 
 function startAuto() {
