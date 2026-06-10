@@ -132,15 +132,20 @@ body {
 }
 .mobile-menu a:hover { background: var(--surface); color: var(--blue-light); }
 
-/* ===== HERO SLIDER — FADE ===== */
+/* ===== HERO SLIDER — SLIDE ===== */
 .hero {
   position: relative; width: 100%;
   background: var(--bg);
-  padding: var(--nav-h) .85rem .85rem;
+  padding: calc(var(--nav-h) + 1.75rem) 1.5rem 1.75rem;
+}
+.slider-container {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 .slider-wrapper {
   position: relative; width: 100%;
-  /* Lock height using banner aspect ratio 1584:672 — no more height jumps */
   aspect-ratio: 1584 / 672;
   border-radius: 1.5rem;
   overflow: hidden;
@@ -148,39 +153,44 @@ body {
   background: #000;
 }
 
-/* All slides are always absolute — wrapper height never changes */
+/* All slides sit in the same absolute stack */
 .slide {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  opacity: 0; pointer-events: none;
-  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
   z-index: 1;
+  will-change: transform;
 }
-.slide.active  { opacity: 1; pointer-events: auto; z-index: 2; }
-.slide.leaving { opacity: 0; z-index: 1; pointer-events: none; }
+.slide.active { pointer-events: auto; z-index: 2; }
 
 .slide-img { width: 100%; height: 100%; }
-.slide-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.slide-img img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  /* Subtle Ken-Burns float on active slide */
+  transition: transform 7s ease;
+}
+.slide.active .slide-img img { transform: scale(1.04); }
 
-/* Slider Buttons */
+/* Slider Buttons — now relative to .slider-container */
 .slider-btn {
   position: absolute; top: 50%; transform: translateY(-50%);
   z-index: 20;
-  background: rgba(4,9,26,.5); backdrop-filter: blur(14px);
-  border: 1px solid rgba(255,255,255,.13);
+  background: rgba(4,9,26,.52); backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.15);
   color: var(--white); font-size: 2rem;
-  width: 44px; height: 44px; border-radius: var(--r-full);
+  width: 46px; height: 46px; border-radius: var(--r-full);
   cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: background var(--ease), border-color var(--ease), box-shadow var(--ease);
+  transition: background var(--ease), border-color var(--ease), box-shadow var(--ease), transform .2s ease;
 }
 .slider-btn:hover {
-  background: rgba(10,132,255,.28);
-  border-color: rgba(10,132,255,.55);
-  box-shadow: 0 0 20px rgba(10,132,255,.35);
+  background: rgba(10,132,255,.30);
+  border-color: rgba(10,132,255,.6);
+  box-shadow: 0 0 22px rgba(10,132,255,.38);
+  transform: translateY(-50%) scale(1.08);
 }
 .slider-prev { left: 1rem; }
 .slider-next { right: 1rem; }
 
-/* Dots */
+/* Dots — relative to .slider-container, visually over the image */
 .slider-dots {
   position: absolute; bottom: .9rem; left: 50%;
   transform: translateX(-50%);

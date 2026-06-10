@@ -12,7 +12,7 @@ mobileMenu.querySelectorAll('a').forEach(a => {
   a.addEventListener('click', () => mobileMenu.classList.remove('open'));
 });
 
-// ===== HERO SLIDER (FADE-BASED) =====
+// ===== HERO SLIDER (SLIDE-LEFT SMOOTH) =====
 const slides = Array.from(document.querySelectorAll('.slide'));
 const dots   = Array.from(document.querySelectorAll('.dot'));
 const prevBtn = document.getElementById('sliderPrev');
@@ -22,37 +22,57 @@ let current = 0;
 let autoTimer = null;
 let isAnimating = false;
 
-function goTo(index) {
-  if (isAnimating || index === current) return;
+const SLIDE_DURATION = 700; // ms
+const SLIDE_EASE = 'cubic-bezier(0.16, 1, 0.3, 1)'; // easeOutExpo — silky float landing
+
+// Init: slide 0 visible at center, rest hidden to the right
+slides.forEach((s, i) => {
+  s.style.transform = i === 0 ? 'translateX(0)' : 'translateX(100%)';
+  s.style.transition = 'none';
+});
+
+function goTo(index, dir) {
+  if (isAnimating) return;
+  const next = (index + TOTAL) % TOTAL;
+  if (next === current) return;
+
+  // Direction: 1 = slide left (next), -1 = slide right (prev)
+  const direction = dir !== undefined ? dir : (next > current ? 1 : -1);
   isAnimating = true;
 
   const prev = current;
-  current = (index + TOTAL) % TOTAL;
+  current = next;
 
-  // Mark old slide as leaving (absolute, fades out)
-  slides[prev].classList.remove('active');
-  slides[prev].classList.add('leaving');
+  // Position incoming slide off-screen instantly (no transition)
+  slides[current].style.transition = 'none';
+  slides[current].style.transform = `translateX(${direction * 100}%)`;
 
-  // Show new slide
+  // Force reflow so the browser registers the starting position
+  slides[current].offsetHeight;
+
+  // Animate both slides simultaneously
+  const t = `transform ${SLIDE_DURATION}ms ${SLIDE_EASE}`;
+  slides[current].style.transition = t;
+  slides[current].style.transform = 'translateX(0)';
+
+  slides[prev].style.transition = t;
+  slides[prev].style.transform = `translateX(${-direction * 100}%)`;
+
   slides[current].classList.add('active');
+  slides[prev].classList.remove('active');
 
-  // Update dots
   dots.forEach((d, i) => d.classList.toggle('active', i === current));
 
-  // After transition, clean up leaving class
-  setTimeout(() => {
-    slides[prev].classList.remove('leaving');
-    isAnimating = false;
-  }, 1400);
+  setTimeout(() => { isAnimating = false; }, SLIDE_DURATION);
 }
 
 function startAuto() {
   clearInterval(autoTimer);
-  autoTimer = setInterval(() => goTo(current + 1), 5500);
+  autoTimer = setInterval(() => goTo(current + 1, 1), 5500);
 }
 
-prevBtn.addEventListener('click', () => { goTo(current - 1); startAuto(); });
-nextBtn.addEventListener('click', () => { goTo(current + 1); startAuto(); });
+prevBtn.addEventListener('click', () => { goTo(current - 1, -1); startAuto(); });
+nextBtn.addEventListener('click', () => { goTo(current + 1,  1); startAuto(); });
 dots.forEach(dot => {
   dot.addEventListener('click', () => { goTo(+dot.dataset.index); startAuto(); });
 });
@@ -63,9 +83,12 @@ const wrapper = document.getElementById('sliderWrapper');
 wrapper.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
 wrapper.addEventListener('touchend', e => {
   const diff = touchStartX - e.changedTouches[0].clientX;
-  if (Math.abs(diff) > 50) { goTo(diff > 0 ? current + 1 : current - 1); startAuto(); }
+  if (Math.abs(diff) > 50) {
+    const dir = diff > 0 ? 1 : -1;
+    goTo(current + dir, dir);
+    startAuto();
+  }
 }, { passive: true });
-
 
 startAuto();
 

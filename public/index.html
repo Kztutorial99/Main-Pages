@@ -42,28 +42,30 @@
 
   <!-- HERO SLIDER -->
   <section class="hero" id="home">
-    <div class="slider-wrapper" id="sliderWrapper">
+    <div class="slider-container">
+      <div class="slider-wrapper" id="sliderWrapper">
 
-      <!-- Slide 1 — Banner Image 1 -->
-      <div class="slide slide-img active" data-slide="0">
-        <img src="banner1.jpeg" alt="Termux & Linux Hub Banner" />
+        <!-- Slide 1 — Banner Image 1 -->
+        <div class="slide slide-img active" data-slide="0">
+          <img src="banner1.jpeg" alt="Termux & Linux Hub Banner" />
+        </div>
+
+        <!-- Slide 2 — Banner Image 2 -->
+        <div class="slide slide-img" data-slide="1">
+          <img src="banner2.png" alt="Termux & Linux Banner" />
+        </div>
+
       </div>
 
-      <!-- Slide 2 — Banner Image 2 -->
-      <div class="slide slide-img" data-slide="1">
-        <img src="banner2.png" alt="Termux & Linux Banner" />
+      <!-- Slider Controls -->
+      <button class="slider-btn slider-prev" id="sliderPrev" aria-label="Previous">&#8249;</button>
+      <button class="slider-btn slider-next" id="sliderNext" aria-label="Next">&#8250;</button>
+
+      <!-- Dots -->
+      <div class="slider-dots" id="sliderDots">
+        <button class="dot active" data-index="0"></button>
+        <button class="dot" data-index="1"></button>
       </div>
-
-    </div>
-
-    <!-- Slider Controls -->
-    <button class="slider-btn slider-prev" id="sliderPrev" aria-label="Previous">&#8249;</button>
-    <button class="slider-btn slider-next" id="sliderNext" aria-label="Next">&#8250;</button>
-
-    <!-- Dots -->
-    <div class="slider-dots" id="sliderDots">
-      <button class="dot active" data-index="0"></button>
-      <button class="dot" data-index="1"></button>
     </div>
   </section>
 
