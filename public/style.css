@@ -750,6 +750,110 @@ body {
 .footer-copy { font-size: .78rem; color: rgba(255,255,255,.25); }
 .footer-made  { font-size: .78rem; color: rgba(255,255,255,.2); }
 
+/* ===== ANIMASI EXTRA ===== */
+
+/* Particles canvas di belakang semua konten */
+#particles-bg { z-index: 0 !important; position: fixed !important; }
+.navbar { z-index: 1000 !important; }
+.hero, .ticker-wrap, .intro-strip, .videos-section, .about-section, .footer {
+  position: relative; z-index: 1;
+}
+
+/* Section header glow pulse */
+@keyframes glow-pulse {
+  0%, 100% { text-shadow: 0 0 12px rgba(10,132,255,.0); }
+  50%       { text-shadow: 0 0 28px rgba(10,132,255,.55), 0 0 60px rgba(94,92,230,.25); }
+}
+.videos-section h2,
+.about-section h2 {
+  animation: glow-pulse 3.5s ease-in-out infinite;
+}
+
+/* Section eyebrow slide-in */
+@keyframes slide-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.section-eyebrow {
+  animation: slide-in-up .6s ease both;
+}
+
+/* Intro badges float */
+@keyframes float-badge {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-5px); }
+}
+.intro-badge:nth-child(1) { animation: float-badge 3.2s ease-in-out infinite; }
+.intro-badge:nth-child(2) { animation: float-badge 3.2s ease-in-out .4s infinite; }
+.intro-badge:nth-child(3) { animation: float-badge 3.2s ease-in-out .8s infinite; }
+.intro-badge:nth-child(4) { animation: float-badge 3.2s ease-in-out 1.2s infinite; }
+.intro-badge:nth-child(5) { animation: float-badge 3.2s ease-in-out 1.6s infinite; }
+
+/* Video card shimmer loading */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+.video-thumb {
+  background: linear-gradient(90deg, #0A1328 25%, #0D1C3E 50%, #0A1328 75%);
+  background-size: 600px 100%;
+}
+.video-thumb:not([src*="youtube"]) {
+  animation: shimmer 1.6s infinite linear;
+}
+
+/* Scan-line overlay on video thumbnail hover */
+.video-thumb-wrap::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(10,132,255,.04) 2px,
+    rgba(10,132,255,.04) 4px
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .3s ease;
+  border-radius: inherit;
+}
+.video-card:hover .video-thumb-wrap::after { opacity: 1; }
+
+/* Neon border flicker on about cards */
+@keyframes neon-border {
+  0%, 100% { box-shadow: 0 0 6px rgba(10,132,255,.15), inset 0 1px 0 rgba(255,255,255,.05); }
+  50%       { box-shadow: 0 0 22px rgba(10,132,255,.35), 0 0 48px rgba(94,92,230,.15), inset 0 1px 0 rgba(255,255,255,.08); }
+}
+.about-card { animation: neon-border 4s ease-in-out infinite; }
+.about-card:nth-child(2) { animation-delay: .8s; }
+.about-card:nth-child(3) { animation-delay: 1.6s; }
+.about-card:nth-child(4) { animation-delay: 2.4s; }
+
+/* Ticker glow on items */
+.ticker-item {
+  transition: color .3s ease, text-shadow .3s ease;
+}
+.ticker-item:hover {
+  color: var(--blue);
+  text-shadow: 0 0 12px rgba(10,132,255,.6);
+}
+
+/* Subscribe button nav pulse */
+@keyframes btn-pulse {
+  0%, 100% { box-shadow: 0 3px 18px rgba(10,132,255,.30); }
+  50%       { box-shadow: 0 3px 32px rgba(10,132,255,.65), 0 0 60px rgba(94,92,230,.20); }
+}
+.nav-cta { animation: btn-pulse 2.5s ease-in-out infinite; }
+
+/* Grad text */
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 960px) {
   .nav-links { display: none; }
