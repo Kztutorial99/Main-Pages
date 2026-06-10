@@ -286,20 +286,20 @@
             </ul>
           </div>
           <div class="footer-col">
-            <h5 class="footer-col-title">Topik</h5>
+            <h5 class="footer-col-title footer-tab-trigger" data-open="topik" style="cursor:pointer;" title="Lihat semua topik">Topik <span style="opacity:.5;font-size:.65rem;">↗</span></h5>
             <ul>
-              <li><a href="https://www.youtube.com/@Kz.tutorial" target="_blank">Tutorial Termux</a></li>
-              <li><a href="https://www.youtube.com/@Kz.tutorial" target="_blank">Panduan Linux</a></li>
-              <li><a href="https://www.youtube.com/@Kz.tutorial" target="_blank">Tools &amp; Scripts</a></li>
-              <li><a href="https://www.youtube.com/@Kz.tutorial" target="_blank">Tips &amp; Trik</a></li>
+              <li><a href="#" class="open-modal-link" data-open="topik">Tutorial Termux</a></li>
+              <li><a href="#" class="open-modal-link" data-open="topik">Panduan Linux</a></li>
+              <li><a href="#" class="open-modal-link" data-open="topik">Tools &amp; Scripts</a></li>
+              <li><a href="#" class="open-modal-link" data-open="topik">Tips &amp; Trik</a></li>
             </ul>
           </div>
           <div class="footer-col">
-            <h5 class="footer-col-title">Legal</h5>
+            <h5 class="footer-col-title footer-tab-trigger" data-open="legal" style="cursor:pointer;" title="Lihat dokumen legal">Legal <span style="opacity:.5;font-size:.65rem;">↗</span></h5>
             <ul>
-              <li><a href="#" onclick="return false;">Kebijakan Privasi</a></li>
-              <li><a href="#" onclick="return false;">Syarat Penggunaan</a></li>
-              <li><a href="#" onclick="return false;">Disclaimer</a></li>
+              <li><a href="#" class="open-modal-link" data-open="legal" data-subtab="privasi">Kebijakan Privasi</a></li>
+              <li><a href="#" class="open-modal-link" data-open="legal" data-subtab="syarat">Syarat Penggunaan</a></li>
+              <li><a href="#" class="open-modal-link" data-open="legal" data-subtab="disclaimer">Disclaimer</a></li>
             </ul>
           </div>
         </div>
@@ -328,6 +328,163 @@
 
     </div>
   </footer>
+
+  <!-- INFO MODAL (Topik & Legal) -->
+  <div class="info-modal-overlay" id="infoModalOverlay">
+    <div class="info-modal" id="infoModal" role="dialog" aria-modal="true">
+      <button class="info-modal-close" id="infoModalClose" aria-label="Tutup">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="20" height="20"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+
+      <!-- Main Tab Bar -->
+      <div class="info-tab-bar">
+        <button class="info-tab-btn active" data-tab="topik">
+          <span class="info-tab-icon">📚</span> Topik
+        </button>
+        <button class="info-tab-btn" data-tab="legal">
+          <span class="info-tab-icon">⚖️</span> Legal
+        </button>
+      </div>
+
+      <!-- TAB: TOPIK -->
+      <div class="info-tab-panel active" id="tab-topik">
+        <div class="info-panel-header">
+          <p class="info-panel-eyebrow">📋 Kategori Konten</p>
+          <h3>Topik <span class="accent">Tutorial</span></h3>
+          <p class="info-panel-sub">Semua kategori konten yang tersedia di channel @Kz.tutorial</p>
+        </div>
+        <div class="topik-grid">
+          <div class="topik-card">
+            <span class="topik-icon">📱</span>
+            <h4>Tutorial Termux</h4>
+            <p>Panduan lengkap instalasi, konfigurasi, dan penggunaan Termux di Android dari dasar hingga mahir.</p>
+          </div>
+          <div class="topik-card">
+            <span class="topik-icon">🐧</span>
+            <h4>Linux Open Source</h4>
+            <p>Tutorial distro Linux, manajemen sistem, filesystem, package manager, dan ekosistem open source.</p>
+          </div>
+          <div class="topik-card">
+            <span class="topik-icon">💻</span>
+            <h4>Command Line</h4>
+            <p>Menguasai terminal, bash scripting, perintah dasar hingga lanjutan untuk produktivitas maksimal.</p>
+          </div>
+          <div class="topik-card">
+            <span class="topik-icon">🛠️</span>
+            <h4>Tools &amp; Scripts</h4>
+            <p>Koleksi tools berguna, custom scripts, dan automation untuk mempermudah workflow sehari-hari.</p>
+          </div>
+          <div class="topik-card">
+            <span class="topik-icon">💡</span>
+            <h4>Tips &amp; Trik</h4>
+            <p>Tips produktivitas, shortcut tersembunyi, dan trik cerdas yang jarang diketahui pengguna Linux.</p>
+          </div>
+          <div class="topik-card">
+            <span class="topik-icon">⚙️</span>
+            <h4>Automation</h4>
+            <p>Otomatisasi tugas repetitif dengan bash, cron jobs, dan script pintar untuk efisiensi kerja.</p>
+          </div>
+          <div class="topik-card">
+            <span class="topik-icon">🤖</span>
+            <h4>Android Developer</h4>
+            <p>Tutorial pengembangan aplikasi Android, tools developer, dan cara memaksimalkan perangkat Android.</p>
+          </div>
+          <div class="topik-card">
+            <span class="topik-icon">🌐</span>
+            <h4>Sumber Terbuka</h4>
+            <p>Kontribusi ke proyek open source, cara fork, pull request, dan berkontribusi ke komunitas global.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: LEGAL -->
+      <div class="info-tab-panel" id="tab-legal">
+        <div class="info-panel-header">
+          <p class="info-panel-eyebrow">⚖️ Dokumen Hukum</p>
+          <h3>Legal <span class="accent">Info</span></h3>
+          <p class="info-panel-sub">Kebijakan dan ketentuan penggunaan platform Kz.tutorial</p>
+        </div>
+
+        <!-- Legal Sub-tabs -->
+        <div class="legal-subtab-bar">
+          <button class="legal-subtab-btn active" data-subtab="privasi">🔒 Kebijakan Privasi</button>
+          <button class="legal-subtab-btn" data-subtab="syarat">📄 Syarat Penggunaan</button>
+          <button class="legal-subtab-btn" data-subtab="disclaimer">⚠️ Disclaimer</button>
+        </div>
+
+        <div class="legal-content-wrap">
+          <!-- Kebijakan Privasi -->
+          <div class="legal-content active" id="subtab-privasi">
+            <div class="legal-section">
+              <h5>🔒 Kebijakan Privasi</h5>
+              <p>Kz.tutorial berkomitmen untuk melindungi privasi setiap pengunjung dan pengguna platform ini. Dokumen ini menjelaskan bagaimana kami menangani informasi yang berkaitan dengan penggunaan website.</p>
+            </div>
+            <div class="legal-section">
+              <h5>📊 Data yang Dikumpulkan</h5>
+              <p>Website ini bersifat <strong>statis dan non-interaktif</strong>. Kami tidak mengumpulkan data pribadi seperti nama, email, atau informasi sensitif lainnya secara langsung. Data anonimus seperti statistik kunjungan dapat dikumpulkan oleh layanan pihak ketiga (YouTube, Google Analytics) sesuai kebijakan mereka masing-masing.</p>
+            </div>
+            <div class="legal-section">
+              <h5>🎥 Konten YouTube</h5>
+              <p>Video dan metadata yang ditampilkan berasal dari platform YouTube. Saat Anda mengakses atau menonton video, kebijakan privasi Google/YouTube berlaku. Kami menyarankan Anda membaca kebijakan privasi YouTube di <strong>youtube.com/t/privacy</strong>.</p>
+            </div>
+            <div class="legal-section">
+              <h5>🍪 Cookie</h5>
+              <p>Website ini tidak menggunakan cookie pihak pertama. Namun, konten yang disematkan dari YouTube atau Google Fonts mungkin menggunakan cookie mereka sendiri sesuai kebijakan masing-masing platform.</p>
+            </div>
+            <div class="legal-section">
+              <h5>📬 Kontak</h5>
+              <p>Jika Anda memiliki pertanyaan mengenai kebijakan privasi ini, silakan hubungi kami melalui channel YouTube <strong>@Kz.tutorial</strong>.</p>
+            </div>
+          </div>
+
+          <!-- Syarat Penggunaan -->
+          <div class="legal-content" id="subtab-syarat">
+            <div class="legal-section">
+              <h5>📄 Syarat Penggunaan</h5>
+              <p>Dengan mengakses dan menggunakan website Kz.tutorial, Anda menyetujui syarat dan ketentuan penggunaan berikut ini. Harap baca dengan seksama sebelum menggunakan layanan kami.</p>
+            </div>
+            <div class="legal-section">
+              <h5>✅ Penggunaan yang Diizinkan</h5>
+              <p>Anda diizinkan untuk mengakses konten edukasi, menonton video tutorial, dan berbagi link konten kami untuk tujuan pembelajaran. Semua konten tersedia secara gratis untuk keperluan non-komersial dan edukasi.</p>
+            </div>
+            <div class="legal-section">
+              <h5>❌ Larangan</h5>
+              <p>Dilarang keras menyalin, mendistribusikan ulang, atau mengkomersialkan konten dari channel ini tanpa izin tertulis. Dilarang menggunakan konten untuk tujuan yang melanggar hukum, merugikan pihak lain, atau bertentangan dengan nilai-nilai komunitas open source.</p>
+            </div>
+            <div class="legal-section">
+              <h5>🔗 Tautan Eksternal</h5>
+              <p>Website ini mungkin memuat tautan ke situs eksternal (YouTube, platform pihak ketiga). Kami tidak bertanggung jawab atas konten, kebijakan privasi, atau praktik dari situs-situs tersebut.</p>
+            </div>
+            <div class="legal-section">
+              <h5>🔄 Perubahan Syarat</h5>
+              <p>Kz.tutorial berhak mengubah syarat penggunaan ini sewaktu-waktu. Perubahan akan berlaku segera setelah dipublikasikan. Penggunaan berkelanjutan atas layanan ini dianggap sebagai persetujuan atas perubahan tersebut.</p>
+            </div>
+          </div>
+
+          <!-- Disclaimer -->
+          <div class="legal-content" id="subtab-disclaimer">
+            <div class="legal-section">
+              <h5>⚠️ Disclaimer</h5>
+              <p>Konten yang disajikan di Kz.tutorial bersifat <strong>edukatif dan informatif</strong>. Kami menyajikan tutorial, panduan, dan informasi seputar Termux, Linux, dan Open Source semaksimal mungkin dengan akurasi terbaik.</p>
+            </div>
+            <div class="legal-section">
+              <h5>🛡️ Tidak Ada Jaminan</h5>
+              <p>Meskipun kami berusaha menyajikan informasi yang akurat dan terkini, kami tidak memberikan jaminan bahwa semua konten bebas dari kesalahan. Teknologi terus berkembang dan beberapa informasi mungkin menjadi usang seiring waktu.</p>
+            </div>
+            <div class="legal-section">
+              <h5>⚡ Penggunaan Risiko Sendiri</h5>
+              <p>Penggunaan perintah, script, atau tool yang disebutkan dalam tutorial adalah <strong>sepenuhnya tanggung jawab pengguna</strong>. Selalu uji di lingkungan aman sebelum menerapkan pada sistem produksi. Kz.tutorial tidak bertanggung jawab atas kerusakan sistem akibat penggunaan konten ini.</p>
+            </div>
+            <div class="legal-section">
+              <h5>📚 Tujuan Edukasi</h5>
+              <p>Semua konten hacking, security, dan penetration testing yang ditampilkan adalah semata-mata untuk tujuan <strong>edukasi dan pembelajaran</strong> dalam konteks legal dan etis. Penggunaan untuk aktivitas ilegal adalah tanggung jawab pengguna sepenuhnya.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
