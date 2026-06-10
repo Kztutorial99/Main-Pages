@@ -135,12 +135,15 @@ body {
 /* ===== HERO SLIDER — FADE ===== */
 .hero {
   position: relative; width: 100%;
-  overflow: hidden; background: #000;
-  padding-top: var(--nav-h);
-  border-radius: 0 0 2.4rem 2.4rem;
-  box-shadow: 0 16px 60px rgba(0,0,0,.55);
+  background: var(--bg);
+  padding: var(--nav-h) .85rem .85rem;
 }
-.slider-wrapper { position: relative; width: 100%; min-height: 100px; }
+.slider-wrapper {
+  position: relative; width: 100%; min-height: 100px;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 8px 48px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.07);
+}
 
 .slide {
   position: absolute; top: 0; left: 0; width: 100%;
@@ -249,8 +252,8 @@ body {
 .ticker-wrap::after {
   content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none;
 }
-.ticker-wrap::before { left: 0;  background: linear-gradient(90deg, var(--bg2) 0%, transparent 100%); }
-.ticker-wrap::after  { right: 0; background: linear-gradient(270deg, var(--bg2) 0%, transparent 100%); }
+.ticker-wrap::before { left: 0;  background: linear-gradient(90deg, var(--bg) 0%, transparent 100%); }
+.ticker-wrap::after  { right: 0; background: linear-gradient(270deg, var(--bg) 0%, transparent 100%); }
 
 .ticker-track {
   display: inline-flex; align-items: center;
