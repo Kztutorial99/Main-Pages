@@ -139,26 +139,27 @@ body {
   padding: var(--nav-h) .85rem .85rem;
 }
 .slider-wrapper {
-  position: relative; width: 100%; min-height: 100px;
+  position: relative; width: 100%;
+  /* Lock height using banner aspect ratio 1584:672 — no more height jumps */
+  aspect-ratio: 1584 / 672;
   border-radius: 1.5rem;
   overflow: hidden;
   box-shadow: 0 8px 48px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.07);
+  background: #000;
 }
 
+/* All slides are always absolute — wrapper height never changes */
 .slide {
-  position: absolute; top: 0; left: 0; width: 100%;
+  position: absolute; inset: 0; width: 100%; height: 100%;
   opacity: 0; pointer-events: none;
   transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1;
 }
-.slide.active {
-  position: relative; opacity: 1; pointer-events: auto; z-index: 2;
-}
-.slide.leaving {
-  position: absolute; opacity: 0; z-index: 1; pointer-events: none;
-}
+.slide.active  { opacity: 1; pointer-events: auto; z-index: 2; }
+.slide.leaving { opacity: 0; z-index: 1; pointer-events: none; }
 
-.slide-img img { width: 100%; height: auto; display: block; }
+.slide-img { width: 100%; height: 100%; }
+.slide-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* Slider Buttons */
 .slider-btn {
