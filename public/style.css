@@ -199,39 +199,24 @@ body {
     radial-gradient(ellipse 70% 45% at 85% 85%, rgba(94,92,230,.08) 0%, transparent 60%);
 }
 
-/* Navbar in light mode */
+/* Navbar + ticker + mobile menu — ALWAYS DARK, even in light mode */
 [data-theme="light"] .navbar {
-  background: rgba(238,244,255,.82);
-  border-bottom-color: rgba(10,70,200,.10);
+  background: rgba(4,9,26,.70);
+  border-bottom-color: rgba(255,255,255,.07);
 }
 [data-theme="light"] .navbar.scrolled {
-  background: rgba(238,244,255,.97);
-  box-shadow: 0 1px 0 rgba(10,132,255,.10), 0 8px 32px rgba(0,0,60,.07);
+  background: rgba(4,9,26,.94);
+  box-shadow: 0 1px 0 rgba(10,132,255,.15), 0 8px 40px rgba(0,0,0,.5);
 }
-[data-theme="light"] .nav-logo { color: #0B1B3E; }
-[data-theme="light"] .nav-links a { color: rgba(11,27,62,.58); }
-[data-theme="light"] .nav-links a:hover { color: #0B1B3E; }
-[data-theme="light"] .hamburger span { background: #0B1B3E; }
+[data-theme="light"] .nav-logo  { color: #fff; }
+[data-theme="light"] .nav-links a { color: rgba(242,242,247,.55); }
+[data-theme="light"] .nav-links a:hover { color: #fff; }
+[data-theme="light"] .hamburger span { background: #fff; }
 [data-theme="light"] .mobile-menu {
-  background: rgba(238,244,255,.98);
-  border-top-color: rgba(10,70,200,.10);
+  background: rgba(4,9,26,.97);
+  border-top-color: rgba(255,255,255,.07);
 }
-[data-theme="light"] .mobile-menu a { color: #0B1B3E; }
-[data-theme="light"] .theme-toggle {
-  border-color: rgba(10,70,200,.18);
-  background: rgba(10,70,200,.07);
-  color: #0B1B3E;
-}
-[data-theme="light"] .theme-toggle:hover {
-  background: rgba(10,132,255,.14);
-  border-color: rgba(10,132,255,.4);
-  color: var(--blue);
-}
-[data-theme="light"] .nav-iwx {
-  background: rgba(255,255,255,.6);
-  border-color: rgba(10,70,200,.14);
-}
-[data-theme="light"] .nav-iwx-text { color: rgba(11,27,62,.55); }
+[data-theme="light"] .mobile-menu a { color: rgba(242,242,247,.80); }
 
 /* Hero (banner) + Ticker — ALWAYS DARK, even in light mode */
 [data-theme="light"] .hero { background: #04091A; }
