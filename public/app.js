@@ -1,3 +1,35 @@
+// ===== SYNC SLIDE HEIGHTS =====
+// Make gradient slide match the banner image height
+function syncSlideHeights() {
+  const imgSlides = document.querySelectorAll('.slide-img');
+  const gradientSlide = document.querySelector('.slide-gradient');
+  if (!imgSlides.length || !gradientSlide) return;
+  // Use the first loaded image as reference
+  let maxH = 0;
+  imgSlides.forEach(slide => {
+    const img = slide.querySelector('img');
+    if (img && img.naturalHeight > 0) {
+      const rendered = img.getBoundingClientRect().height;
+      if (rendered > maxH) maxH = rendered;
+    }
+  });
+  if (maxH > 0) {
+    gradientSlide.style.minHeight = maxH + 'px';
+    gradientSlide.style.height = maxH + 'px';
+  }
+}
+
+// Run after images load
+window.addEventListener('load', syncSlideHeights);
+window.addEventListener('resize', syncSlideHeights);
+
+// Also trigger when first image loads
+const firstBanner = document.querySelector('.slide-img img');
+if (firstBanner) {
+  firstBanner.addEventListener('load', syncSlideHeights);
+  if (firstBanner.complete) syncSlideHeights();
+}
+
 // ===== NAVBAR SCROLL =====
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
