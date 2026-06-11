@@ -615,7 +615,7 @@ body {
 /* MD3 Label Medium */
 .ticker-item {
   font-size: .8rem; font-weight: 500; letter-spacing: .025em;
-  color: var(--md-on-surface-variant); padding: 0 .4rem;
+  color: #ffffff; padding: 0 .4rem;
   font-family: var(--font);
   transition: color var(--md-dur-short4) var(--md-ease-standard);
 }
