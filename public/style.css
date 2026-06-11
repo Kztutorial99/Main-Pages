@@ -1150,7 +1150,7 @@ body {
 /* IWX TEAM SUPPORT */
 .footer-support {
   display: flex; align-items: center; gap: .75rem;
-  justify-content: center; padding: .9rem 0 .75rem;
+  justify-content: center; padding: .85rem 0;
 }
 .footer-support-label {
   font-size: .78rem; font-weight: 500; letter-spacing: .1em;
@@ -1183,11 +1183,11 @@ body {
 .footer-divider {
   height: 1px;
   background: var(--md-outline-variant);
-  margin-bottom: .75rem;
+  margin: 0;
 }
 .footer-bottom {
   display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: .6rem;
+  flex-wrap: wrap; gap: .6rem; padding-top: .75rem;
 }
 .footer-copy { font-size: .78rem; color: var(--md-on-surface-variant); opacity: .7; }
 .footer-made { font-size: .78rem; color: var(--md-on-surface-variant); opacity: .55; }
