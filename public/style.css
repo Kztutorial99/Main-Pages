@@ -309,11 +309,11 @@ body {
 .hero {
   position: relative; width: 100%;
   background:
-    radial-gradient(ellipse 160% 90% at 0%   0%,  rgba(56,189,248,.60) 0%, rgba(2,132,199,.35) 30%, transparent 55%),
-    radial-gradient(ellipse 120% 80% at 100% 100%, rgba(37,99,235,.70) 0%, rgba(29,78,216,.40)  30%, transparent 58%),
-    radial-gradient(ellipse 80%  70% at 100% 0%,   rgba(34,211,238,.50) 0%, transparent 48%),
-    radial-gradient(ellipse 60%  50% at 0%   100%, rgba(14,165,233,.40) 0%, transparent 50%),
-    linear-gradient(160deg, #000000 0%, #010e20 50%, #000000 100%);
+    radial-gradient(ellipse 160% 90% at 0%   0%,  rgba(56,189,248,.85) 0%, rgba(2,132,199,.60) 28%, transparent 52%),
+    radial-gradient(ellipse 120% 80% at 100% 100%, rgba(37,99,235,.90) 0%, rgba(29,78,216,.65) 28%, transparent 55%),
+    radial-gradient(ellipse 80%  70% at 100% 0%,   rgba(34,211,238,.75) 0%, transparent 45%),
+    radial-gradient(ellipse 60%  50% at 0%   100%, rgba(14,165,233,.65) 0%, transparent 48%),
+    linear-gradient(160deg, #000000 0%, #021428 50%, #000000 100%);
   padding: calc(var(--nav-h) + 1.5rem) 1.5rem 1.5rem;
 }
 /* Vivid blue glow ring around slider */
@@ -324,9 +324,9 @@ body {
   border-radius: var(--md-shape-xl);
   background: transparent;
   box-shadow:
-    0 0 60px 20px rgba(56,189,248,.28),
-    0 0 120px 40px rgba(37,99,235,.18),
-    inset 0 0 40px 10px rgba(56,189,248,.06);
+    0 0 80px 30px rgba(56,189,248,.50),
+    0 0 160px 60px rgba(37,99,235,.32),
+    inset 0 0 60px 15px rgba(56,189,248,.10);
   pointer-events: none;
   z-index: 0;
 }
@@ -340,9 +340,9 @@ body {
   border-radius: var(--md-shape-xl);
   overflow: hidden;
   box-shadow:
-    0 0 0 1px rgba(56,189,248,.35),
-    0 0 40px  8px rgba(56,189,248,.30),
-    0 0 80px 16px rgba(37,99,235,.22),
+    0 0 0 1px rgba(56,189,248,.60),
+    0 0 50px 14px rgba(56,189,248,.55),
+    0 0 110px 28px rgba(37,99,235,.40),
     0 8px 32px rgba(0,0,0,.50);
   background: var(--md-surface-container-lowest);
 }
@@ -362,10 +362,10 @@ body {
 .slide-styled-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
 .slide-styled-android {
   background:
-    radial-gradient(ellipse 70% 80% at 80% 50%, rgba(34,211,238,.30) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 60% at 10% 90%, rgba(56,189,248,.35) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 50% at 50% 20%, rgba(14,165,233,.20) 0%, transparent 60%),
-    linear-gradient(135deg, #000000 0%, #020c1b 50%, #000000 100%);
+    radial-gradient(ellipse 70% 80% at 80% 50%, rgba(34,211,238,.55) 0%, transparent 58%),
+    radial-gradient(ellipse 60% 60% at 10% 90%, rgba(56,189,248,.60) 0%, transparent 53%),
+    radial-gradient(ellipse 50% 50% at 50% 20%, rgba(14,165,233,.45) 0%, transparent 55%),
+    linear-gradient(135deg, #000000 0%, #021428 50%, #000000 100%);
 }
 .slide-styled-android::after {
   content: ''; position: absolute; inset: 0;
@@ -373,10 +373,10 @@ body {
 }
 .slide-styled-latest {
   background:
-    radial-gradient(ellipse 70% 80% at 20% 50%, rgba(56,189,248,.55) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 60% at 90% 80%, rgba(37,99,235,.50) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 50% at 55% 20%, rgba(34,211,238,.25) 0%, transparent 55%),
-    linear-gradient(135deg, #000000 0%, #020c1b 50%, #000000 100%);
+    radial-gradient(ellipse 70% 80% at 20% 50%, rgba(56,189,248,.80) 0%, transparent 58%),
+    radial-gradient(ellipse 60% 60% at 90% 80%, rgba(37,99,235,.75) 0%, transparent 53%),
+    radial-gradient(ellipse 50% 50% at 55% 20%, rgba(34,211,238,.50) 0%, transparent 52%),
+    linear-gradient(135deg, #000000 0%, #021428 50%, #000000 100%);
 }
 .slide-styled-latest::after {
   content: ''; position: absolute; inset: 0;
@@ -469,8 +469,8 @@ body {
 /* ===== INTRO STRIP ===== */
 .intro-strip {
   background:
-    radial-gradient(ellipse 100% 100% at 50% 50%, rgba(56,189,248,.18) 0%, transparent 65%),
-    linear-gradient(135deg, rgba(2,132,199,.25) 0%, rgba(29,78,216,.18) 100%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, rgba(56,189,248,.40) 0%, transparent 60%),
+    linear-gradient(135deg, rgba(2,132,199,.55) 0%, rgba(37,99,235,.45) 100%),
     #000000;
   position: relative; padding: 2rem 1.5rem 1.75rem;
   border-top: 1px solid rgba(56,189,248,.30);
@@ -574,7 +574,7 @@ body {
 /* ===== MD3 TICKER ===== */
 .ticker-wrap {
   position: relative; overflow: hidden;
-  background: linear-gradient(90deg, rgba(2,132,199,.22) 0%, rgba(37,99,235,.18) 50%, rgba(2,132,199,.22) 100%), #000000;
+  background: linear-gradient(90deg, rgba(2,132,199,.50) 0%, rgba(37,99,235,.40) 50%, rgba(2,132,199,.50) 100%), #000000;
   border-top: 1px solid rgba(56,189,248,.35);
   border-bottom: 1px solid rgba(56,189,248,.35);
   padding: .7rem 0;
@@ -609,7 +609,7 @@ body {
 
 /* ===== MD3 QNAV TABS (Chip Row) ===== */
 .qnav-wrap {
-  background: linear-gradient(90deg, rgba(2,132,199,.15) 0%, rgba(37,99,235,.12) 50%, rgba(2,132,199,.15) 100%), #000000;
+  background: linear-gradient(90deg, rgba(2,132,199,.40) 0%, rgba(37,99,235,.32) 50%, rgba(2,132,199,.40) 100%), #000000;
   border-top: 1px solid rgba(56,189,248,.28);
   border-bottom: 1px solid rgba(56,189,248,.28);
   padding: .6rem 1.5rem;
@@ -683,9 +683,10 @@ body {
 /* ===== MD3 VIDEOS SECTION ===== */
 .videos-section {
   background:
-    radial-gradient(ellipse 120% 60% at 80% 50%, rgba(37,99,235,.35) 0%, transparent 55%),
-    radial-gradient(ellipse 90%  55% at 10% 80%, rgba(56,189,248,.25) 0%, transparent 55%),
-    linear-gradient(180deg, #000000 0%, #010d1f 100%);
+    radial-gradient(ellipse 120% 60% at 80% 50%, rgba(37,99,235,.65) 0%, transparent 52%),
+    radial-gradient(ellipse 90%  55% at 10% 80%, rgba(56,189,248,.55) 0%, transparent 52%),
+    radial-gradient(ellipse 60%  45% at 50% 10%, rgba(34,211,238,.40) 0%, transparent 50%),
+    linear-gradient(180deg, #000000 0%, #021428 100%);
   position: relative;
 }
 .videos-section::before {
@@ -915,9 +916,10 @@ body {
 /* ===== MD3 ABOUT SECTION ===== */
 .about-section {
   background:
-    radial-gradient(ellipse 130% 65% at 15% 50%, rgba(56,189,248,.30) 0%, transparent 55%),
-    radial-gradient(ellipse 90%  55% at 90% 20%, rgba(37,99,235,.40)  0%, transparent 55%),
-    linear-gradient(180deg, #010d1f 0%, #000000 100%);
+    radial-gradient(ellipse 130% 65% at 15% 50%, rgba(56,189,248,.60) 0%, transparent 52%),
+    radial-gradient(ellipse 90%  55% at 90% 20%, rgba(37,99,235,.70)  0%, transparent 52%),
+    radial-gradient(ellipse 60%  50% at 50% 90%, rgba(14,165,233,.45) 0%, transparent 50%),
+    linear-gradient(180deg, #021428 0%, #000000 100%);
   position: relative; overflow: hidden;
 }
 .about-section::before {
@@ -987,8 +989,9 @@ body {
 /* ===== MD3 FOOTER ===== */
 .footer {
   background:
-    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(37,99,235,.30) 0%, transparent 60%),
-    linear-gradient(180deg, #000000 0%, #010d1f 100%);
+    radial-gradient(ellipse 120% 90% at 50% 100%, rgba(37,99,235,.65) 0%, transparent 58%),
+    radial-gradient(ellipse 80% 60% at 10% 50%,  rgba(56,189,248,.35) 0%, transparent 55%),
+    linear-gradient(180deg, #000000 0%, #021428 100%);
   position: relative;
 }
 .footer::before {
