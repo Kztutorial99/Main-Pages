@@ -23,6 +23,7 @@ const routes = {
   '/':        'index.html',
   '/topik':   'topik.html',
   '/legal':   'legal.html',
+  '/tools':   'tools.html',
 };
 
 const server = http.createServer((req, res) => {

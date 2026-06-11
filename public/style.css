@@ -4,37 +4,37 @@
 
 /* ===== MD3 DESIGN TOKENS ===== */
 :root {
-  /* --- MD3 Color Tokens (Dark Scheme) --- */
-  --md-primary:               #82b0ff;
-  --md-on-primary:            #003063;
-  --md-primary-container:     #00449a;
-  --md-on-primary-container:  #d6e3ff;
-  --md-secondary:             #bbc3ff;
-  --md-on-secondary:          #232578;
-  --md-secondary-container:   #3b3d8f;
-  --md-on-secondary-container:#dfe0ff;
-  --md-tertiary:              #56d9b5;
+  /* --- MD3 Color Tokens (Dark Scheme — Brightened) --- */
+  --md-primary:               #93bcff;
+  --md-on-primary:            #002b6a;
+  --md-primary-container:     #1a55b8;
+  --md-on-primary-container:  #deeaff;
+  --md-secondary:             #c8cfff;
+  --md-on-secondary:          #1e2172;
+  --md-secondary-container:   #4a4ea8;
+  --md-on-secondary-container:#e8eaff;
+  --md-tertiary:              #6ee8c4;
   --md-on-tertiary:           #003829;
-  --md-tertiary-container:    #005140;
-  --md-on-tertiary-container: #74f7cf;
+  --md-tertiary-container:    #006650;
+  --md-on-tertiary-container: #8fffd9;
   --md-error:                 #ffb4ab;
   --md-on-error:              #690005;
-  --md-surface-dim:           #0b1019;
-  --md-surface:               #101824;
-  --md-surface-bright:        #1e2a3f;
-  --md-surface-container-lowest:  #080d15;
-  --md-surface-container-low:     #121c2e;
-  --md-surface-container:         #172033;
-  --md-surface-container-high:    #1e2a40;
-  --md-surface-container-highest: #26334d;
-  --md-on-surface:            #dde3f0;
-  --md-on-surface-variant:    #9caac6;
-  --md-outline:               #576880;
-  --md-outline-variant:       #2a3a52;
-  --md-surface-tint:          #82b0ff;
-  --md-inverse-surface:       #dde3f0;
-  --md-inverse-on-surface:    #172033;
-  --md-inverse-primary:       #005ac8;
+  --md-surface-dim:           #111a28;
+  --md-surface:               #172030;
+  --md-surface-bright:        #253450;
+  --md-surface-container-lowest:  #0d1520;
+  --md-surface-container-low:     #192436;
+  --md-surface-container:         #1f2c40;
+  --md-surface-container-high:    #273650;
+  --md-surface-container-highest: #304060;
+  --md-on-surface:            #edf2ff;
+  --md-on-surface-variant:    #b0c0dc;
+  --md-outline:               #6a7e98;
+  --md-outline-variant:       #354b68;
+  --md-surface-tint:          #93bcff;
+  --md-inverse-surface:       #edf2ff;
+  --md-inverse-on-surface:    #1f2c40;
+  --md-inverse-primary:       #1a55b8;
   --md-scrim:                 #000000;
 
   /* --- MD3 Shape Tokens --- */
@@ -62,11 +62,11 @@
   --md-ease-accel:      cubic-bezier(0.3, 0, 0.8, 0.15);
 
   /* --- MD3 Elevation (tonal surface tint levels) --- */
-  --md-elev1: rgba(130, 176, 255, 0.05);
-  --md-elev2: rgba(130, 176, 255, 0.08);
-  --md-elev3: rgba(130, 176, 255, 0.11);
-  --md-elev4: rgba(130, 176, 255, 0.12);
-  --md-elev5: rgba(130, 176, 255, 0.14);
+  --md-elev1: rgba(147, 188, 255, 0.08);
+  --md-elev2: rgba(147, 188, 255, 0.12);
+  --md-elev3: rgba(147, 188, 255, 0.16);
+  --md-elev4: rgba(147, 188, 255, 0.18);
+  --md-elev5: rgba(147, 188, 255, 0.22);
 
   /* --- MD3 State Layer Opacities --- */
   --md-state-hover:   0.08;
@@ -78,8 +78,8 @@
   --blue:       var(--md-primary);
   --blue2:      var(--md-secondary);
   --blue-light: var(--md-on-primary-container);
-  --blue-glow:  rgba(130, 176, 255, 0.30);
-  --blue-soft:  rgba(130, 176, 255, 0.12);
+  --blue-glow:  rgba(147, 188, 255, 0.45);
+  --blue-soft:  rgba(147, 188, 255, 0.16);
   --grad:       linear-gradient(135deg, var(--md-primary) 0%, var(--md-secondary) 100%);
   --grad-border:linear-gradient(135deg, rgba(130,176,255,.5), rgba(187,195,255,.5));
   --bg:         var(--md-surface);
@@ -119,10 +119,11 @@ body {
   color: var(--md-on-surface);
   line-height: 1.6;
   overflow-x: hidden;
-  /* MD3: subtle tonal background */
+  /* MD3: vivid tonal background */
   background-image:
-    radial-gradient(ellipse 80% 50% at 15% 5%,  rgba(130,176,255,.09) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 85% 85%, rgba(187,195,255,.07) 0%, transparent 60%);
+    radial-gradient(ellipse 80% 50% at 15% 5%,  rgba(147,188,255,.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 85%, rgba(200,207,255,.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 50% 50%, rgba(110,232,196,.06) 0%, transparent 55%);
   background-attachment: fixed;
 }
 
@@ -177,20 +178,20 @@ body {
   top: 0; left: 0; right: 0;
   z-index: 1000;
   height: var(--nav-h);
-  /* MD3: surface + elevation level 2 */
-  background: color-mix(in srgb, var(--md-surface-container) 95%, transparent);
-  backdrop-filter: blur(24px) saturate(1.5);
-  -webkit-backdrop-filter: blur(24px) saturate(1.5);
-  border-bottom: 1px solid var(--md-outline-variant);
+  background: rgba(25, 36, 54, 0.92);
+  backdrop-filter: blur(28px) saturate(1.8);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8);
+  border-bottom: 1px solid rgba(147,188,255,.18);
   transition: background var(--md-dur-med2) var(--md-ease-standard),
               box-shadow var(--md-dur-med2) var(--md-ease-standard);
 }
 .navbar.scrolled {
-  background: color-mix(in srgb, var(--md-surface-container-high) 97%, transparent);
+  background: rgba(31, 44, 64, 0.97);
+  border-bottom-color: rgba(147,188,255,.25);
   box-shadow:
-    0 1px 0 var(--md-outline-variant),
-    0 2px 12px rgba(0,0,0,.3),
-    0 4px 24px rgba(0,0,0,.2);
+    0 1px 0 rgba(147,188,255,.15),
+    0 2px 16px rgba(0,0,0,.4),
+    0 4px 32px rgba(0,0,0,.25);
 }
 .nav-inner {
   max-width: 1200px; margin: 0 auto;
@@ -451,14 +452,14 @@ body {
 
 /* ===== INTRO STRIP ===== */
 .intro-strip {
-  background: var(--md-surface-container-low);
+  background: rgba(27, 40, 60, 0.98);
   position: relative; padding: 2rem 1.5rem 1.75rem;
-  border-top: 1px solid var(--md-outline-variant);
+  border-top: 1px solid rgba(147,188,255,.18);
 }
 .intro-strip::before {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(130,176,255,.04) 0%, rgba(187,195,255,.03) 100%);
+  background: linear-gradient(135deg, rgba(147,188,255,.08) 0%, rgba(200,207,255,.05) 100%);
   pointer-events: none;
 }
 .intro-inner {
@@ -484,9 +485,8 @@ body {
   display: flex; flex-direction: column; align-items: center; gap: .6rem;
   padding: 1.4rem 1.5rem;
   border-radius: var(--md-shape-xl);
-  /* MD3: Surface container + tonal elevation level 1 */
-  background: color-mix(in srgb, var(--md-surface-container) 100%, var(--md-primary) 5%);
-  border: 1px solid var(--md-outline-variant);
+  background: rgba(39, 54, 80, 0.90);
+  border: 1px solid rgba(147,188,255,.22);
   text-decoration: none; cursor: pointer;
   min-width: 0; flex: 1 1 0;
   position: relative; overflow: hidden;
@@ -504,15 +504,16 @@ body {
   pointer-events: none;
 }
 .qlink-card:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,.3), 0 4px 24px rgba(130,176,255,.2);
-  border-color: rgba(130,176,255,.35);
+  box-shadow: 0 4px 16px rgba(0,0,0,.35), 0 8px 32px rgba(147,188,255,.25);
+  border-color: rgba(147,188,255,.55);
+  background: rgba(47, 66, 96, 0.95);
 }
 .qlink-card:hover::before { opacity: 0.08; }
 .qlink-card:active::before { opacity: 0.12; }
 .qlink-card:active { box-shadow: 0 1px 3px rgba(0,0,0,.2); }
 .qlink-card--accent {
-  background: color-mix(in srgb, var(--md-primary-container) 20%, var(--md-surface-container));
-  border-color: rgba(130,176,255,.25);
+  background: rgba(45, 62, 100, 0.92);
+  border-color: rgba(147,188,255,.35);
 }
 
 /* MD3 Icon Container */
@@ -552,17 +553,17 @@ body {
 /* ===== MD3 TICKER ===== */
 .ticker-wrap {
   position: relative; overflow: hidden;
-  background: var(--md-surface-container-low);
-  border-top: 1px solid var(--md-outline-variant);
-  border-bottom: 1px solid var(--md-outline-variant);
+  background: rgba(22, 34, 52, 0.98);
+  border-top: 1px solid rgba(147,188,255,.15);
+  border-bottom: 1px solid rgba(147,188,255,.15);
   padding: .7rem 0;
 }
 .ticker-wrap::before,
 .ticker-wrap::after {
   content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none;
 }
-.ticker-wrap::before { left: 0;  background: linear-gradient(90deg, var(--md-surface-container-low) 0%, transparent 100%); }
-.ticker-wrap::after  { right: 0; background: linear-gradient(270deg, var(--md-surface-container-low) 0%, transparent 100%); }
+.ticker-wrap::before { left: 0;  background: linear-gradient(90deg, rgba(22,34,52,1) 0%, transparent 100%); }
+.ticker-wrap::after  { right: 0; background: linear-gradient(270deg, rgba(22,34,52,1) 0%, transparent 100%); }
 .ticker-track {
   display: inline-flex; align-items: center; white-space: nowrap;
   animation: ticker-scroll 30s linear infinite; will-change: transform;
@@ -587,9 +588,9 @@ body {
 
 /* ===== MD3 QNAV TABS (Chip Row) ===== */
 .qnav-wrap {
-  background: var(--md-surface-container-low);
-  border-top: 1px solid var(--md-outline-variant);
-  border-bottom: 1px solid var(--md-outline-variant);
+  background: rgba(22, 34, 52, 0.98);
+  border-top: 1px solid rgba(147,188,255,.15);
+  border-bottom: 1px solid rgba(147,188,255,.15);
   padding: .6rem 1.5rem;
 }
 .qnav-inner {
@@ -604,9 +605,9 @@ body {
   border-radius: var(--md-shape-sm);
   font-size: .84rem; font-weight: 500; letter-spacing: .01em;
   font-family: var(--font);
-  color: var(--md-on-surface-variant);
-  background: transparent;
-  border: 1px solid var(--md-outline);
+  color: var(--md-on-surface);
+  background: rgba(147,188,255,.07);
+  border: 1px solid rgba(147,188,255,.22);
   text-decoration: none; cursor: pointer;
   transition: color var(--md-dur-short4) var(--md-ease-standard),
               background var(--md-dur-short4) var(--md-ease-standard),
@@ -614,15 +615,16 @@ body {
   outline: none; -webkit-tap-highlight-color: transparent; user-select: none;
 }
 .qnav-tab:hover {
-  color: var(--md-on-secondary-container);
-  background: rgba(130,176,255,.08);
+  color: #fff;
+  background: rgba(147,188,255,.18);
   border-color: var(--md-primary);
+  box-shadow: 0 2px 12px rgba(147,188,255,.15);
 }
-.qnav-tab:active { background: rgba(130,176,255,.12); }
+.qnav-tab:active { background: rgba(147,188,255,.24); }
 .qnav-tab--accent {
   color: var(--md-on-secondary-container);
-  border-color: var(--md-secondary);
-  background: rgba(187,195,255,.08);
+  border-color: rgba(200,207,255,.40);
+  background: rgba(200,207,255,.10);
 }
 .qnav-icon { width: 14px; height: 14px; flex-shrink: 0; }
 .qnav-badge {
@@ -659,13 +661,13 @@ body {
 
 /* ===== MD3 VIDEOS SECTION ===== */
 .videos-section {
-  background: var(--md-surface-container-low);
+  background: rgba(20, 30, 48, 0.99);
   position: relative;
 }
 .videos-section::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
   background: linear-gradient(90deg, transparent, var(--md-primary), var(--md-secondary), transparent);
-  opacity: .35;
+  opacity: .6;
 }
 
 /* Video grid layout */
@@ -692,12 +694,11 @@ body {
 
 /* MD3 Elevated Card */
 .video-card {
-  /* MD3: surface + tonal elevation level 1 */
-  background: color-mix(in srgb, var(--md-surface-container) 100%, var(--md-primary) 5%);
+  background: rgba(35, 50, 74, 0.95);
   border-radius: var(--md-shape-xl);
   overflow: hidden; position: relative;
-  border: 1px solid var(--md-outline-variant);
-  box-shadow: 0 1px 3px rgba(0,0,0,.3), 0 4px 12px rgba(0,0,0,.2);
+  border: 1px solid rgba(147,188,255,.20);
+  box-shadow: 0 2px 8px rgba(0,0,0,.35), 0 4px 16px rgba(0,0,0,.25);
   transition: transform var(--md-dur-med2) var(--md-ease-emphasized),
               box-shadow var(--md-dur-med2) var(--md-ease-emphasized);
 }
@@ -708,10 +709,11 @@ body {
 }
 .video-card:hover {
   transform: translateY(-6px);
+  background: rgba(44, 62, 90, 0.98);
   box-shadow:
-    0 4px 12px rgba(0,0,0,.4),
-    0 12px 36px rgba(0,0,0,.35),
-    0 0 0 1px rgba(130,176,255,.35);
+    0 6px 20px rgba(0,0,0,.45),
+    0 16px 48px rgba(0,0,0,.35),
+    0 0 0 1px rgba(147,188,255,.45);
 }
 .video-card:hover::before { opacity: 0.05; }
 
@@ -886,13 +888,13 @@ body {
 
 /* ===== MD3 ABOUT SECTION ===== */
 .about-section {
-  background: var(--md-surface-container-low);
+  background: rgba(24, 35, 54, 0.99);
   position: relative; overflow: hidden;
 }
 .about-section::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
   background: linear-gradient(90deg, transparent, var(--md-secondary), var(--md-primary), transparent);
-  opacity: .35;
+  opacity: .65;
 }
 .about-section::after {
   content: ''; position: absolute; bottom: -20%; right: -5%;
@@ -921,12 +923,12 @@ body {
 
 /* MD3 Filled Card */
 .about-card {
-  background: color-mix(in srgb, var(--md-surface-container) 100%, var(--md-primary) 5%);
+  background: rgba(35, 50, 74, 0.95);
   border-radius: var(--md-shape-xl);
   padding: 1.75rem 1.35rem;
   text-align: center;
-  border: 1px solid var(--md-outline-variant);
-  box-shadow: 0 1px 3px rgba(0,0,0,.25);
+  border: 1px solid rgba(147,188,255,.22);
+  box-shadow: 0 2px 8px rgba(0,0,0,.28);
   transition: transform var(--md-dur-med2) var(--md-ease-emphasized),
               box-shadow var(--md-dur-med2) var(--md-ease-emphasized),
               background var(--md-dur-short4) var(--md-ease-standard);
@@ -939,7 +941,8 @@ body {
 }
 .about-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0,0,0,.35), 0 8px 28px rgba(0,0,0,.25), 0 0 0 1px rgba(130,176,255,.3);
+  background: rgba(44, 62, 90, 0.98);
+  box-shadow: 0 6px 20px rgba(0,0,0,.4), 0 12px 36px rgba(0,0,0,.28), 0 0 0 1px rgba(147,188,255,.45);
 }
 .about-card:hover::before { opacity: 0.07; }
 .about-card-icon { font-size: 2rem; display: block; margin-bottom: 1rem; }
@@ -952,11 +955,11 @@ body {
 .about-cta { text-align: center; position: relative; z-index: 1; }
 
 /* ===== MD3 FOOTER ===== */
-.footer { background: var(--md-surface-container-low); position: relative; }
+.footer { background: rgba(15, 22, 38, 0.99); position: relative; }
 .footer::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
   background: linear-gradient(90deg, transparent, var(--md-primary), var(--md-secondary), transparent);
-  opacity: .35;
+  opacity: .65;
 }
 .footer-inner { max-width: 1200px; margin: 0 auto; padding: 3.5rem 1.5rem 2rem; }
 .footer-top {
