@@ -219,31 +219,53 @@ body {
   width: 34px !important; height: 34px !important;
   min-width: 34px; max-width: 34px;
   min-height: 34px; max-height: 34px;
-  flex-shrink: 0;
   border-radius: var(--md-shape-full);
   object-fit: cover;
   padding: 0 !important;
   background: none !important;
   font-size: 0;
-  border: 2px solid #38bdf8;
-  box-shadow: 0 0 10px rgba(56,189,248,.70), 0 0 20px rgba(56,189,248,.35);
-  transition: box-shadow var(--md-dur-med2) var(--md-ease-standard),
-              border-color var(--md-dur-med2) var(--md-ease-standard);
+  border: none !important;
+  box-shadow: none !important;
+  position: relative;
+  z-index: 1;
   -webkit-user-drag: none; user-drag: none;
   -webkit-user-select: none; user-select: none;
   pointer-events: none;
 }
-.nav-logo { pointer-events: auto; }
-.iwx-logo { -webkit-user-drag: none; user-drag: none; pointer-events: none; }
-.nav-logo:hover .logo-avatar {
-  border-color: #7dd3fc;
-  box-shadow: 0 0 24px rgba(56,189,248,.90), 0 0 48px rgba(56,189,248,.45);
+.logo-ring {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  filter: drop-shadow(0 0 6px #00ffff) drop-shadow(0 0 12px #5B9AFF);
+  transition: filter var(--md-dur-med2) var(--md-ease-standard);
+}
+.logo-ring::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, #00ffff, #5B9AFF, #bf5fff, #00ff88, #00ffff);
+  animation: spin-ring 2s linear infinite;
+  z-index: 0;
+}
+.nav-logo:hover .logo-ring {
+  filter: drop-shadow(0 0 10px #00ffff) drop-shadow(0 0 20px #5B9AFF) drop-shadow(0 0 30px #bf5fff);
 }
 .nav-iwx-avatar {
-  margin-left: -.1rem;
-  border-color: #38bdf8 !important;
-  box-shadow: 0 0 10px rgba(56,189,248,.70), 0 0 20px rgba(56,189,248,.35) !important;
+  margin-left: 0;
 }
+@keyframes spin-ring {
+  to { transform: rotate(360deg); }
+}
+.nav-logo { pointer-events: auto; }
+.iwx-logo { -webkit-user-drag: none; user-drag: none; pointer-events: none; }
 
 /* MD3 Nav Items */
 .nav-links { display: flex; align-items: center; gap: .25rem; list-style: none; }
