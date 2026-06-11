@@ -588,6 +588,68 @@ body {
   .qlink-sub { font-size: .66rem; }
 }
 
+/* ===== QLINK ENTRANCE + FLOAT ANIMATIONS ===== */
+@keyframes ql-from-left {
+  0%   { opacity: 0; transform: translateX(-72px) scale(.92); }
+  60%  { opacity: 1; transform: translateX(8px) scale(1.01); }
+  80%  { transform: translateX(-3px) scale(.995); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes ql-from-right {
+  0%   { opacity: 0; transform: translateX(72px) scale(.92); }
+  60%  { opacity: 1; transform: translateX(-8px) scale(1.01); }
+  80%  { transform: translateX(3px) scale(.995); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes ql-float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+@keyframes ql-fade-up {
+  from { opacity: 0; transform: translateY(20px) scale(.94); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Before animation triggers — cards hidden */
+.qlink-card--anim-left,
+.qlink-card--anim-right,
+.qlink-card--anim-float {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* After IntersectionObserver adds .qlink-entered */
+.qlink-card--anim-left.qlink-entered {
+  animation: ql-from-left .75s cubic-bezier(.22,.68,0,1.15) forwards;
+}
+.qlink-card--anim-right.qlink-entered {
+  animation: ql-from-right .75s cubic-bezier(.22,.68,0,1.15) forwards;
+}
+.qlink-card--anim-float.qlink-entered {
+  animation:
+    ql-fade-up .55s cubic-bezier(.22,.68,0,1.2) forwards,
+    ql-float   3.2s ease-in-out 0.55s infinite;
+}
+
+/* Icon glow pulse on Termux card */
+.qlink-card--anim-left.qlink-entered .qlink-icon-wrap {
+  animation: ql-icon-glow 2.5s ease-in-out 0.8s infinite alternate;
+}
+@keyframes ql-icon-glow {
+  from { box-shadow: 0 0 0px rgba(86,217,181,0); }
+  to   { box-shadow: 0 0 18px rgba(86,217,181,.45); }
+}
+
+/* Tools card icon glow blue */
+.qlink-card--anim-right.qlink-entered .qlink-icon-wrap {
+  animation: ql-icon-glow-blue 2.5s ease-in-out 0.9s infinite alternate;
+}
+@keyframes ql-icon-glow-blue {
+  from { box-shadow: 0 0 0px rgba(56,189,248,0); }
+  to   { box-shadow: 0 0 18px rgba(56,189,248,.45); }
+}
+
 /* ===== MD3 TICKER ===== */
 .ticker-wrap {
   position: relative; overflow: hidden;

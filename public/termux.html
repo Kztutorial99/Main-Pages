@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial Termux Lengkap — Kz.tutorial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="page.css" />
+  <link rel="preload" as="image" href="/logo.jpg" fetchpriority="high" />
+  <link rel="preload" as="image" href="/iwx-team.webp" type="image/webp" fetchpriority="high" />
+  <style>
+    /* ===== TERMUX PAGE ===== */
+    .tx-tabs {
+      display: flex; gap: .5rem; flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .tx-tab {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .5rem 1.1rem;
+      border-radius: var(--md-shape-full);
+      border: 1px solid rgba(96,165,250,.25);
+      background: rgba(10,26,76,.60);
+      color: var(--text-muted); font-size: .82rem; font-weight: 600;
+      cursor: pointer; font-family: var(--font);
+      transition: all .2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tx-tab svg { flex-shrink: 0; }
+    .tx-tab:hover { color: var(--text); border-color: rgba(96,165,250,.50); background: rgba(10,26,76,.90); }
+    .tx-tab.active {
+      background: linear-gradient(135deg, #1d4ed8, #0369a1);
+      border-color: rgba(96,165,250,.60);
+      color: #fff;
+      box-shadow: 0 2px 16px rgba(29,78,216,.40);
+    }
+    .tx-panel { display: none; }
+    .tx-panel.active { display: block; }
+
+    /* ===== SECTION TITLE ===== */
+    .tx-section-title {
+      font-size: 1.15rem; font-weight: 800; color: var(--white);
+      margin: 0 0 1rem; display: flex; align-items: center; gap: .55rem;
+    }
+    .tx-section-title svg { color: var(--blue-light); flex-shrink: 0; }
+    .tx-section-sub {
+      font-size: .875rem; color: var(--text-muted); margin: -.4rem 0 1.4rem;
+      line-height: 1.6;
+    }
+
+    /* ===== STEP CARD ===== */
+    .tx-steps { display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 2.5rem; }
+    .tx-step {
+      display: flex; gap: 1rem; align-items: flex-start;
+      background: rgba(8,22,65,.80);
+      border: 1px solid rgba(96,165,250,.18);
+      border-radius: var(--md-shape-xl);
+      padding: 1.25rem 1.4rem;
+    }
+    .tx-step-num {
+      width: 32px; height: 32px; flex-shrink: 0;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1d4ed8, #0369a1);
+      color: #fff; font-size: .8rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tx-step-body { flex: 1; min-width: 0; }
+    .tx-step-title { font-size: .95rem; font-weight: 700; color: var(--white); margin-bottom: .35rem; }
+    .tx-step-desc  { font-size: .85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: .75rem; }
+    .tx-step-desc:last-child { margin-bottom: 0; }
+
+    /* ===== CODE BLOCK ===== */
+    .tx-code {
+      background: rgba(0,0,0,.55);
+      border: 1px solid rgba(96,165,250,.18);
+      border-radius: 10px;
+      padding: .75rem 1rem;
+      font-family: var(--mono);
+      font-size: .8rem; color: #93c5fd;
+      overflow-x: auto;
+      white-space: pre;
+      position: relative;
+      margin-top: .5rem;
+    }
+    .tx-code .cmt { color: rgba(148,163,184,.55); }
+    .tx-code .kw  { color: #60a5fa; }
+    .tx-code .str { color: #86efac; }
+    .tx-code .num { color: #fbbf24; }
+
+    .tx-code-wrap { position: relative; }
+    .tx-copy-btn {
+      position: absolute; top: .5rem; right: .5rem;
+      padding: .25rem .55rem;
+      background: rgba(29,78,216,.25);
+      border: 1px solid rgba(96,165,250,.30);
+      border-radius: 6px;
+      color: #93c5fd; font-size: .7rem; font-weight: 600;
+      cursor: pointer; font-family: var(--font);
+      transition: background .2s;
+    }
+    .tx-copy-btn:hover { background: rgba(29,78,216,.50); }
+
+    /* ===== COMMAND TABLE ===== */
+    .tx-cmd-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem; margin-bottom: 2.5rem;
+    }
+    .tx-cmd-card {
+      background: rgba(8,22,65,.80);
+      border: 1px solid rgba(96,165,250,.18);
+      border-radius: 14px;
+      padding: 1.1rem 1.2rem;
+    }
+    .tx-cmd-card-title {
+      font-size: .78rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--blue-light);
+      font-family: var(--mono); margin-bottom: .8rem;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .tx-cmd-card-title svg { flex-shrink: 0; }
+    .tx-cmd-row {
+      display: flex; align-items: flex-start; gap: .6rem;
+      padding: .4rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    .tx-cmd-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .tx-cmd-code {
+      font-family: var(--mono); font-size: .78rem;
+      color: #60a5fa; background: rgba(96,165,250,.10);
+      padding: .15rem .45rem; border-radius: 5px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .tx-cmd-desc { font-size: .8rem; color: var(--text-muted); line-height: 1.4; }
+
+    /* ===== PKG TABLE ===== */
+    .tx-pkg-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .85rem;
+      margin-bottom: 2rem;
+    }
+    .tx-pkg-table thead tr {
+      background: rgba(29,78,216,.18);
+    }
+    .tx-pkg-table th {
+      padding: .7rem 1rem; text-align: left;
+      font-size: .75rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--blue-light); font-family: var(--mono);
+      border-bottom: 1px solid rgba(96,165,250,.20);
+    }
+    .tx-pkg-table td {
+      padding: .65rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      color: var(--text-muted); vertical-align: top;
+    }
+    .tx-pkg-table tr:hover td { background: rgba(96,165,250,.04); }
+    .tx-pkg-table td:first-child {
+      font-family: var(--mono); font-size: .8rem;
+      color: #60a5fa; white-space: nowrap;
+    }
+    .tx-pkg-table td strong { color: var(--text); }
+    .tx-pkg-wrap {
+      background: rgba(8,22,65,.80);
+      border: 1px solid rgba(96,165,250,.18);
+      border-radius: 14px; overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    /* ===== TIP CARD ===== */
+    .tx-tips { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+    .tx-tip {
+      background: rgba(8,22,65,.80);
+      border: 1px solid rgba(96,165,250,.18);
+      border-left: 3px solid var(--tip-color, #60a5fa);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+    }
+    .tx-tip--warn  { --tip-color: #fbbf24; }
+    .tx-tip--green { --tip-color: #34d399; }
+    .tx-tip--red   { --tip-color: #f43f5e; }
+    .tx-tip-head {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .85rem; font-weight: 700; color: var(--white);
+      margin-bottom: .4rem;
+    }
+    .tx-tip-head svg { color: var(--tip-color, #60a5fa); flex-shrink: 0; }
+    .tx-tip-body { font-size: .83rem; color: var(--text-muted); line-height: 1.6; }
+    .tx-tip-body code {
+      font-family: var(--mono); font-size: .78rem;
+      color: #60a5fa; background: rgba(96,165,250,.10);
+      padding: .1rem .35rem; border-radius: 4px;
+    }
+
+    /* ===== SEPARATOR ===== */
+    .tx-sep {
+      height: 1px; background: rgba(96,165,250,.10);
+      margin: 2rem 0;
+    }
+
+    /* ===== NOTE BOX ===== */
+    .tx-note {
+      background: rgba(29,78,216,.10);
+      border: 1px solid rgba(96,165,250,.22);
+      border-radius: 12px; padding: 1rem 1.2rem;
+      display: flex; gap: .7rem; align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+    .tx-note svg { color: #60a5fa; flex-shrink: 0; margin-top: 1px; }
+    .tx-note p { font-size: .85rem; color: var(--text-muted); margin: 0; line-height: 1.6; }
+    .tx-note p strong { color: var(--text); }
+    .tx-note a { color: #60a5fa; }
+
+    @media (max-width: 600px) {
+      .tx-cmd-grid { grid-template-columns: 1fr; }
+      .tx-step { flex-direction: column; }
+      .tx-pkg-table { font-size: .78rem; }
+      .tx-pkg-table th, .tx-pkg-table td { padding: .55rem .7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a class="nav-logo" href="/">
+        <span class="logo-ring"><img class="logo-icon logo-avatar" src="logo.jpg" alt="Kz.tutorial" fetchpriority="high" /></span>
+        <span class="logo-ring"><img class="logo-icon logo-avatar nav-iwx-avatar" src="iwx-team.webp" alt="IWX Team" fetchpriority="high" /></span>
+        <span class="logo-text">IWX<span class="accent"> TEAM</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/#home">Home</a></li>
+        <li><a href="/#videos">Videos</a></li>
+        <li><a href="/#about">About</a></li>
+        <li>
+          <a href="https://www.youtube.com/@Kz.tutorial" target="_blank" class="nav-cta">Subscribe</a>
+        </li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="/#home">Home</a>
+      <a href="/#videos">Videos</a>
+      <a href="/#about">About</a>
+      <a href="https://www.youtube.com/@Kz.tutorial" target="_blank">Subscribe</a>
+    </div>
+  </nav>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-main">
+
+    <!-- Hero -->
+    <div class="page-hero">
+      <div class="page-hero-inner">
+        <nav class="page-breadcrumb">
+          <a href="/">Home</a>
+          <span class="breadcrumb-sep">›</span>
+          <a href="/topik">Topik</a>
+          <span class="breadcrumb-sep">›</span>
+          <span>Termux</span>
+        </nav>
+        <p class="page-eyebrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/></svg>
+          Panduan Lengkap
+        </p>
+        <h1>Tutorial <span class="accent">Termux</span></h1>
+        <p class="page-desc">Panduan lengkap instalasi, konfigurasi, perintah dasar, manajemen package, dan tips & trik Termux — 100% tanpa root di Android.</p>
+      </div>
+      <div class="page-hero-glow"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="page-section">
+      <div class="page-inner">
+
+        <!-- Tab Navigation -->
+        <div class="tx-tabs" role="tablist">
+          <button class="tx-tab active" data-tab="instalasi" role="tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>
+            Instalasi
+          </button>
+          <button class="tx-tab" data-tab="commands" role="tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            Commands
+          </button>
+          <button class="tx-tab" data-tab="package" role="tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            Package
+          </button>
+          <button class="tx-tab" data-tab="setup" role="tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Setup Awal
+          </button>
+          <button class="tx-tab" data-tab="tips" role="tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+            Tips & Trik
+          </button>
+        </div>
+
+        <!-- ===== TAB: INSTALASI ===== -->
+        <div class="tx-panel active" id="tab-instalasi">
+
+          <p class="tx-section-sub">Cara benar menginstall Termux di Android tanpa root. Jangan install dari Play Store karena versinya sudah usang dan banyak tools yang tidak berjalan.</p>
+
+          <div class="tx-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <p><strong>Wajib dibaca:</strong> Install Termux dari <strong>F-Droid</strong> atau <strong>GitHub Releases</strong>, BUKAN dari Google Play Store. Versi Play Store tidak diupdate sejak 2020 dan tidak kompatibel dengan banyak package modern.</p>
+          </div>
+
+          <p class="tx-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>
+            Langkah Instalasi
+          </p>
+
+          <div class="tx-steps">
+            <div class="tx-step">
+              <div class="tx-step-num">1</div>
+              <div class="tx-step-body">
+                <div class="tx-step-title">Download Termux dari F-Droid</div>
+                <div class="tx-step-desc">Buka browser di Android, download F-Droid app terlebih dahulu dari <strong>f-droid.org</strong>, lalu cari dan install Termux dari sana. Atau download APK langsung dari GitHub Releases Termux.</div>
+                <div class="tx-step-desc">Link langsung: <strong>github.com/termux/termux-app/releases</strong> — download file <code style="font-family:var(--mono);color:#60a5fa;font-size:.8em;">termux-app_v*.apk</code></div>
+              </div>
+            </div>
+
+            <div class="tx-step">
+              <div class="tx-step-num">2</div>
+              <div class="tx-step-body">
+                <div class="tx-step-title">Izinkan Install dari Sumber Tidak Dikenal</div>
+                <div class="tx-step-desc">Saat install APK, Android akan meminta izin "Install Unknown Apps". Aktifkan izin tersebut untuk browser atau file manager yang kamu gunakan.</div>
+              </div>
+            </div>
+
+            <div class="tx-step">
+              <div class="tx-step-num">3</div>
+              <div class="tx-step-body">
+                <div class="tx-step-title">Jalankan Termux &amp; Update Pertama Kali</div>
+                <div class="tx-step-desc">Buka Termux, lalu jalankan perintah berikut untuk update semua package ke versi terbaru:</div>
+                <div class="tx-code-wrap">
+                  <div class="tx-code"><span class="cmt"># Update dan upgrade semua package</span>
+pkg update && pkg upgrade -y</div>
+                  <button class="tx-copy-btn">Salin</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tx-step">
+              <div class="tx-step-num">4</div>
+              <div class="tx-step-body">
+                <div class="tx-step-title">Izinkan Akses Storage</div>
+                <div class="tx-step-desc">Agar Termux bisa mengakses file di penyimpanan internal Android (folder Download, dll), jalankan:</div>
+                <div class="tx-code-wrap">
+                  <div class="tx-code">termux-setup-storage</div>
+                  <button class="tx-copy-btn">Salin</button>
+                </div>
+                <div class="tx-step-desc" style="margin-top:.5rem;">Akan muncul popup izin akses storage — pilih <strong>Izinkan</strong>. Setelah itu folder <code style="font-family:var(--mono);color:#60a5fa;font-size:.8em;">~/storage/</code> akan tersedia.</div>
+              </div>
+            </div>
+
+            <div class="tx-step">
+              <div class="tx-step-num">5</div>
+              <div class="tx-step-body">
+                <div class="tx-step-title">Install Tools Dasar</div>
+                <div class="tx-step-desc">Install package penting yang akan sering digunakan:</div>
+                <div class="tx-code-wrap">
+                  <div class="tx-code"><span class="cmt"># Install tools dasar esensial</span>
+pkg install -y curl wget git python nodejs</div>
+                  <button class="tx-copy-btn">Salin</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tx-sep"></div>
+
+          <p class="tx-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/></svg>
+            Persyaratan Android
+          </p>
+
+          <div class="tx-cmd-grid">
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>
+                Minimum
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Android 7+</span><span class="tx-cmd-desc">Versi minimum yang didukung</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">RAM 2GB</span><span class="tx-cmd-desc">Untuk penggunaan dasar</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Storage 1GB</span><span class="tx-cmd-desc">Untuk Termux + tools dasar</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Internet</span><span class="tx-cmd-desc">Wajib saat install package</span></div>
+            </div>
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Rekomendasi
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Android 10+</span><span class="tx-cmd-desc">Performa dan kompatibilitas terbaik</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">RAM 4GB+</span><span class="tx-cmd-desc">Untuk menjalankan banyak tools</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Storage 5GB+</span><span class="tx-cmd-desc">Untuk tools security + dev</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">No Root</span><span class="tx-cmd-desc">Semua tools berjalan tanpa root</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ===== TAB: COMMANDS ===== -->
+        <div class="tx-panel" id="tab-commands">
+
+          <p class="tx-section-sub">Referensi perintah terminal yang paling sering digunakan di Termux, dari navigasi file hingga network.</p>
+
+          <p class="tx-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Navigasi &amp; Direktori
+          </p>
+          <div class="tx-cmd-grid">
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                Navigasi
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">pwd</span><span class="tx-cmd-desc">Tampilkan direktori saat ini</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">ls</span><span class="tx-cmd-desc">Tampilkan isi folder</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">ls -la</span><span class="tx-cmd-desc">Tampilkan semua file + permission</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">cd &lt;folder&gt;</span><span class="tx-cmd-desc">Masuk ke folder</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">cd ..</span><span class="tx-cmd-desc">Kembali ke folder sebelumnya</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">cd ~</span><span class="tx-cmd-desc">Pergi ke home directory</span></div>
+            </div>
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                Folder &amp; File
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">mkdir &lt;nama&gt;</span><span class="tx-cmd-desc">Buat folder baru</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">touch &lt;file&gt;</span><span class="tx-cmd-desc">Buat file kosong</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">cp &lt;src&gt; &lt;dst&gt;</span><span class="tx-cmd-desc">Salin file/folder</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">mv &lt;src&gt; &lt;dst&gt;</span><span class="tx-cmd-desc">Pindah / rename file</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">rm &lt;file&gt;</span><span class="tx-cmd-desc">Hapus file</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">rm -rf &lt;folder&gt;</span><span class="tx-cmd-desc">Hapus folder beserta isinya</span></div>
+            </div>
+          </div>
+
+          <div class="tx-sep"></div>
+
+          <p class="tx-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Baca &amp; Edit File
+          </p>
+          <div class="tx-cmd-grid">
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                Baca File
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">cat &lt;file&gt;</span><span class="tx-cmd-desc">Tampilkan isi file</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">less &lt;file&gt;</span><span class="tx-cmd-desc">Baca file dengan scroll (tekan q untuk keluar)</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">head -n 20 &lt;file&gt;</span><span class="tx-cmd-desc">Tampilkan 20 baris pertama</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">tail -n 20 &lt;file&gt;</span><span class="tx-cmd-desc">Tampilkan 20 baris terakhir</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">grep "kata" &lt;file&gt;</span><span class="tx-cmd-desc">Cari teks dalam file</span></div>
+            </div>
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                Edit File
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">nano &lt;file&gt;</span><span class="tx-cmd-desc">Edit file dengan nano (mudah digunakan)</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">vim &lt;file&gt;</span><span class="tx-cmd-desc">Edit dengan vim (tekan i=insert, :wq=simpan)</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">nvim &lt;file&gt;</span><span class="tx-cmd-desc">Edit dengan Neovim (modern vim)</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">echo "teks" &gt; file</span><span class="tx-cmd-desc">Tulis teks ke file (overwrite)</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">echo "teks" &gt;&gt; file</span><span class="tx-cmd-desc">Tambah teks ke akhir file</span></div>
+            </div>
+          </div>
+
+          <div class="tx-sep"></div>
+
+          <p class="tx-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+            Sistem &amp; Proses
+          </p>
+          <div class="tx-cmd-grid">
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><rect x="2" y="2" width="20" height="8" rx="2"/></svg>
+                Monitor Sistem
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">top</span><span class="tx-cmd-desc">Monitor proses real-time (tekan q keluar)</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">htop</span><span class="tx-cmd-desc">Monitor interaktif (lebih visual)</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">ps aux</span><span class="tx-cmd-desc">Tampilkan semua proses berjalan</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">kill &lt;PID&gt;</span><span class="tx-cmd-desc">Hentikan proses berdasarkan PID</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">df -h</span><span class="tx-cmd-desc">Tampilkan penggunaan disk</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">free -h</span><span class="tx-cmd-desc">Tampilkan penggunaan RAM</span></div>
+            </div>
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Jaringan
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">ping &lt;host&gt;</span><span class="tx-cmd-desc">Cek koneksi ke server</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">curl &lt;url&gt;</span><span class="tx-cmd-desc">Request HTTP ke URL</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">wget &lt;url&gt;</span><span class="tx-cmd-desc">Download file dari internet</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">ifconfig</span><span class="tx-cmd-desc">Tampilkan info interface jaringan</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">nmap &lt;ip&gt;</span><span class="tx-cmd-desc">Scan port target (install nmap dulu)</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">ssh user@ip</span><span class="tx-cmd-desc">Koneksi ke server via SSH</span></div>
+            </div>
+          </div>
+
+          <div class="tx-sep"></div>
+
+          <p class="tx-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            Shortcut Keyboard Termux
+          </p>
+          <div class="tx-cmd-grid">
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+                Keyboard Shortcut
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Vol+ + C</span><span class="tx-cmd-desc">CTRL+C — hentikan proses</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Vol+ + D</span><span class="tx-cmd-desc">CTRL+D — logout / tutup session</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Vol+ + Z</span><span class="tx-cmd-desc">Suspend proses ke background</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Vol+ + L</span><span class="tx-cmd-desc">Clear terminal screen</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Tab</span><span class="tx-cmd-desc">Auto-complete perintah / nama file</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Swipe kanan</span><span class="tx-cmd-desc">Buka sidebar session baru</span></div>
+            </div>
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                History &amp; Lainnya
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">history</span><span class="tx-cmd-desc">Lihat riwayat perintah</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">!!</span><span class="tx-cmd-desc">Jalankan ulang perintah terakhir</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">clear</span><span class="tx-cmd-desc">Bersihkan layar terminal</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">exit</span><span class="tx-cmd-desc">Keluar dari Termux / session</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">which &lt;cmd&gt;</span><span class="tx-cmd-desc">Cari lokasi file perintah</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">man &lt;cmd&gt;</span><span class="tx-cmd-desc">Buka manual/dokumentasi perintah</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ===== TAB: PACKAGE ===== -->
+        <div class="tx-panel" id="tab-package">
+
+          <p class="tx-section-sub">Manajemen package di Termux menggunakan <code style="font-family:var(--mono);color:#60a5fa;font-size:.85em;">pkg</code> (alias dari apt). Berikut semua perintah yang perlu kamu ketahui.</p>
+
+          <p class="tx-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            Perintah PKG
+          </p>
+
+          <div class="tx-cmd-grid">
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>
+                Install &amp; Update
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">pkg install &lt;nama&gt;</span><span class="tx-cmd-desc">Install package</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">pkg install -y &lt;nama&gt;</span><span class="tx-cmd-desc">Install tanpa konfirmasi</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">pkg update</span><span class="tx-cmd-desc">Update daftar package</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">pkg upgrade</span><span class="tx-cmd-desc">Upgrade semua package terinstall</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">pkg update && pkg upgrade -y</span><span class="tx-cmd-desc">Update + upgrade sekaligus</span></div>
+            </div>
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                Cari &amp; Info
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">pkg search &lt;kata&gt;</span><span class="tx-cmd-desc">Cari package berdasarkan nama</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">pkg show &lt;nama&gt;</span><span class="tx-cmd-desc">Tampilkan info detail package</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">pkg list-installed</span><span class="tx-cmd-desc">Lihat semua package terinstall</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">pkg uninstall &lt;nama&gt;</span><span class="tx-cmd-desc">Hapus package</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">pkg autoclean</span><span class="tx-cmd-desc">Bersihkan cache package lama</span></div>
+            </div>
+          </div>
+
+          <div class="tx-sep"></div>
+
+          <p class="tx-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Package Populer &amp; Cara Install
+          </p>
+
+          <div class="tx-pkg-wrap">
+            <table class="tx-pkg-table">
+              <thead>
+                <tr>
+                  <th>Perintah Install</th>
+                  <th>Nama Package</th>
+                  <th>Keterangan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>pkg install python -y</td><td><strong>Python 3</strong></td><td>Bahasa pemrograman + pip</td></tr>
+                <tr><td>pkg install nodejs -y</td><td><strong>Node.js</strong></td><td>JavaScript runtime + npm</td></tr>
+                <tr><td>pkg install git -y</td><td><strong>Git</strong></td><td>Version control system</td></tr>
+                <tr><td>pkg install curl -y</td><td><strong>cURL</strong></td><td>HTTP client CLI</td></tr>
+                <tr><td>pkg install wget -y</td><td><strong>Wget</strong></td><td>Download file via URL</td></tr>
+                <tr><td>pkg install nmap -y</td><td><strong>Nmap</strong></td><td>Network port scanner</td></tr>
+                <tr><td>pkg install hydra -y</td><td><strong>Hydra</strong></td><td>Password brute-force</td></tr>
+                <tr><td>pkg install john -y</td><td><strong>John the Ripper</strong></td><td>Hash password cracker</td></tr>
+                <tr><td>pkg install neovim -y</td><td><strong>Neovim</strong></td><td>Code editor berbasis Vim</td></tr>
+                <tr><td>pkg install php -y</td><td><strong>PHP</strong></td><td>Server-side scripting language</td></tr>
+                <tr><td>pkg install htop -y</td><td><strong>htop</strong></td><td>Interactive process viewer</td></tr>
+                <tr><td>pkg install tmux -y</td><td><strong>tmux</strong></td><td>Terminal multiplexer</td></tr>
+                <tr><td>pkg install fzf -y</td><td><strong>fzf</strong></td><td>Fuzzy command-line finder</td></tr>
+                <tr><td>pkg install golang -y</td><td><strong>Go (Golang)</strong></td><td>Bahasa pemrograman Go</td></tr>
+                <tr><td>pkg install ruby -y</td><td><strong>Ruby</strong></td><td>Bahasa pemrograman Ruby</td></tr>
+                <tr><td>pkg install perl -y</td><td><strong>Perl</strong></td><td>Diperlukan oleh Nikto</td></tr>
+                <tr><td>pkg install openssh -y</td><td><strong>OpenSSH</strong></td><td>SSH client &amp; server</td></tr>
+                <tr><td>pkg install netcat-openbsd -y</td><td><strong>Netcat</strong></td><td>TCP/UDP networking tool</td></tr>
+                <tr><td>pkg install zsh -y</td><td><strong>Zsh</strong></td><td>Z shell (untuk Oh My Zsh)</td></tr>
+                <tr><td>pkg install figlet -y</td><td><strong>Figlet</strong></td><td>ASCII art text generator</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="tx-sep"></div>
+
+          <p class="tx-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+            Install via Git Clone (GitHub)
+          </p>
+
+          <div class="tx-steps">
+            <div class="tx-step">
+              <div class="tx-step-num">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+              </div>
+              <div class="tx-step-body">
+                <div class="tx-step-title">SQLmap — SQL Injection Tool</div>
+                <div class="tx-code-wrap">
+                  <div class="tx-code">git clone https://github.com/sqlmapproject/sqlmap
+cd sqlmap && python sqlmap.py --help</div>
+                  <button class="tx-copy-btn">Salin</button>
+                </div>
+              </div>
+            </div>
+            <div class="tx-step">
+              <div class="tx-step-num">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+              </div>
+              <div class="tx-step-body">
+                <div class="tx-step-title">Nikto — Web Vulnerability Scanner</div>
+                <div class="tx-code-wrap">
+                  <div class="tx-code">pkg install perl -y
+git clone https://github.com/sullo/nikto
+cd nikto/program && perl nikto.pl -h &lt;target&gt;</div>
+                  <button class="tx-copy-btn">Salin</button>
+                </div>
+              </div>
+            </div>
+            <div class="tx-step">
+              <div class="tx-step-num">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+              </div>
+              <div class="tx-step-body">
+                <div class="tx-step-title">Subfinder — Subdomain Discovery</div>
+                <div class="tx-code-wrap">
+                  <div class="tx-code">pkg install golang -y
+go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+echo 'export PATH=$PATH:$HOME/go/bin' >> ~/.bashrc && source ~/.bashrc</div>
+                  <button class="tx-copy-btn">Salin</button>
+                </div>
+              </div>
+            </div>
+            <div class="tx-step">
+              <div class="tx-step-num">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+              </div>
+              <div class="tx-step-body">
+                <div class="tx-step-title">Oh My Zsh — Shell Framework</div>
+                <div class="tx-code-wrap">
+                  <div class="tx-code">pkg install zsh -y
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"</div>
+                  <button class="tx-copy-btn">Salin</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ===== TAB: SETUP AWAL ===== -->
+        <div class="tx-panel" id="tab-setup">
+
+          <p class="tx-section-sub">Konfigurasi Termux dari awal agar lebih nyaman digunakan setiap hari — environment, shell, editor, dan storage.</p>
+
+          <p class="tx-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            Setup Terminal Lengkap (One Script)
+          </p>
+          <p class="tx-section-sub">Copy dan jalankan script ini untuk setup Termux secara otomatis — update, storage, tools dasar, dan konfigurasi.</p>
+
+          <div class="tx-code-wrap" style="margin-bottom:2rem;">
+            <div class="tx-code"><span class="cmt">#!/data/data/com.termux/files/usr/bin/bash</span>
+<span class="cmt"># ===== TERMUX SETUP OTOMATIS =====</span>
+
+<span class="cmt"># Step 1: Update semua package</span>
+<span class="kw">echo</span> <span class="str">"[1/5] Update packages..."</span>
+pkg update && pkg upgrade -y
+
+<span class="cmt"># Step 2: Aktifkan akses storage</span>
+<span class="kw">echo</span> <span class="str">"[2/5] Setup storage..."</span>
+termux-setup-storage
+
+<span class="cmt"># Step 3: Install tools dasar</span>
+<span class="kw">echo</span> <span class="str">"[3/5] Install tools dasar..."</span>
+pkg install -y curl wget git python nodejs neovim htop tmux fzf zsh
+
+<span class="cmt"># Step 4: Install Python pip packages</span>
+<span class="kw">echo</span> <span class="str">"[4/5] Install pip packages..."</span>
+pip install requests httpx rich
+
+<span class="cmt"># Step 5: Set vim keybinding di bash</span>
+<span class="kw">echo</span> <span class="str">"[5/5] Konfigurasi shell..."</span>
+<span class="kw">echo</span> <span class="str">'set -o vi'</span> >> ~/.bashrc
+<span class="kw">echo</span> <span class="str">'alias ll="ls -la"'</span> >> ~/.bashrc
+<span class="kw">echo</span> <span class="str">'alias cls="clear"'</span> >> ~/.bashrc
+
+source ~/.bashrc
+
+<span class="kw">echo</span> <span class="str">"Setup selesai!"</span></div>
+            <button class="tx-copy-btn">Salin</button>
+          </div>
+
+          <div class="tx-sep"></div>
+
+          <p class="tx-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Konfigurasi .bashrc / .zshrc
+          </p>
+          <p class="tx-section-sub">Tambah alias dan konfigurasi ini ke file <code style="font-family:var(--mono);color:#60a5fa;font-size:.85em;">~/.bashrc</code> atau <code style="font-family:var(--mono);color:#60a5fa;font-size:.85em;">~/.zshrc</code> agar berlaku setiap kali Termux dibuka.</p>
+
+          <div class="tx-code-wrap" style="margin-bottom:2rem;">
+            <div class="tx-code"><span class="cmt"># === ALIAS BERGUNA ===</span>
+alias ll='ls -la'
+alias la='ls -A'
+alias cls='clear'
+alias update='pkg update && pkg upgrade -y'
+alias myip='curl ifconfig.me'
+alias py='python3'
+
+<span class="cmt"># === PATH untuk Go binary ===</span>
+export PATH=$PATH:$HOME/go/bin
+
+<span class="cmt"># === Prompt warna ===</span>
+export PS1='\[\e[32m\]\u\[\e[0m\]@\[\e[34m\]\h\[\e[0m\]:\[\e[33m\]\w\[\e[0m\]\$ '</div>
+            <button class="tx-copy-btn">Salin</button>
+          </div>
+
+          <div class="tx-sep"></div>
+
+          <p class="tx-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            Setup tmux (Terminal Multiplexer)
+          </p>
+          <div class="tx-code-wrap" style="margin-bottom:2rem;">
+            <div class="tx-code"><span class="cmt"># Install tmux</span>
+pkg install tmux -y
+
+<span class="cmt"># Buat file konfigurasi tmux</span>
+cat > ~/.tmux.conf << 'EOF'
+<span class="cmt"># Prefix: Ctrl+A</span>
+unbind C-b
+set-option -g prefix C-a
+bind-key C-a send-prefix
+
+<span class="cmt"># Split panel</span>
+bind | split-window -h
+bind - split-window -v
+
+<span class="cmt"># Mouse support</span>
+set -g mouse on
+
+<span class="cmt"># Start dari window 1</span>
+set -g base-index 1
+EOF
+
+<span class="cmt"># Jalankan tmux</span>
+tmux</div>
+            <button class="tx-copy-btn">Salin</button>
+          </div>
+
+          <div class="tx-cmd-grid">
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                Shortcut tmux
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Ctrl+A |</span><span class="tx-cmd-desc">Split panel vertikal</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Ctrl+A -</span><span class="tx-cmd-desc">Split panel horizontal</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Ctrl+A d</span><span class="tx-cmd-desc">Detach session (tetap berjalan)</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Ctrl+A c</span><span class="tx-cmd-desc">Buat window baru</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">tmux attach</span><span class="tx-cmd-desc">Sambung kembali ke session</span></div>
+            </div>
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                Lokasi Penting
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">~/</span><span class="tx-cmd-desc">Home directory Termux</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">~/storage/</span><span class="tx-cmd-desc">Akses penyimpanan Android</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">~/storage/downloads/</span><span class="tx-cmd-desc">Folder Download Android</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">$PREFIX/</span><span class="tx-cmd-desc">Direktori instalasi Termux</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">~/.bashrc</span><span class="tx-cmd-desc">Konfigurasi shell bash</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ===== TAB: TIPS & TRIK ===== -->
+        <div class="tx-panel" id="tab-tips">
+
+          <p class="tx-section-sub">Tips, trik, dan hal penting yang perlu diketahui agar pengalaman menggunakan Termux lebih lancar dan aman.</p>
+
+          <p class="tx-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Keamanan &amp; Hal Penting
+          </p>
+
+          <div class="tx-tips">
+            <div class="tx-tip tx-tip--red">
+              <div class="tx-tip-head">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                Jangan install dari Google Play Store
+              </div>
+              <div class="tx-tip-body">Versi Play Store tidak diupdate sejak 2020. Gunakan <strong>F-Droid</strong> atau <strong>GitHub Releases</strong>. Package di versi lama tidak kompatibel dengan repository Termux saat ini.</div>
+            </div>
+
+            <div class="tx-tip tx-tip--warn">
+              <div class="tx-tip-head">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Selalu jalankan update sebelum install
+              </div>
+              <div class="tx-tip-body">Sebelum install package baru, jalankan <code>pkg update && pkg upgrade -y</code> agar repository dan package sudah yang terbaru. Ini menghindari konflik dependency.</div>
+            </div>
+
+            <div class="tx-tip">
+              <div class="tx-tip-head">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+                Gunakan Tab untuk autocomplete
+              </div>
+              <div class="tx-tip-body">Tekan <code>Tab</code> saat mengetik perintah atau nama file untuk autocomplete otomatis. Tekan dua kali <code>Tab Tab</code> untuk melihat semua kemungkinan yang tersedia.</div>
+            </div>
+
+            <div class="tx-tip tx-tip--green">
+              <div class="tx-tip-head">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                Gunakan tmux agar session tidak hilang
+              </div>
+              <div class="tx-tip-body">Jalankan proses panjang di dalam tmux. Kalau Termux tertutup atau layar mati, session tmux tetap berjalan di background. Sambung kembali dengan <code>tmux attach</code>.</div>
+            </div>
+
+            <div class="tx-tip">
+              <div class="tx-tip-head">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                Install tools security dengan benar
+              </div>
+              <div class="tx-tip-body">Tools seperti Nmap, Hydra, SQLmap hanya untuk penggunaan etis — uji pada sistemmu sendiri atau dengan izin pemilik. Semua tools di sini <strong>100% berjalan tanpa root</strong>.</div>
+            </div>
+
+            <div class="tx-tip tx-tip--warn">
+              <div class="tx-tip-head">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Pantau penggunaan storage
+              </div>
+              <div class="tx-tip-body">Termux menggunakan storage internal Android. Cek penggunaan dengan <code>du -sh ~/*</code> atau <code>df -h</code>. Bersihkan cache dengan <code>pkg autoclean</code> secara berkala.</div>
+            </div>
+          </div>
+
+          <div class="tx-sep"></div>
+
+          <p class="tx-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Tricks Produktivitas
+          </p>
+
+          <div class="tx-cmd-grid">
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Trik Berguna
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Ctrl+C</span><span class="tx-cmd-desc">Hentikan proses yang berjalan</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">cmd &amp;</span><span class="tx-cmd-desc">Jalankan perintah di background</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">cmd1 && cmd2</span><span class="tx-cmd-desc">Jalankan cmd2 jika cmd1 berhasil</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">cmd1 | cmd2</span><span class="tx-cmd-desc">Pipe output cmd1 ke cmd2</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">cmd > file.txt</span><span class="tx-cmd-desc">Simpan output ke file</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">cmd 2>&1</span><span class="tx-cmd-desc">Redirect error ke stdout</span></div>
+            </div>
+            <div class="tx-cmd-card">
+              <div class="tx-cmd-card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Hemat Waktu
+              </div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Panah Atas/Bawah</span><span class="tx-cmd-desc">Navigasi history perintah</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">Ctrl+R</span><span class="tx-cmd-desc">Cari history perintah (reverse)</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">alias x='cmd'</span><span class="tx-cmd-desc">Buat shortcut perintah</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">watch -n 2 cmd</span><span class="tx-cmd-desc">Jalankan ulang setiap 2 detik</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">nohup cmd &</span><span class="tx-cmd-desc">Jalankan tanpa terhenti saat logout</span></div>
+              <div class="tx-cmd-row"><span class="tx-cmd-code">time cmd</span><span class="tx-cmd-desc">Ukur berapa lama perintah selesai</span></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-bottom" style="border-top:1px solid rgba(96,165,250,.12);padding-top:1.5rem;">
+        <p class="footer-copy">&copy; 2025 Kz.tutorial. All rights reserved.</p>
+        <p class="footer-made">Made with <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" width="13" height="13" style="vertical-align:middle;color:#ff6b6b;display:inline;margin:0 1px"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> for the Open Source community</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING SUPPORT BUTTON -->
+  <div class="fab-support" id="fabSupport" aria-label="Support">
+    <button class="fab-btn" id="fabBtn" aria-expanded="false" aria-controls="fabMenu">
+      <span class="fab-pulse"></span>
+      <svg class="fab-icon fab-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <svg class="fab-icon fab-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="fab-menu" id="fabMenu" role="menu">
+      <div class="fab-menu-header">
+        <span class="fab-menu-title">Hubungi Kami</span>
+        <span class="fab-menu-sub">Pilih platform favoritmu</span>
+      </div>
+      <a class="fab-item" href="https://t.me/Kz.tutorial" target="_blank" rel="noopener" role="menuitem">
+        <span class="fab-item-icon fab-tg">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 14.617l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.942z"/></svg>
+        </span>
+        <span class="fab-item-text"><strong>Telegram</strong><small>Chat &amp; komunitas aktif</small></span>
+        <svg class="fab-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <a class="fab-item" href="https://wa.me/62895325844493" target="_blank" rel="noopener" role="menuitem">
+        <span class="fab-item-icon fab-wa">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        </span>
+        <span class="fab-item-text"><strong>WhatsApp</strong><small>Pertanyaan cepat</small></span>
+        <svg class="fab-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <a class="fab-item" href="https://www.youtube.com/@Kz.tutorial" target="_blank" rel="noopener" role="menuitem">
+        <span class="fab-item-icon fab-yt">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </span>
+        <span class="fab-item-text"><strong>YouTube</strong><small>Tonton tutorial terbaru</small></span>
+        <svg class="fab-item-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <script src="protect.js"></script>
+  <script src="transition.js"></script>
+  <script src="page.js"></script>
+  <script src="fab.js"></script>
+  <script>
+    // Tab switching
+    const tabs   = document.querySelectorAll('.tx-tab');
+    const panels = document.querySelectorAll('.tx-panel');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Copy buttons
+    document.querySelectorAll('.tx-copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const code = btn.previousElementSibling.textContent.trim();
+        navigator.clipboard.writeText(code).then(() => {
+          const orig = btn.textContent;
+          btn.textContent = 'Tersalin!';
+          btn.style.background = 'rgba(52,211,153,.25)';
+          btn.style.borderColor = 'rgba(52,211,153,.40)';
+          btn.style.color = '#34d399';
+          setTimeout(() => {
+            btn.textContent = orig;
+            btn.style.background = '';
+            btn.style.borderColor = '';
+            btn.style.color = '';
+          }, 2000);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

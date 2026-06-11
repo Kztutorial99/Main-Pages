@@ -131,7 +131,7 @@
       <div class="qlink-row">
 
         <!-- Termux -->
-        <a class="qlink-card" href="/topik" target="_blank" rel="noopener">
+        <a class="qlink-card qlink-card--anim-left" id="qlinkTermux" href="/termux" rel="noopener">
           <div class="qlink-icon-wrap qlink-icon--green">
             <img src="termux-icon.svg" alt="Termux" style="width:100%;height:100%;border-radius:8px;" />
           </div>
@@ -140,7 +140,7 @@
         </a>
 
         <!-- Android -->
-        <a class="qlink-card" href="/topik" target="_blank" rel="noopener">
+        <a class="qlink-card qlink-card--anim-float" id="qlinkAndroid" href="/topik" rel="noopener">
           <div class="qlink-icon-wrap qlink-icon--android">
             <img src="android-icon.svg" alt="Android" style="width:100%;height:100%;padding:2px;" />
           </div>
@@ -149,9 +149,8 @@
         </a>
 
         <!-- GitHub Tools -->
-        <a class="qlink-card qlink-card--accent" href="/tools" target="_blank" rel="noopener">
+        <a class="qlink-card qlink-card--accent qlink-card--anim-right" id="qlinkTools" href="/tools" rel="noopener">
           <div class="qlink-icon-wrap qlink-icon--white">
-            <!-- GitHub mark icon -->
             <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M24 4C12.954 4 4 13.178 4 24.5C4 33.566 9.866 41.209 18.04 43.963C19.04 44.151 19.417 43.524 19.417 42.985C19.417 42.502 19.4 41.131 19.392 39.315C13.854 40.543 12.682 36.639 12.682 36.639C11.773 34.229 10.467 33.604 10.467 33.604C8.662 32.344 10.6 32.369 10.6 32.369C12.591 32.507 13.638 34.447 13.638 34.447C15.413 37.604 18.298 36.693 19.454 36.174C19.636 34.861 20.154 33.952 20.727 33.436C16.277 32.913 11.599 31.172 11.599 23.447C11.599 21.167 12.381 19.3 13.679 17.84C13.472 17.316 12.79 15.188 13.875 12.302C13.875 12.302 15.543 11.745 19.367 14.47C20.973 14.011 22.492 13.782 24 13.775C25.508 13.782 27.028 14.011 28.636 14.47C32.457 11.745 34.122 12.302 34.122 12.302C35.21 15.188 34.528 17.316 34.321 17.84C35.621 19.3 36.399 21.167 36.399 23.447C36.399 31.192 31.713 32.907 27.25 33.418C27.97 34.057 28.61 35.315 28.61 37.25C28.61 40.013 28.587 42.237 28.587 42.985C28.587 43.529 28.957 44.161 29.974 43.961C38.139 41.203 44 33.563 44 24.5C44 13.178 35.046 4 24 4Z" fill="#e8eaf0"/>
             </svg>
@@ -407,5 +406,30 @@
   <script src="transition.js"></script>
   <script src="app.js"></script>
   <script src="fab.js"></script>
+  <script>
+    /* ===== QLINK ENTRANCE ANIMATION via IntersectionObserver ===== */
+    (function () {
+      var cards = [
+        { el: document.getElementById('qlinkTermux'),  delay: 0   },
+        { el: document.getElementById('qlinkAndroid'), delay: 130 },
+        { el: document.getElementById('qlinkTools'),   delay: 240 },
+      ];
+      var triggered = false;
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !triggered) {
+            triggered = true;
+            cards.forEach(function (item) {
+              if (!item.el) return;
+              setTimeout(function () { item.el.classList.add('qlink-entered'); }, item.delay);
+            });
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.25 });
+      var row = document.querySelector('.qlink-row');
+      if (row) observer.observe(row);
+    })();
+  </script>
 </body>
 </html>

@@ -24,6 +24,7 @@ const routes = {
   '/topik':   'topik.html',
   '/legal':   'legal.html',
   '/tools':   'tools.html',
+  '/termux':  'termux.html',
 };
 
 const server = http.createServer((req, res) => {
