@@ -11,24 +11,25 @@
   position: relative;
   padding: 4rem 1.6rem 3.5rem;
   overflow: hidden;
-  background: rgba(5, 14, 44, 0.98);
-  border-bottom: 2px solid rgba(96,165,250,.32);
+  background: linear-gradient(135deg, #04091a 0%, #071530 35%, #0a1e45 65%, #060e22 100%);
+  border-bottom: 2px solid rgba(96,165,250,.22);
 }
 .page-hero::before {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(29,78,216,.28) 0%, rgba(3,105,161,.16) 100%);
+  background: radial-gradient(ellipse at 70% 50%, rgba(29,78,216,.18) 0%, transparent 65%),
+              radial-gradient(ellipse at 20% 80%, rgba(3,105,161,.12) 0%, transparent 55%);
   pointer-events: none;
 }
 .page-hero-glow {
   position: absolute;
   width: 700px; height: 500px;
   top: -120px; right: -100px;
-  background: radial-gradient(ellipse, rgba(29,78,216,.55) 0%, rgba(3,105,161,.20) 40%, transparent 65%);
+  background: radial-gradient(ellipse, rgba(29,78,216,.30) 0%, rgba(3,105,161,.10) 40%, transparent 65%);
   pointer-events: none;
 }
 .page-hero-glow--purple {
-  background: radial-gradient(ellipse, rgba(56,189,248,.40) 0%, rgba(29,78,216,.18) 40%, transparent 65%);
+  background: radial-gradient(ellipse, rgba(56,189,248,.20) 0%, rgba(29,78,216,.08) 40%, transparent 65%);
 }
 .page-hero-inner {
   position: relative; z-index: 1;
