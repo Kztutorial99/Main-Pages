@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="preload" as="image" href="new-banner1.png" />
 </head>
 <body>
 
@@ -16,7 +17,7 @@
     <div class="nav-inner">
       <a class="nav-logo" href="#">
         <img class="logo-icon logo-avatar" src="logo.jpg" alt="Kz.tutorial" />
-        <img class="logo-icon logo-avatar nav-iwx-avatar" src="iwx-team.png" alt="IWX Team" />
+        <img class="logo-icon logo-avatar nav-iwx-avatar" src="iwx-team.png" alt="IWX Team" fetchpriority="high" />
         <span class="logo-text">IWX<span class="accent"> TEAM</span></span>
       </a>
       <ul class="nav-links">
@@ -49,17 +50,17 @@
 
         <!-- Slide 1 — Termux Linux -->
         <div class="slide slide-img active" data-slide="0">
-          <img src="new-banner1.png" alt="Termux & Linux Banner" />
+          <img src="new-banner1.png" alt="Termux & Linux Banner" loading="eager" fetchpriority="high" decoding="sync" />
         </div>
 
         <!-- Slide 2 — Android Developer -->
         <div class="slide slide-img" data-slide="1">
-          <img src="new-banner2.png" alt="Android Developer Banner" />
+          <img src="new-banner2.png" alt="Android Developer Banner" loading="lazy" decoding="async" />
         </div>
 
         <!-- Slide 3 — Build Apps Create Impact -->
         <div class="slide slide-img" data-slide="2">
-          <img src="new-banner3.png" alt="Build Apps Create Impact Banner" />
+          <img src="new-banner3.png" alt="Build Apps Create Impact Banner" loading="lazy" decoding="async" />
         </div>
 
       </div>
