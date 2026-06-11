@@ -410,6 +410,25 @@
         </div>
       </div>
 
+      <!-- Rating Widget -->
+      <div class="rating-widget" id="ratingWidget">
+        <p class="rating-title">Bagaimana penilaian kamu untuk website ini?</p>
+        <div class="rating-stars">
+          <svg class="rating-star" data-val="1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="rating-star" data-val="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="rating-star" data-val="3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="rating-star" data-val="4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg class="rating-star" data-val="5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <div class="rating-info">
+          <span class="rating-avg" id="ratingAvg">—</span>
+          <span class="rating-sep">/</span>
+          <span class="rating-max">5</span>
+          <span class="rating-count" id="ratingCount">Belum ada penilaian</span>
+        </div>
+        <p class="rating-msg" id="ratingMsg">Klik bintang untuk memberi nilai</p>
+      </div>
+
       <!-- Divider -->
       <div class="footer-divider"></div>
 
@@ -433,6 +452,77 @@
 
     </div>
   </footer>
+
+  <!-- RATING WIDGET SCRIPT -->
+  <script>
+  (function() {
+    const KEY = 'kztutorial_rated';
+    const widget = document.getElementById('ratingWidget');
+    const stars = document.querySelectorAll('.rating-star');
+    const avgEl = document.getElementById('ratingAvg');
+    const countEl = document.getElementById('ratingCount');
+    const msgEl = document.getElementById('ratingMsg');
+
+    function renderStars(avg, interactive) {
+      stars.forEach((s, i) => {
+        s.classList.remove('filled', 'half');
+        const val = i + 1;
+        if (avg >= val) s.classList.add('filled');
+        else if (avg >= val - 0.5) s.classList.add('half');
+        if (!interactive) s.style.cursor = 'default';
+      });
+    }
+
+    function loadRating() {
+      fetch('/api/rating')
+        .then(r => r.json())
+        .then(d => {
+          avgEl.textContent = d.count > 0 ? d.avg.toFixed(1) : '—';
+          countEl.textContent = d.count > 0 ? d.count + ' penilaian' : 'Belum ada penilaian';
+          renderStars(d.avg, !localStorage.getItem(KEY));
+        }).catch(() => {});
+    }
+
+    const rated = localStorage.getItem(KEY);
+    if (rated) {
+      msgEl.textContent = 'Kamu sudah memberi rating. Terima kasih!';
+      msgEl.classList.add('rated');
+      stars.forEach(s => s.style.cursor = 'default');
+    }
+
+    stars.forEach((star, i) => {
+      star.addEventListener('mouseenter', () => {
+        if (localStorage.getItem(KEY)) return;
+        stars.forEach((s, j) => s.classList.toggle('filled', j <= i));
+      });
+      star.addEventListener('mouseleave', () => {
+        if (localStorage.getItem(KEY)) return;
+        loadRating();
+      });
+      star.addEventListener('click', () => {
+        if (localStorage.getItem(KEY)) return;
+        const val = i + 1;
+        fetch('/api/rating', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ star: val })
+        })
+        .then(r => r.json())
+        .then(d => {
+          localStorage.setItem(KEY, val);
+          avgEl.textContent = d.avg.toFixed(1);
+          countEl.textContent = d.count + ' penilaian';
+          renderStars(d.avg, false);
+          msgEl.textContent = 'Terima kasih sudah memberi rating! ⭐';
+          msgEl.classList.add('rated');
+          stars.forEach(s => s.style.cursor = 'default');
+        }).catch(() => {});
+      });
+    });
+
+    loadRating();
+  })();
+  </script>
 
   <!-- FLOATING SUPPORT BUTTON -->
   <div class="fab-support" id="fabSupport" aria-label="Support">
