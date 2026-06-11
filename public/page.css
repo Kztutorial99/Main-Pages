@@ -165,45 +165,36 @@
 
 /* ===== LEGAL PAGE TAB BAR ===== */
 .legal-page-tabbar {
-  display: flex; gap: .5rem; flex-wrap: wrap;
-  margin-bottom: 0;
+  display: flex; gap: .75rem;
+  margin-bottom: 2rem;
 }
 .legal-page-tab {
-  display: inline-flex; align-items: center; gap: .45rem;
-  padding: .72rem 1.5rem;
-  border-radius: var(--r-md) var(--r-md) 0 0;
+  flex: 1;
+  display: flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: .85rem 1rem;
+  border-radius: 12px;
   border: 1px solid rgba(255,255,255,.09);
-  border-bottom: none;
   background: rgba(255,255,255,.04);
-  color: var(--text-muted); font-size: .9rem; font-weight: 600;
+  color: var(--text-muted); font-size: .875rem; font-weight: 600;
   cursor: pointer; font-family: var(--font);
-  position: relative; bottom: -1px;
-  transition: background var(--ease), color var(--ease), border-color var(--ease);
+  text-align: center; white-space: nowrap;
+  transition: background var(--ease), color var(--ease), border-color var(--ease), box-shadow var(--ease);
 }
 .legal-page-tab:hover {
-  background: rgba(10,132,255,.07);
+  background: rgba(10,132,255,.08);
   color: var(--text);
-  border-color: rgba(10,132,255,.2);
+  border-color: rgba(10,132,255,.25);
 }
 .legal-page-tab.active {
-  background: rgba(10,132,255,.12);
+  background: rgba(10,132,255,.15);
   color: #fff;
-  border-color: rgba(10,132,255,.35);
-  border-bottom-color: transparent;
-}
-.legal-page-tab.active::after {
-  content: '';
-  position: absolute; bottom: -1px; left: 0; right: 0; height: 2px;
-  background: var(--grad);
-  border-radius: 2px 2px 0 0;
+  border-color: rgba(10,132,255,.45);
+  box-shadow: 0 0 16px rgba(10,132,255,.18), inset 0 1px 0 rgba(255,255,255,.08);
 }
 
 /* Tab underline */
 .legal-page-tab-line {
-  height: 1px;
-  background: rgba(10,132,255,.25);
-  margin-bottom: 2.5rem;
-  position: relative;
+  display: none;
 }
 
 /* ===== LEGAL PANELS ===== */
@@ -255,6 +246,7 @@
   .page-section { padding: 2rem 1rem 3.5rem; }
   .topik-page-grid { grid-template-columns: 1fr; }
   .legal-panel-grid { grid-template-columns: 1fr; }
-  .legal-page-tabbar { gap: .3rem; }
-  .legal-page-tab { padding: .6rem 1rem; font-size: .82rem; }
+  .legal-page-tabbar { gap: .4rem; }
+  .legal-page-tab { padding: .7rem .5rem; font-size: .78rem; gap: .35rem; }
+  .legal-page-tab svg { width: 13px; height: 13px; }
 }
