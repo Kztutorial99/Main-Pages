@@ -205,9 +205,12 @@ body {
 }
 .nav-logo:hover { opacity: .8; }
 .nav-logo .accent {
-  color: #0900ff;
-  text-shadow: 0 0 12px rgba(9,0,255,.60), 0 0 24px rgba(9,0,255,.30);
+  background: linear-gradient(90deg, #38bdf8 0%, #818cf8 40%, #c084fc 70%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-weight: 700;
+  filter: drop-shadow(0 0 6px rgba(129,140,248,.55));
 }
 .logo-icon {
   font-family: var(--mono); font-size: .9rem; font-weight: 700;
