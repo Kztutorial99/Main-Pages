@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kuis Termux & Linux — Kz.tutorial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="page.css" />
+  <link rel="preload" as="image" href="/logo.jpg" fetchpriority="high" />
+  <style>
+    /* ===== QUIZ PAGE ===== */
+    .quiz-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 1.2rem 4rem;
+    }
+
+    /* --- SCREEN STATES --- */
+    .qz-screen { display: none; }
+    .qz-screen.active { display: block; }
+
+    /* ===== INTRO SCREEN ===== */
+    .qz-intro-card {
+      background: linear-gradient(135deg, rgba(10,26,76,.80) 0%, rgba(2,18,54,.95) 100%);
+      border: 1px solid rgba(96,165,250,.20);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .qz-intro-icon {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, #1d4ed8, #0369a1);
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 8px 32px rgba(29,78,216,.40);
+    }
+    .qz-intro-title {
+      font-size: 1.9rem; font-weight: 800; color: var(--white);
+      margin-bottom: .6rem; line-height: 1.2;
+    }
+    .qz-intro-title span { color: #60a5fa; }
+    .qz-intro-sub {
+      font-size: .93rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.6;
+    }
+    .qz-stats-row {
+      display: flex; justify-content: center; gap: 1rem;
+      flex-wrap: wrap; margin-bottom: 2rem;
+    }
+    .qz-stat {
+      background: rgba(96,165,250,.08);
+      border: 1px solid rgba(96,165,250,.18);
+      border-radius: 12px;
+      padding: .7rem 1.2rem;
+      text-align: center; min-width: 90px;
+    }
+    .qz-stat-val {
+      font-size: 1.4rem; font-weight: 800; color: #60a5fa;
+      font-family: var(--font-mono); line-height: 1;
+    }
+    .qz-stat-lbl {
+      font-size: .72rem; color: var(--text-muted); margin-top: .25rem;
+      text-transform: uppercase; letter-spacing: .05em;
+    }
+    .qz-level-row {
+      display: flex; gap: .6rem; justify-content: center;
+      flex-wrap: wrap; margin-bottom: 2rem;
+    }
+    .qz-level-btn {
+      padding: .5rem 1.2rem;
+      border-radius: 999px;
+      font-size: .82rem; font-weight: 600;
+      font-family: var(--font);
+      border: 1px solid rgba(96,165,250,.30);
+      background: rgba(10,26,76,.70);
+      color: #93b8d8;
+      cursor: pointer; outline: none;
+      transition: all .2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .qz-level-btn.selected,
+    .qz-level-btn:hover {
+      background: linear-gradient(135deg, #1d4ed8, #0369a1);
+      border-color: rgba(96,165,250,.60);
+      color: #fff;
+      box-shadow: 0 2px 16px rgba(29,78,216,.40);
+    }
+    .qz-start-btn {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: linear-gradient(135deg, #1d4ed8, #0369a1);
+      color: #fff;
+      border: none; border-radius: 14px;
+      padding: .85rem 2.2rem;
+      font-size: 1rem; font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      box-shadow: 0 4px 24px rgba(29,78,216,.45);
+      transition: transform .2s ease, box-shadow .2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .qz-start-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(29,78,216,.60); }
+    .qz-start-btn:active { transform: translateY(0); }
+
+    /* ===== QUIZ SCREEN ===== */
+    .qz-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.5rem; gap: 1rem;
+    }
+    .qz-progress-wrap { flex: 1; }
+    .qz-progress-label {
+      font-size: .75rem; color: var(--text-muted);
+      margin-bottom: .35rem; display: flex; justify-content: space-between;
+    }
+    .qz-progress-bar {
+      height: 5px; background: rgba(96,165,250,.12);
+      border-radius: 999px; overflow: hidden;
+    }
+    .qz-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1d4ed8, #38bdf8);
+      border-radius: 999px;
+      transition: width .4s cubic-bezier(.4,0,.2,1);
+    }
+    .qz-timer {
+      display: flex; align-items: center; gap: .4rem;
+      background: rgba(10,26,76,.80);
+      border: 1px solid rgba(96,165,250,.20);
+      border-radius: 10px; padding: .4rem .8rem;
+      font-family: var(--font-mono); font-size: .95rem; font-weight: 700;
+      color: #60a5fa; min-width: 58px; justify-content: center;
+      transition: color .3s, border-color .3s;
+    }
+    .qz-timer.warn { color: #f87171; border-color: rgba(248,113,113,.40); }
+    .qz-timer.warn svg { stroke: #f87171; }
+
+    .qz-card {
+      background: linear-gradient(135deg, rgba(10,26,76,.80) 0%, rgba(2,18,54,.95) 100%);
+      border: 1px solid rgba(96,165,250,.18);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 1.2rem;
+    }
+    .qz-q-meta {
+      display: flex; align-items: center; gap: .6rem;
+      margin-bottom: 1.1rem;
+    }
+    .qz-q-badge {
+      font-size: .7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; padding: .2rem .6rem;
+      border-radius: 6px;
+    }
+    .qz-q-badge.termux { background: rgba(96,165,250,.15); color: #60a5fa; }
+    .qz-q-badge.linux  { background: rgba(52,211,153,.12); color: #34d399; }
+    .qz-q-badge.android { background: rgba(167,139,250,.12); color: #a78bfa; }
+    .qz-q-badge.tools { background: rgba(251,191,36,.12); color: #fbbf24; }
+
+    .qz-q-num { font-size: .75rem; color: var(--text-muted); margin-left: auto; }
+
+    .qz-question {
+      font-size: 1.08rem; font-weight: 600; color: var(--white);
+      line-height: 1.6; margin-bottom: 1.5rem;
+    }
+    .qz-question code {
+      font-family: var(--font-mono); font-size: .9em;
+      background: rgba(96,165,250,.12); color: #93c5fd;
+      padding: .1rem .4rem; border-radius: 5px;
+    }
+
+    .qz-options { display: flex; flex-direction: column; gap: .7rem; }
+    .qz-opt {
+      display: flex; align-items: center; gap: .9rem;
+      padding: .85rem 1.1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(96,165,250,.18);
+      background: rgba(10,26,76,.50);
+      cursor: pointer;
+      transition: all .18s ease;
+      -webkit-tap-highlight-color: transparent;
+      text-align: left;
+    }
+    .qz-opt:hover:not(.disabled) {
+      border-color: rgba(96,165,250,.50);
+      background: rgba(29,78,216,.20);
+    }
+    .qz-opt.selected {
+      border-color: rgba(96,165,250,.55);
+      background: rgba(29,78,216,.25);
+    }
+    .qz-opt.correct {
+      border-color: rgba(52,211,153,.60) !important;
+      background: rgba(52,211,153,.12) !important;
+    }
+    .qz-opt.wrong {
+      border-color: rgba(248,113,113,.50) !important;
+      background: rgba(248,113,113,.10) !important;
+    }
+    .qz-opt.disabled { cursor: default; pointer-events: none; }
+    .qz-opt-key {
+      width: 28px; height: 28px; flex-shrink: 0;
+      border-radius: 8px;
+      background: rgba(96,165,250,.10);
+      border: 1px solid rgba(96,165,250,.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700;
+      color: #60a5fa; font-family: var(--font-mono);
+      transition: all .18s ease;
+    }
+    .qz-opt.correct .qz-opt-key { background: rgba(52,211,153,.20); border-color: #34d399; color: #34d399; }
+    .qz-opt.wrong   .qz-opt-key { background: rgba(248,113,113,.20); border-color: #f87171; color: #f87171; }
+    .qz-opt-text {
+      font-size: .9rem; color: #cbd5e1; font-weight: 500; line-height: 1.45;
+    }
+    .qz-opt.correct .qz-opt-text { color: #6ee7b7; }
+    .qz-opt.wrong   .qz-opt-text { color: #fca5a5; }
+
+    /* feedback strip */
+    .qz-feedback {
+      margin-top: 1rem;
+      padding: .85rem 1.1rem;
+      border-radius: 12px;
+      font-size: .87rem; line-height: 1.55;
+      display: none;
+    }
+    .qz-feedback.show { display: block; }
+    .qz-feedback.ok  { background: rgba(52,211,153,.10); border: 1px solid rgba(52,211,153,.30); color: #6ee7b7; }
+    .qz-feedback.no  { background: rgba(248,113,113,.08); border: 1px solid rgba(248,113,113,.25); color: #fca5a5; }
+    .qz-feedback strong { font-weight: 700; }
+
+    .qz-next-btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: linear-gradient(135deg, #1d4ed8, #0369a1);
+      color: #fff; border: none; border-radius: 12px;
+      padding: .75rem 1.8rem;
+      font-size: .9rem; font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer; margin-top: 1.2rem;
+      box-shadow: 0 3px 18px rgba(29,78,216,.40);
+      transition: transform .18s ease, box-shadow .18s ease;
+      -webkit-tap-highlight-color: transparent;
+      display: none;
+    }
+    .qz-next-btn.show { display: inline-flex; }
+    .qz-next-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(29,78,216,.55); }
+
+    /* streak badge */
+    .qz-streak {
+      font-size: .8rem; color: #fbbf24;
+      font-weight: 700; margin-left: .3rem; display: none;
+    }
+    .qz-streak.show { display: inline; }
+
+    /* ===== RESULT SCREEN ===== */
+    .qz-result-card {
+      background: linear-gradient(135deg, rgba(10,26,76,.85) 0%, rgba(2,18,54,.98) 100%);
+      border: 1px solid rgba(96,165,250,.22);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .qz-result-icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2.5rem;
+    }
+    .qz-result-icon.great { background: linear-gradient(135deg, rgba(52,211,153,.25), rgba(16,185,129,.15)); border: 2px solid rgba(52,211,153,.50); }
+    .qz-result-icon.good  { background: linear-gradient(135deg, rgba(96,165,250,.25), rgba(29,78,216,.15)); border: 2px solid rgba(96,165,250,.50); }
+    .qz-result-icon.ok    { background: linear-gradient(135deg, rgba(251,191,36,.20), rgba(245,158,11,.12)); border: 2px solid rgba(251,191,36,.45); }
+    .qz-result-icon.low   { background: linear-gradient(135deg, rgba(248,113,113,.20), rgba(239,68,68,.12)); border: 2px solid rgba(248,113,113,.45); }
+
+    .qz-result-grade {
+      font-size: .8rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; margin-bottom: .5rem;
+    }
+    .qz-result-grade.great { color: #34d399; }
+    .qz-result-grade.good  { color: #60a5fa; }
+    .qz-result-grade.ok    { color: #fbbf24; }
+    .qz-result-grade.low   { color: #f87171; }
+
+    .qz-result-title {
+      font-size: 1.6rem; font-weight: 800; color: var(--white);
+      margin-bottom: .5rem; line-height: 1.2;
+    }
+    .qz-result-sub {
+      font-size: .9rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.6;
+    }
+    .qz-score-ring {
+      width: 130px; height: 130px;
+      margin: 0 auto 2rem;
+      position: relative;
+    }
+    .qz-score-ring svg { transform: rotate(-90deg); }
+    .qz-score-ring-track { fill: none; stroke: rgba(96,165,250,.10); stroke-width: 9; }
+    .qz-score-ring-fill  {
+      fill: none; stroke-width: 9; stroke-linecap: round;
+      stroke-dasharray: 339.3;
+      stroke-dashoffset: 339.3;
+      transition: stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1);
+    }
+    .qz-score-ring-text {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .qz-score-big {
+      font-size: 2rem; font-weight: 900; color: var(--white);
+      font-family: var(--font-mono); line-height: 1;
+    }
+    .qz-score-of { font-size: .72rem; color: var(--text-muted); margin-top: .15rem; }
+
+    .qz-result-stats {
+      display: flex; justify-content: center; gap: .8rem;
+      flex-wrap: wrap; margin-bottom: 2rem;
+    }
+    .qz-rs {
+      background: rgba(96,165,250,.07);
+      border: 1px solid rgba(96,165,250,.15);
+      border-radius: 12px; padding: .65rem 1rem;
+      min-width: 80px; text-align: center;
+    }
+    .qz-rs-val { font-size: 1.2rem; font-weight: 800; font-family: var(--font-mono); }
+    .qz-rs-lbl { font-size: .68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; margin-top: .2rem; }
+    .qz-rs.correct-col .qz-rs-val { color: #34d399; }
+    .qz-rs.wrong-col   .qz-rs-val { color: #f87171; }
+    .qz-rs.time-col    .qz-rs-val { color: #fbbf24; }
+    .qz-rs.streak-col  .qz-rs-val { color: #a78bfa; }
+
+    .qz-result-btns {
+      display: flex; gap: .8rem; justify-content: center; flex-wrap: wrap;
+    }
+    .qz-btn-outline {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: transparent;
+      border: 1px solid rgba(96,165,250,.35);
+      color: #93b8d8; border-radius: 12px;
+      padding: .7rem 1.5rem;
+      font-size: .88rem; font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: all .2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .qz-btn-outline:hover { border-color: rgba(96,165,250,.65); color: #fff; background: rgba(96,165,250,.08); }
+    .qz-btn-primary {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: linear-gradient(135deg, #1d4ed8, #0369a1);
+      color: #fff; border: none; border-radius: 12px;
+      padding: .7rem 1.8rem;
+      font-size: .88rem; font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(29,78,216,.40);
+      transition: transform .2s ease, box-shadow .2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .qz-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(29,78,216,.55); }
+
+    /* review section */
+    .qz-review { margin-top: 2rem; text-align: left; }
+    .qz-review-title {
+      font-size: .8rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .qz-review-item {
+      background: rgba(10,26,76,.50);
+      border-radius: 12px; padding: 1rem 1.1rem;
+      margin-bottom: .6rem;
+      border-left: 3px solid transparent;
+    }
+    .qz-review-item.correct-item { border-left-color: #34d399; }
+    .qz-review-item.wrong-item   { border-left-color: #f87171; }
+    .qz-review-q { font-size: .82rem; color: #cbd5e1; margin-bottom: .45rem; line-height: 1.45; }
+    .qz-review-q code { font-family: var(--font-mono); font-size: .88em; background: rgba(96,165,250,.10); color: #93c5fd; padding: .05rem .3rem; border-radius: 4px; }
+    .qz-review-ans { font-size: .78rem; }
+    .qz-review-ans span { font-family: var(--font-mono); }
+    .qz-review-ans .correct-ans { color: #34d399; }
+    .qz-review-ans .wrong-ans   { color: #f87171; }
+
+    /* confetti */
+    .qz-confetti {
+      position: fixed; inset: 0; pointer-events: none;
+      overflow: hidden; z-index: 9999;
+    }
+    .qz-confetti-bit {
+      position: absolute; width: 8px; height: 8px;
+      border-radius: 2px;
+      animation: confettiFall linear forwards;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* entry animation */
+    @keyframes qzCardIn {
+      from { opacity: 0; transform: translateY(18px) scale(.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .qz-card { animation: qzCardIn .35s ease both; }
+
+    @media (max-width: 520px) {
+      .qz-intro-title { font-size: 1.5rem; }
+      .qz-card { padding: 1.3rem 1rem; }
+      .qz-question { font-size: .95rem; }
+      .qz-opt { padding: .7rem .85rem; gap: .7rem; }
+      .qz-opt-text { font-size: .85rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar" id="mainNav">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">
+      <img src="logo.jpg" alt="Kz.tutorial" width="36" height="36" style="border-radius:50%;object-fit:cover;" />
+      <img src="iwx-team.webp" alt="IWX" width="32" height="32" style="border-radius:50%;object-fit:cover;margin-left:4px;" />
+      <span class="nav-brand">IWX <span class="nav-brand-accent">TEAM</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link">Home</a></li>
+      <li><a href="/#videos" class="nav-link">Videos</a></li>
+      <li><a href="/#about" class="nav-link">About</a></li>
+    </ul>
+    <a href="/#subscribe" class="btn-subscribe">Subscribe</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile-menu" id="mobileMenu">
+    <a href="/" class="nav-mobile-link">Home</a>
+    <a href="/#videos" class="nav-mobile-link">Videos</a>
+    <a href="/#about" class="nav-mobile-link">About</a>
+    <a href="/#subscribe" class="nav-mobile-link">Subscribe</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <div class="page-breadcrumb">
+      <a href="/">Home</a>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="9 18 15 12 9 6"/></svg>
+      <span>Kuis</span>
+    </div>
+    <div class="page-eyebrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      UJI KEMAMPUANMU
+    </div>
+    <h1 class="page-title">Kuis <span class="page-title-accent">Termux & Linux</span></h1>
+    <p class="page-desc">Tes seberapa dalam pemahamanmu tentang Termux, Linux, dan hacking tools. Ada penjelasan untuk setiap jawaban.</p>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="page-main">
+  <div class="quiz-wrap">
+
+    <!-- ===== INTRO ===== -->
+    <div class="qz-screen active" id="screen-intro">
+      <div class="qz-intro-card">
+        <div class="qz-intro-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="34" height="34"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <h2 class="qz-intro-title">Kuis <span>Termux & Linux</span></h2>
+        <p class="qz-intro-sub">Pilih level kesulitan, lalu jawab pertanyaan pilihan ganda.<br>Setiap soal punya penjelasan setelah kamu menjawab.</p>
+        <div class="qz-stats-row">
+          <div class="qz-stat"><div class="qz-stat-val" id="stat-total">15</div><div class="qz-stat-lbl">Soal</div></div>
+          <div class="qz-stat"><div class="qz-stat-val">20s</div><div class="qz-stat-lbl">Per soal</div></div>
+          <div class="qz-stat"><div class="qz-stat-val">4</div><div class="qz-stat-lbl">Pilihan</div></div>
+          <div class="qz-stat"><div class="qz-stat-val">+10</div><div class="qz-stat-lbl">Poin/benar</div></div>
+        </div>
+        <p style="font-size:.8rem;color:var(--text-muted);margin-bottom:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Pilih Level</p>
+        <div class="qz-level-row">
+          <button class="qz-level-btn selected" data-level="all">Semua</button>
+          <button class="qz-level-btn" data-level="easy">Pemula</button>
+          <button class="qz-level-btn" data-level="medium">Menengah</button>
+          <button class="qz-level-btn" data-level="hard">Expert</button>
+        </div>
+        <button class="qz-start-btn" id="startBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Mulai Kuis
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== QUIZ ===== -->
+    <div class="qz-screen" id="screen-quiz">
+      <div class="qz-header">
+        <div class="qz-progress-wrap">
+          <div class="qz-progress-label">
+            <span id="progLabel">Soal 1 / 15</span>
+            <span id="scoreLabel">Skor: 0 <span class="qz-streak" id="streakBadge">🔥 ×1</span></span>
+          </div>
+          <div class="qz-progress-bar">
+            <div class="qz-progress-fill" id="progFill" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="qz-timer" id="timerEl">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span id="timerNum">20</span>
+        </div>
+      </div>
+
+      <div class="qz-card" id="questionCard">
+        <div class="qz-q-meta">
+          <span class="qz-q-badge" id="qBadge">termux</span>
+          <span class="qz-q-num" id="qNum">1/15</span>
+        </div>
+        <div class="qz-question" id="questionText"></div>
+        <div class="qz-options" id="optionsWrap"></div>
+        <div class="qz-feedback" id="feedbackEl"></div>
+        <button class="qz-next-btn" id="nextBtn">
+          Lanjut
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== RESULT ===== -->
+    <div class="qz-screen" id="screen-result">
+      <div class="qz-result-card">
+        <div class="qz-result-icon" id="resultIcon"></div>
+        <p class="qz-result-grade" id="resultGrade"></p>
+        <h2 class="qz-result-title" id="resultTitle"></h2>
+        <p class="qz-result-sub" id="resultSub"></p>
+
+        <div class="qz-score-ring">
+          <svg width="130" height="130" viewBox="0 0 130 130">
+            <circle class="qz-score-ring-track" cx="65" cy="65" r="54"/>
+            <circle class="qz-score-ring-fill" id="ringFill" cx="65" cy="65" r="54"/>
+          </svg>
+          <div class="qz-score-ring-text">
+            <div class="qz-score-big" id="scoreBig">0</div>
+            <div class="qz-score-of" id="scoreOf">dari 0</div>
+          </div>
+        </div>
+
+        <div class="qz-result-stats">
+          <div class="qz-rs correct-col"><div class="qz-rs-val" id="rsCorrect">0</div><div class="qz-rs-lbl">Benar</div></div>
+          <div class="qz-rs wrong-col"><div class="qz-rs-val" id="rsWrong">0</div><div class="qz-rs-lbl">Salah</div></div>
+          <div class="qz-rs time-col"><div class="qz-rs-val" id="rsTime">0s</div><div class="qz-rs-lbl">Waktu</div></div>
+          <div class="qz-rs streak-col"><div class="qz-rs-val" id="rsStreak">0</div><div class="qz-rs-lbl">Streak</div></div>
+        </div>
+
+        <div class="qz-result-btns">
+          <button class="qz-btn-outline" id="reviewBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Review Jawaban
+          </button>
+          <button class="qz-btn-primary" id="retryBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+            Main Lagi
+          </button>
+        </div>
+
+        <div class="qz-review" id="reviewSection" style="display:none;">
+          <p class="qz-review-title">Review Semua Jawaban</p>
+          <div id="reviewList"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /quiz-wrap -->
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand-row">
+      <a href="/" class="footer-logo-link">
+        <img src="logo.jpg" alt="Kz.tutorial" width="38" height="38" style="border-radius:50%;object-fit:cover;" />
+        <img src="iwx-team.webp" alt="IWX" width="34" height="34" style="border-radius:50%;object-fit:cover;margin-left:4px;" />
+        <span class="footer-brand-name">IWX <span>TEAM</span></span>
+      </a>
+      <p class="footer-tagline">Platform edukasi Termux, Linux &amp; Android — 100% Bahasa Indonesia.</p>
+    </div>
+    <div class="footer-nav-cols">
+      <div class="footer-col">
+        <h5 class="footer-col-title">Konten</h5>
+        <ul>
+          <li><a href="/#videos">Tutorial Unggulan</a></li>
+          <li><a href="/#about">Tentang Platform</a></li>
+          <li><a href="/topik">Semua Topik</a></li>
+          <li><a href="/quiz">Kuis Termux &amp; Linux</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5 class="footer-col-title"><a href="/topik" style="color:inherit;text-decoration:none;">Topik</a></h5>
+        <ul>
+          <li><a href="/termux">Tutorial Termux</a></li>
+          <li><a href="/topik">Panduan Linux</a></li>
+          <li><a href="/tools">Tools &amp; Scripts</a></li>
+          <li><a href="/topik">Tips &amp; Trik</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5 class="footer-col-title"><a href="/legal" style="color:inherit;text-decoration:none;">Legal</a></h5>
+        <ul>
+          <li><a href="/legal#privasi">Kebijakan Privasi</a></li>
+          <li><a href="/legal#syarat">Syarat Penggunaan</a></li>
+          <li><a href="/legal#disclaimer">Disclaimer</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- CONFETTI CONTAINER -->
+<div class="qz-confetti" id="confettiWrap"></div>
+
+<script>
+/* ================================================================
+   BANK SOAL
+================================================================ */
+const ALL_QUESTIONS = [
+  /* --- TERMUX EASY --- */
+  {
+    cat: 'termux', level: 'easy',
+    q: 'Perintah apa yang digunakan untuk mengupdate daftar package di Termux?',
+    opts: ['pkg update', 'apt upgrade', 'pkg refresh', 'update-packages'],
+    ans: 0,
+    why: '<strong>pkg update</strong> memperbarui daftar package dari repository Termux. Selalu jalankan ini sebelum install package baru.'
+  },
+  {
+    cat: 'termux', level: 'easy',
+    q: 'Dari mana sebaiknya mengunduh Termux yang benar?',
+    opts: ['Google Play Store', 'Aptoide', 'F-Droid atau GitHub Releases', 'Samsung Galaxy Store'],
+    ans: 2,
+    why: 'Versi <strong>Google Play Store</strong> sudah tidak diupdate sejak 2020. Gunakan <strong>F-Droid</strong> atau <strong>GitHub Releases</strong> untuk versi terbaru.'
+  },
+  {
+    cat: 'termux', level: 'easy',
+    q: 'Perintah apa yang digunakan untuk menginstall Python di Termux?',
+    opts: ['apt install python3', 'pkg install python', 'pip install python', 'install python3'],
+    ans: 1,
+    why: '<strong>pkg install python</strong> adalah cara install Python di Termux. Package manager Termux bernama <code>pkg</code>, alias dari <code>apt</code>.'
+  },
+  {
+    cat: 'termux', level: 'easy',
+    q: 'Apa fungsi perintah <code>termux-setup-storage</code>?',
+    opts: [
+      'Menginstall storage manager',
+      'Memberi akses Termux ke penyimpanan internal Android',
+      'Memformat kartu SD',
+      'Menampilkan info storage'
+    ],
+    ans: 1,
+    why: '<strong>termux-setup-storage</strong> meminta izin akses ke penyimpanan internal. Setelah dijalankan, folder <code>~/storage/</code> akan terhubung ke storage Android.'
+  },
+  {
+    cat: 'termux', level: 'easy',
+    q: 'Perintah apa yang menampilkan daftar file dan folder di direktori saat ini?',
+    opts: ['dir', 'list', 'ls', 'show files'],
+    ans: 2,
+    why: '<strong>ls</strong> (list) adalah perintah dasar Linux/Termux untuk menampilkan isi direktori. Gunakan <code>ls -la</code> untuk detail lengkap termasuk file tersembunyi.'
+  },
+
+  /* --- LINUX EASY --- */
+  {
+    cat: 'linux', level: 'easy',
+    q: 'Apa simbol yang merepresentasikan direktori home user di Linux?',
+    opts: ['/', '@', '~', '#'],
+    ans: 2,
+    why: 'Simbol <strong>~</strong> (tilde) merujuk ke direktori home user, misalnya <code>/home/user</code> di Linux atau <code>/data/data/com.termux/files/home</code> di Termux.'
+  },
+  {
+    cat: 'linux', level: 'easy',
+    q: 'Perintah apa yang digunakan untuk berpindah direktori?',
+    opts: ['mv', 'goto', 'cd', 'dir'],
+    ans: 2,
+    why: '<strong>cd</strong> (change directory) digunakan untuk berpindah folder. Contoh: <code>cd /sdcard</code> atau <code>cd ~</code> untuk kembali ke home.'
+  },
+  {
+    cat: 'linux', level: 'easy',
+    q: 'Perintah apa yang digunakan untuk membuat folder baru?',
+    opts: ['createdir', 'newdir', 'touch', 'mkdir'],
+    ans: 3,
+    why: '<strong>mkdir</strong> (make directory) membuat folder baru. Gunakan <code>mkdir -p folder/subfolder</code> untuk membuat nested folder sekaligus.'
+  },
+
+  /* --- TERMUX MEDIUM --- */
+  {
+    cat: 'termux', level: 'medium',
+    q: 'Perintah apa yang digunakan untuk melihat proses yang sedang berjalan di Termux?',
+    opts: ['ps aux', 'tasklist', 'proc show', 'jobs -l'],
+    ans: 0,
+    why: '<strong>ps aux</strong> menampilkan semua proses aktif. Di Termux, kamu juga bisa install <code>htop</code> untuk tampilan interaktif dengan <code>pkg install htop</code>.'
+  },
+  {
+    cat: 'termux', level: 'medium',
+    q: 'Apa kegunaan flag <code>-y</code> pada perintah <code>pkg install nmap -y</code>?',
+    opts: [
+      'Menjalankan di background',
+      'Mengabaikan error instalasi',
+      'Otomatis menjawab "yes" tanpa konfirmasi',
+      'Install versi terbaru saja'
+    ],
+    ans: 2,
+    why: 'Flag <strong>-y</strong> berarti "yes to all" — otomatis menjawab konfirmasi instalasi sehingga tidak perlu menekan Enter secara manual.'
+  },
+  {
+    cat: 'tools', level: 'medium',
+    q: 'Apa fungsi utama tool <code>nmap</code>?',
+    opts: [
+      'Crack password hash',
+      'Scan port dan layanan jaringan',
+      'Fuzzing web application',
+      'Download file via HTTP'
+    ],
+    ans: 1,
+    why: '<strong>Nmap</strong> (Network Mapper) digunakan untuk <strong>scan port</strong> dan mendeteksi layanan/OS pada target. Contoh: <code>nmap -sV 192.168.1.1</code>.'
+  },
+  {
+    cat: 'linux', level: 'medium',
+    q: 'Apa arti permission <code>chmod 755</code> pada sebuah file?',
+    opts: [
+      'Owner bisa baca/tulis/eksekusi; Group & Others hanya baca/eksekusi',
+      'Semua user bisa baca/tulis/eksekusi',
+      'Hanya owner yang bisa akses',
+      'Owner baca saja; Group tulis; Others eksekusi'
+    ],
+    ans: 0,
+    why: '<strong>chmod 755</strong>: Owner = 7 (rwx), Group = 5 (r-x), Others = 5 (r-x). Angka 7 = 4+2+1 = read+write+execute.'
+  },
+  {
+    cat: 'tools', level: 'medium',
+    q: 'Perintah apa yang digunakan untuk mengkloning repository dari GitHub?',
+    opts: ['git pull', 'git clone <url>', 'git fetch', 'git init <url>'],
+    ans: 1,
+    why: '<strong>git clone &lt;url&gt;</strong> menyalin seluruh repository beserta history-nya ke lokal. <code>git pull</code> hanya mengupdate repository yang sudah ada.'
+  },
+
+  /* --- TERMUX HARD --- */
+  {
+    cat: 'termux', level: 'hard',
+    q: 'Bagaimana cara menjalankan perintah di background di Termux agar tetap jalan saat terminal ditutup?',
+    opts: [
+      'nohup command &',
+      'bg command',
+      'start --background command',
+      'command --daemon'
+    ],
+    ans: 0,
+    why: '<strong>nohup command &</strong> menjalankan proses di background dan mengabaikan sinyal SIGHUP (terminal ditutup). Output tersimpan di <code>nohup.out</code>. Alternatif: gunakan <strong>tmux</strong>.'
+  },
+  {
+    cat: 'linux', level: 'hard',
+    q: 'Apa perbedaan antara <code>></code> dan <code>>></code> saat redirect output di terminal?',
+    opts: [
+      '> overwrite file; >> append ke file',
+      '> append ke file; >> overwrite file',
+      'Keduanya sama saja',
+      '> redirect stderr; >> redirect stdout'
+    ],
+    ans: 0,
+    why: '<strong>&gt;</strong> menimpa (overwrite) isi file. <strong>&gt;&gt;</strong> menambahkan (append) ke akhir file tanpa menghapus isi sebelumnya. Contoh: <code>echo "test" >> log.txt</code>.'
+  },
+  {
+    cat: 'tools', level: 'hard',
+    q: 'Apa output dari perintah <code>echo $PATH</code> di terminal?',
+    opts: [
+      'Lokasi file saat ini',
+      'Daftar direktori tempat sistem mencari executable',
+      'Nama user yang sedang login',
+      'Versi OS yang digunakan'
+    ],
+    ans: 1,
+    why: '<strong>$PATH</strong> adalah environment variable yang berisi daftar direktori (dipisah `:`) tempat sistem mencari program/executable. Contoh: <code>/usr/bin:/bin:/data/data/com.termux/files/usr/bin</code>.'
+  },
+  {
+    cat: 'android', level: 'hard',
+    q: 'Apa yang dimaksud dengan <code>ADB</code> pada ekosistem Android?',
+    opts: [
+      'Android Debug Bridge — tool komunikasi PC ke perangkat Android',
+      'Android Database Builder — tools untuk buat database',
+      'App Deployment Build — proses deploy APK',
+      'Advanced Device Backup — backup data Android'
+    ],
+    ans: 0,
+    why: '<strong>ADB (Android Debug Bridge)</strong> adalah command-line tool yang memungkinkan komunikasi antara PC dan perangkat Android untuk debug, install APK, dan akses shell.'
+  },
+];
+
+/* ================================================================
+   STATE
+================================================================ */
+let questions = [];
+let current   = 0;
+let score     = 0;
+let streak    = 0;
+let maxStreak = 0;
+let timeLeft  = 20;
+let timerInt  = null;
+let totalTime = 0;
+let startTime = 0;
+let answered  = false;
+let history   = []; // {q, userAns, correct}
+let selectedLevel = 'all';
+
+/* ================================================================
+   HELPERS
+================================================================ */
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function show(id) {
+  document.querySelectorAll('.qz-screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* ================================================================
+   LEVEL BUTTONS
+================================================================ */
+document.querySelectorAll('.qz-level-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.qz-level-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedLevel = btn.dataset.level;
+
+    const pool = selectedLevel === 'all'
+      ? ALL_QUESTIONS
+      : ALL_QUESTIONS.filter(q => q.level === selectedLevel);
+    document.getElementById('stat-total').textContent = Math.min(pool.length, 15);
+  });
+});
+
+/* ================================================================
+   START
+================================================================ */
+document.getElementById('startBtn').addEventListener('click', startQuiz);
+
+function startQuiz() {
+  const pool = selectedLevel === 'all'
+    ? ALL_QUESTIONS
+    : ALL_QUESTIONS.filter(q => q.level === selectedLevel);
+
+  questions = shuffle(pool).slice(0, 15);
+  current   = 0; score = 0; streak = 0; maxStreak = 0;
+  history   = []; totalTime = 0; startTime = Date.now();
+
+  show('screen-quiz');
+  renderQuestion();
+}
+
+/* ================================================================
+   RENDER QUESTION
+================================================================ */
+function renderQuestion() {
+  answered = false;
+  const q = questions[current];
+  const total = questions.length;
+
+  /* progress */
+  document.getElementById('progLabel').textContent = `Soal ${current + 1} / ${total}`;
+  document.getElementById('scoreLabel').innerHTML  = `Skor: ${score} <span class="qz-streak ${streak >= 2 ? 'show' : ''}" id="streakBadge">🔥 ×${streak}</span>`;
+  document.getElementById('progFill').style.width  = `${(current / total) * 100}%`;
+
+  /* badge */
+  const badge = document.getElementById('qBadge');
+  badge.textContent = q.cat.charAt(0).toUpperCase() + q.cat.slice(1);
+  badge.className   = `qz-q-badge ${q.cat}`;
+
+  document.getElementById('qNum').textContent   = `${current + 1}/${total}`;
+  document.getElementById('questionText').innerHTML = q.q;
+
+  /* options */
+  const wrap = document.getElementById('optionsWrap');
+  wrap.innerHTML = '';
+  const keys = ['A', 'B', 'C', 'D'];
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'qz-opt';
+    btn.dataset.idx = i;
+    btn.innerHTML = `<span class="qz-opt-key">${keys[i]}</span><span class="qz-opt-text">${opt}</span>`;
+    btn.addEventListener('click', () => handleAnswer(i));
+    wrap.appendChild(btn);
+  });
+
+  /* reset feedback */
+  const fb = document.getElementById('feedbackEl');
+  fb.className = 'qz-feedback';
+  fb.innerHTML = '';
+
+  /* hide next button */
+  document.getElementById('nextBtn').className = 'qz-next-btn';
+
+  /* re-animate card */
+  const card = document.getElementById('questionCard');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = '';
+
+  /* start timer */
+  startTimer();
+}
+
+/* ================================================================
+   TIMER
+================================================================ */
+function startTimer() {
+  clearInterval(timerInt);
+  timeLeft = 20;
+  updateTimerUI();
+  timerInt = setInterval(() => {
+    timeLeft--;
+    updateTimerUI();
+    if (timeLeft <= 0) {
+      clearInterval(timerInt);
+      if (!answered) handleAnswer(-1); // timeout
+    }
+  }, 1000);
+}
+
+function updateTimerUI() {
+  const el  = document.getElementById('timerNum');
+  const box = document.getElementById('timerEl');
+  el.textContent = timeLeft;
+  if (timeLeft <= 5) box.classList.add('warn');
+  else               box.classList.remove('warn');
+}
+
+/* ================================================================
+   HANDLE ANSWER
+================================================================ */
+function handleAnswer(chosen) {
+  if (answered) return;
+  answered = true;
+  clearInterval(timerInt);
+
+  const q       = questions[current];
+  const isRight = chosen === q.ans;
+  const opts    = document.querySelectorAll('.qz-opt');
+  const timeTaken = 20 - timeLeft;
+  totalTime += timeTaken;
+
+  opts.forEach(o => o.classList.add('disabled'));
+
+  if (chosen >= 0) opts[chosen].classList.add(isRight ? 'correct' : 'wrong');
+  opts[q.ans].classList.add('correct');
+
+  /* score & streak */
+  if (isRight) {
+    const bonus = streak >= 2 ? 5 : 0;
+    score += 10 + bonus;
+    streak++;
+    if (streak > maxStreak) maxStreak = streak;
+  } else {
+    streak = 0;
+  }
+
+  history.push({ q: q.q, userAns: chosen >= 0 ? q.opts[chosen] : '(Waktu habis)', correctAns: q.opts[q.ans], isRight });
+
+  /* feedback */
+  const fb = document.getElementById('feedbackEl');
+  fb.className = `qz-feedback show ${isRight ? 'ok' : 'no'}`;
+  fb.innerHTML = (isRight
+    ? '<strong>Benar!</strong> '
+    : (chosen === -1 ? '<strong>Waktu habis!</strong> ' : '<strong>Salah.</strong> '))
+    + q.why;
+
+  /* update score label */
+  document.getElementById('scoreLabel').innerHTML = `Skor: ${score} <span class="qz-streak ${streak >= 2 ? 'show' : ''}" id="streakBadge">🔥 ×${streak}</span>`;
+
+  /* next button */
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.className = 'qz-next-btn show';
+  nextBtn.textContent = current + 1 < questions.length ? 'Lanjut →' : 'Lihat Hasil';
+  if (current + 1 >= questions.length) {
+    nextBtn.innerHTML = `Lihat Hasil
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+  } else {
+    nextBtn.innerHTML = `Lanjut
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+  }
+}
+
+/* ================================================================
+   NEXT
+================================================================ */
+document.getElementById('nextBtn').addEventListener('click', () => {
+  current++;
+  if (current < questions.length) {
+    renderQuestion();
+  } else {
+    showResult();
+  }
+});
+
+/* ================================================================
+   RESULT
+================================================================ */
+function showResult() {
+  const total   = questions.length;
+  const correct = history.filter(h => h.isRight).length;
+  const wrong   = total - correct;
+  const pct     = Math.round((correct / total) * 100);
+
+  /* grade */
+  let grade, title, sub, cls, emoji;
+  if (pct >= 90)      { grade='LUAR BIASA'; title='Kamu Jagoan!'; sub='Penguasaanmu sangat baik. Terus eksplorasi dunia Linux & Termux!'; cls='great'; emoji='🏆'; }
+  else if (pct >= 70) { grade='BAGUS'; title='Hampir Sempurna!'; sub='Sedikit lagi! Pelajari soal yang salah dan coba lagi.'; cls='good'; emoji='🎯'; }
+  else if (pct >= 50) { grade='LUMAYAN'; title='Terus Belajar!'; sub='Kamu sudah paham sebagian. Baca panduan Termux untuk memperkuat dasarmu.'; cls='ok'; emoji='📚'; }
+  else                { grade='PERLU LATIHAN'; title='Jangan Menyerah!'; sub='Mulai dari dasar dulu. Baca Tutorial Termux kami dan coba kuis lagi.'; cls='low'; emoji='💪'; }
+
+  document.getElementById('resultIcon').className = `qz-result-icon ${cls}`;
+  document.getElementById('resultIcon').textContent = emoji;
+  document.getElementById('resultGrade').className  = `qz-result-grade ${cls}`;
+  document.getElementById('resultGrade').textContent = grade;
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultSub').textContent   = sub;
+  document.getElementById('scoreBig').textContent    = score;
+  document.getElementById('scoreOf').textContent     = `dari ${total * 10}`;
+  document.getElementById('rsCorrect').textContent   = correct;
+  document.getElementById('rsWrong').textContent     = wrong;
+  document.getElementById('rsTime').textContent      = `${totalTime}s`;
+  document.getElementById('rsStreak').textContent    = maxStreak;
+
+  show('screen-result');
+
+  /* ring animation */
+  const fill = document.getElementById('ringFill');
+  const circ = 2 * Math.PI * 54; // 339.3
+  const strokeColor = cls === 'great' ? '#34d399' : cls === 'good' ? '#60a5fa' : cls === 'ok' ? '#fbbf24' : '#f87171';
+  fill.style.stroke = strokeColor;
+  setTimeout(() => {
+    fill.style.strokeDashoffset = circ - (circ * pct / 100);
+  }, 100);
+
+  /* confetti if ≥ 70% */
+  if (pct >= 70) spawnConfetti();
+}
+
+/* ================================================================
+   CONFETTI
+================================================================ */
+function spawnConfetti() {
+  const wrap = document.getElementById('confettiWrap');
+  wrap.innerHTML = '';
+  const colors = ['#60a5fa','#34d399','#fbbf24','#a78bfa','#f87171','#38bdf8'];
+  for (let i = 0; i < 80; i++) {
+    const bit = document.createElement('div');
+    bit.className = 'qz-confetti-bit';
+    bit.style.cssText = `
+      left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${1.5 + Math.random()*2}s;
+      animation-delay:${Math.random()*.8}s;
+      transform:rotate(${Math.random()*360}deg);
+      width:${6+Math.random()*6}px;
+      height:${6+Math.random()*6}px;
+      border-radius:${Math.random()>0.5?'50%':'2px'};
+    `;
+    wrap.appendChild(bit);
+  }
+  setTimeout(() => { wrap.innerHTML = ''; }, 4000);
+}
+
+/* ================================================================
+   RETRY
+================================================================ */
+document.getElementById('retryBtn').addEventListener('click', () => {
+  document.getElementById('reviewSection').style.display = 'none';
+  show('screen-intro');
+});
+
+/* ================================================================
+   REVIEW
+================================================================ */
+document.getElementById('reviewBtn').addEventListener('click', () => {
+  const sec = document.getElementById('reviewSection');
+  if (sec.style.display !== 'none') { sec.style.display = 'none'; return; }
+
+  const list = document.getElementById('reviewList');
+  list.innerHTML = '';
+  history.forEach((h, i) => {
+    const item = document.createElement('div');
+    item.className = `qz-review-item ${h.isRight ? 'correct-item' : 'wrong-item'}`;
+    item.innerHTML = `
+      <div class="qz-review-q">${i+1}. ${h.q}</div>
+      <div class="qz-review-ans">
+        Jawabanmu: <span class="${h.isRight ? 'correct-ans' : 'wrong-ans'}">${h.userAns}</span>
+        ${!h.isRight ? ` &nbsp;|&nbsp; Benar: <span class="correct-ans">${h.correctAns}</span>` : ''}
+      </div>`;
+    list.appendChild(item);
+  });
+  sec.style.display = 'block';
+  sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+/* ================================================================
+   NAVBAR
+================================================================ */
+const navToggle = document.getElementById('navToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+if (navToggle && mobileMenu) {
+  navToggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+    navToggle.classList.toggle('open');
+  });
+}
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
+});
+</script>
+</body>
+</html>

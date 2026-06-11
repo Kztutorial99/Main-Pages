@@ -25,6 +25,7 @@ const routes = {
   '/legal':   'legal.html',
   '/tools':   'tools.html',
   '/termux':  'termux.html',
+  '/quiz':    'quiz.html',
 };
 
 const server = http.createServer((req, res) => {
