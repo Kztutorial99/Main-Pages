@@ -11,7 +11,7 @@
   position: relative;
   padding: 4rem 1.6rem 3.5rem;
   overflow: hidden;
-  background: linear-gradient(135deg, #04091a 0%, #071530 35%, #0a1e45 65%, #060e22 100%);
+  background: linear-gradient(135deg, #07080d 0%, #0a0e1c 40%, #0c1228 70%, #080a10 100%);
   border-bottom: 2px solid rgba(96,165,250,.22);
 }
 .page-hero::before {
