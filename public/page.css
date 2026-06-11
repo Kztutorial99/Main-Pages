@@ -246,7 +246,20 @@
   .page-section { padding: 2rem 1rem 3.5rem; }
   .topik-page-grid { grid-template-columns: 1fr; }
   .legal-panel-grid { grid-template-columns: 1fr; }
-  .legal-page-tabbar { gap: .4rem; }
-  .legal-page-tab { padding: .7rem .5rem; font-size: .78rem; gap: .35rem; }
-  .legal-page-tab svg { width: 13px; height: 13px; }
+  .legal-page-tabbar {
+    gap: .45rem;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .legal-page-tabbar::-webkit-scrollbar { display: none; }
+  .legal-page-tab {
+    flex: 0 0 auto;
+    padding: .7rem 1rem;
+    font-size: .82rem;
+    gap: .4rem;
+    white-space: nowrap;
+  }
 }
