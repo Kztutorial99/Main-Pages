@@ -8,14 +8,25 @@
   overlay.id = 'page-transition';
   document.body.appendChild(overlay);
 
-  // ── PAGE ENTER ──
-  // Overlay starts off-screen right (translateX(100%) via CSS default).
-  // Force it to slide OUT to the left so the page is revealed.
-  requestAnimationFrame(() => {
+  function revealPage() {
+    overlay.classList.remove('gone', 'covering');
+    overlay.offsetHeight;
     requestAnimationFrame(() => {
-      overlay.classList.add('leaving');
-      setTimeout(() => overlay.classList.add('gone'), LEAVE_DURATION + 50);
+      requestAnimationFrame(() => {
+        overlay.classList.add('leaving');
+        setTimeout(() => overlay.classList.add('gone'), LEAVE_DURATION + 50);
+      });
     });
+  }
+
+  // ── PAGE ENTER (normal load) ──
+  revealPage();
+
+  // ── PAGE ENTER (back/forward from bfcache) ──
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) {
+      revealPage();
+    }
   });
 
   // ── LINK CLICK — slide IN, navigate, new page slides OUT ──
