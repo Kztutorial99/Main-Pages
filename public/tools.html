@@ -14,7 +14,7 @@
   <style>
     /* ===== TOOLS PAGE STYLES ===== */
     .tools-filter-bar {
-      display: flex; align-items: center; gap: .5rem;
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
       flex-wrap: wrap; margin-bottom: 2.2rem;
     }
     .tools-filter-btn {
@@ -230,10 +230,12 @@
     /* ===== STATS BAR ===== */
     .tools-stats {
       display: flex; gap: 2rem; flex-wrap: wrap;
+      justify-content: center; align-items: center;
       margin-bottom: 2.5rem;
     }
     .tools-stat {
-      display: flex; flex-direction: column; gap: .2rem;
+      display: flex; flex-direction: column; align-items: center; gap: .2rem;
+      text-align: center;
     }
     .tools-stat-num {
       font-size: 1.6rem; font-weight: 900;
@@ -244,6 +246,35 @@
     .tools-stat-label {
       font-size: .72rem; color: var(--md-on-surface-variant);
       font-family: var(--mono); letter-spacing: .04em;
+    }
+
+    /* ===== SEARCH BAR ===== */
+    .tools-search-wrap {
+      display: flex; justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+    .tools-search {
+      position: relative; width: 100%; max-width: 480px;
+    }
+    .tools-search-input {
+      width: 100%; padding: .65rem 1rem .65rem 2.8rem;
+      background: rgba(8,22,65,.80);
+      border: 1px solid rgba(96,165,250,.28);
+      border-radius: var(--md-shape-full);
+      color: var(--text); font-size: .875rem; font-family: var(--font);
+      outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease;
+      box-sizing: border-box;
+    }
+    .tools-search-input::placeholder { color: var(--text-muted); }
+    .tools-search-input:focus {
+      border-color: rgba(96,165,250,.60);
+      box-shadow: 0 0 0 3px rgba(96,165,250,.10);
+    }
+    .tools-search-icon {
+      position: absolute; left: .9rem; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); pointer-events: none;
+      display: flex; align-items: center;
     }
 
     /* ===== COPY TOAST ===== */
@@ -347,6 +378,16 @@
           </div>
         </div>
 
+        <!-- Search Bar -->
+        <div class="tools-search-wrap">
+          <div class="tools-search">
+            <span class="tools-search-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </span>
+            <input type="text" class="tools-search-input" id="toolsSearch" placeholder="Cari tools... contoh: nmap, python, git" autocomplete="off" spellcheck="false" />
+          </div>
+        </div>
+
         <!-- Filter Bar -->
         <div class="tools-filter-bar">
           <button class="tools-filter-btn" data-filter="all">
@@ -369,6 +410,8 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
             Utility
           </button>
+        </div>
+        <div style="text-align:center; margin-top:-.8rem; margin-bottom:1.4rem;">
           <span class="tools-count" id="toolsCount"></span>
         </div>
 
@@ -952,28 +995,62 @@
   <script src="page.js"></script>
   <script src="fab.js"></script>
   <script>
-    // Filter functionality
+    // Filter + Search functionality
     const filterBtns  = document.querySelectorAll('.tools-filter-btn');
     const toolCards   = document.querySelectorAll('.tool-card');
     const countEl     = document.getElementById('toolsCount');
     const toolsGrid   = document.getElementById('toolsGrid');
     const emptyState  = document.getElementById('toolsEmptyState');
+    const searchInput = document.getElementById('toolsSearch');
+
+    let activeFilter = null;
+    let searchQuery  = '';
+
+    function applyFilters() {
+      const hasInput = activeFilter !== null || searchQuery.length > 0;
+      if (!hasInput) {
+        emptyState.style.display = 'flex';
+        toolsGrid.style.display  = 'none';
+        countEl.textContent = '';
+        return;
+      }
+      emptyState.style.display = 'none';
+      toolsGrid.style.display  = 'grid';
+      let visible = 0;
+      toolCards.forEach(card => {
+        const catMatch    = activeFilter === null || activeFilter === 'all' || card.dataset.cat === activeFilter;
+        const name        = card.querySelector('.tool-name')?.textContent.toLowerCase() || '';
+        const desc        = card.querySelector('.tool-desc')?.textContent.toLowerCase() || '';
+        const tags        = card.querySelector('.tool-tags')?.textContent.toLowerCase() || '';
+        const searchMatch = searchQuery === '' || name.includes(searchQuery) || desc.includes(searchQuery) || tags.includes(searchQuery);
+        const show = catMatch && searchMatch;
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      countEl.textContent = visible + ' tools';
+    }
 
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        let visible = 0;
-        toolCards.forEach(card => {
-          const match = filter === 'all' || card.dataset.cat === filter;
-          card.classList.toggle('hidden', !match);
-          if (match) visible++;
-        });
+        if (btn.classList.contains('active') && activeFilter === btn.dataset.filter) {
+          btn.classList.remove('active');
+          activeFilter = null;
+        } else {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeFilter = btn.dataset.filter;
+        }
+        applyFilters();
+      });
+    });
+
+    searchInput.addEventListener('input', () => {
+      searchQuery = searchInput.value.trim().toLowerCase();
+      if (searchQuery.length > 0) {
         emptyState.style.display = 'none';
         toolsGrid.style.display  = 'grid';
-        countEl.textContent = visible + ' tools';
-      });
+      }
+      applyFilters();
     });
 
     // Copy command functionality
