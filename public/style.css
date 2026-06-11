@@ -205,8 +205,8 @@ body {
 }
 .nav-logo:hover { opacity: .8; }
 .nav-logo .accent {
-  color: #7dd3fc;
-  text-shadow: 0 0 12px rgba(125,211,252,.70), 0 0 24px rgba(56,189,248,.40);
+  color: #0900ff;
+  text-shadow: 0 0 12px rgba(9,0,255,.60), 0 0 24px rgba(9,0,255,.30);
   font-weight: 700;
 }
 .logo-icon {
