@@ -205,10 +205,7 @@ body {
 }
 .nav-logo:hover { opacity: .8; }
 .nav-logo .accent {
-  background: linear-gradient(90deg, #38bdf8 0%, #818cf8 40%, #c084fc 70%, #f472b6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #5B9AFF;
   font-weight: 700;
   filter: drop-shadow(0 0 6px rgba(129,140,248,.55));
 }
