@@ -457,70 +457,94 @@
   <script>
   (function() {
     const KEY = 'kztutorial_rated';
-    const widget = document.getElementById('ratingWidget');
-    const stars = document.querySelectorAll('.rating-star');
-    const avgEl = document.getElementById('ratingAvg');
-    const countEl = document.getElementById('ratingCount');
-    const msgEl = document.getElementById('ratingMsg');
+    const stars  = document.querySelectorAll('.rating-star');
+    const avgEl  = document.getElementById('ratingAvg');
+    const countEl= document.getElementById('ratingCount');
+    const msgEl  = document.getElementById('ratingMsg');
 
-    function renderStars(avg, interactive) {
-      stars.forEach((s, i) => {
-        s.classList.remove('filled', 'half');
-        const val = i + 1;
-        if (avg >= val) s.classList.add('filled');
-        else if (avg >= val - 0.5) s.classList.add('half');
-        if (!interactive) s.style.cursor = 'default';
+    function highlightStars(upTo) {
+      stars.forEach((s, j) => {
+        s.classList.toggle('filled', j < upTo);
+        s.classList.remove('half');
       });
     }
 
-    function loadRating() {
+    function renderAvgStars(avg) {
+      stars.forEach((s, i) => {
+        s.classList.remove('filled', 'half');
+        if (avg >= i + 1) s.classList.add('filled');
+        else if (avg >= i + 0.5) s.classList.add('half');
+      });
+    }
+
+    function setInteractive(on) {
+      stars.forEach(s => s.style.cursor = on ? 'pointer' : 'default');
+    }
+
+    function loadRating(keepHighlight) {
       fetch('/api/rating')
         .then(r => r.json())
         .then(d => {
-          avgEl.textContent = d.count > 0 ? d.avg.toFixed(1) : '—';
-          countEl.textContent = d.count > 0 ? d.count + ' penilaian' : 'Belum ada penilaian';
-          renderStars(d.avg, !localStorage.getItem(KEY));
+          avgEl.textContent  = d.count > 0 ? d.avg.toFixed(1) : '—';
+          countEl.textContent= d.count > 0 ? d.count + ' penilaian' : 'Belum ada penilaian';
+          if (!keepHighlight) renderAvgStars(d.avg);
         }).catch(() => {});
     }
 
-    const rated = localStorage.getItem(KEY);
-    if (rated) {
-      msgEl.textContent = 'Kamu sudah memberi rating. Terima kasih!';
-      msgEl.classList.add('rated');
-      stars.forEach(s => s.style.cursor = 'default');
+    function submitRating(val, prev) {
+      const body = { star: val };
+      if (prev) body.prev_star = prev;
+      return fetch('/api/rating', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      }).then(r => r.json());
     }
 
+    /* init */
+    const prev = localStorage.getItem(KEY);
+    if (prev) {
+      highlightStars(Number(prev));
+      msgEl.textContent = 'Rating kamu: ' + prev + ' ★ — klik untuk ubah';
+      msgEl.classList.add('rated');
+    }
+    setInteractive(true);
+    loadRating(!!prev);
+
+    /* hover */
     stars.forEach((star, i) => {
-      star.addEventListener('mouseenter', () => {
-        if (localStorage.getItem(KEY)) return;
-        stars.forEach((s, j) => s.classList.toggle('filled', j <= i));
-      });
+      star.addEventListener('mouseenter', () => highlightStars(i + 1));
       star.addEventListener('mouseleave', () => {
-        if (localStorage.getItem(KEY)) return;
-        loadRating();
+        const cur = localStorage.getItem(KEY);
+        cur ? highlightStars(Number(cur)) : renderAvgStars(parseFloat(avgEl.textContent) || 0);
       });
       star.addEventListener('click', () => {
-        if (localStorage.getItem(KEY)) return;
-        const val = i + 1;
-        fetch('/api/rating', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ star: val })
-        })
-        .then(r => r.json())
-        .then(d => {
+        const val  = i + 1;
+        const prev = localStorage.getItem(KEY) ? Number(localStorage.getItem(KEY)) : null;
+        if (prev === val) return;
+        highlightStars(val);
+        submitRating(val, prev).then(d => {
           localStorage.setItem(KEY, val);
-          avgEl.textContent = d.avg.toFixed(1);
-          countEl.textContent = d.count + ' penilaian';
-          renderStars(d.avg, false);
-          msgEl.textContent = 'Terima kasih sudah memberi rating! ⭐';
+          avgEl.textContent  = d.avg.toFixed(1);
+          countEl.textContent= d.count + ' penilaian';
+          msgEl.textContent  = 'Rating kamu: ' + val + ' ★ — klik untuk ubah';
           msgEl.classList.add('rated');
-          stars.forEach(s => s.style.cursor = 'default');
         }).catch(() => {});
       });
     });
 
-    loadRating();
+    /* ── 5x klik logo IWX TEAM di footer → /admin ── */
+    let _clicks = 0, _timer;
+    const badge = document.querySelector('.footer-support-badge');
+    if (badge) {
+      badge.style.cursor = 'pointer';
+      badge.addEventListener('click', () => {
+        _clicks++;
+        clearTimeout(_timer);
+        if (_clicks >= 5) { _clicks = 0; window.location.href = '/admin'; return; }
+        _timer = setTimeout(() => { _clicks = 0; }, 2000);
+      });
+    }
   })();
   </script>
 
