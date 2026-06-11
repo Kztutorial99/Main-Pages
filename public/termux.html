@@ -207,6 +207,52 @@
       padding: .1rem .35rem; border-radius: 4px;
     }
 
+    /* ===== TOOLS REDIRECT BANNER ===== */
+    .tx-tools-banner {
+      display: flex; align-items: center; gap: 1.1rem;
+      background: linear-gradient(135deg, rgba(29,78,216,.18) 0%, rgba(3,105,161,.12) 100%);
+      border: 1px solid rgba(96,165,250,.35);
+      border-radius: 16px;
+      padding: 1.3rem 1.5rem;
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: background .25s ease, border-color .25s ease, transform .2s ease, box-shadow .25s ease;
+    }
+    .tx-tools-banner:hover {
+      background: linear-gradient(135deg, rgba(29,78,216,.30) 0%, rgba(3,105,161,.22) 100%);
+      border-color: rgba(96,165,250,.65);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(29,78,216,.25);
+    }
+    .tx-tools-banner-icon {
+      width: 52px; height: 52px; flex-shrink: 0;
+      background: rgba(96,165,250,.15);
+      border: 1px solid rgba(96,165,250,.25);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: #60a5fa;
+    }
+    .tx-tools-banner-body { flex: 1; min-width: 0; }
+    .tx-tools-banner-title {
+      font-size: .95rem; font-weight: 700; color: var(--white);
+      margin-bottom: .3rem;
+    }
+    .tx-tools-banner-sub {
+      font-size: .8rem; color: var(--text-muted); line-height: 1.5;
+    }
+    .tx-tools-banner-arrow {
+      color: #60a5fa; flex-shrink: 0;
+      transition: transform .2s ease;
+    }
+    .tx-tools-banner:hover .tx-tools-banner-arrow { transform: translateX(5px); }
+
+    @media (max-width: 480px) {
+      .tx-tools-banner { padding: 1rem 1rem; gap: .8rem; }
+      .tx-tools-banner-icon { width: 42px; height: 42px; }
+      .tx-tools-banner-title { font-size: .88rem; }
+      .tx-tools-banner-sub { font-size: .75rem; }
+    }
+
     /* ===== SEPARATOR ===== */
     .tx-sep {
       height: 1px; background: rgba(96,165,250,.10);
@@ -601,108 +647,19 @@ pkg install -y curl wget git python nodejs</div>
 
           <div class="tx-sep"></div>
 
-          <p class="tx-section-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Package Populer &amp; Cara Install
-          </p>
-
-          <div class="tx-pkg-wrap">
-            <table class="tx-pkg-table">
-              <thead>
-                <tr>
-                  <th>Perintah Install</th>
-                  <th>Nama Package</th>
-                  <th>Keterangan</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>pkg install python -y</td><td><strong>Python 3</strong></td><td>Bahasa pemrograman + pip</td></tr>
-                <tr><td>pkg install nodejs -y</td><td><strong>Node.js</strong></td><td>JavaScript runtime + npm</td></tr>
-                <tr><td>pkg install git -y</td><td><strong>Git</strong></td><td>Version control system</td></tr>
-                <tr><td>pkg install curl -y</td><td><strong>cURL</strong></td><td>HTTP client CLI</td></tr>
-                <tr><td>pkg install wget -y</td><td><strong>Wget</strong></td><td>Download file via URL</td></tr>
-                <tr><td>pkg install nmap -y</td><td><strong>Nmap</strong></td><td>Network port scanner</td></tr>
-                <tr><td>pkg install hydra -y</td><td><strong>Hydra</strong></td><td>Password brute-force</td></tr>
-                <tr><td>pkg install john -y</td><td><strong>John the Ripper</strong></td><td>Hash password cracker</td></tr>
-                <tr><td>pkg install neovim -y</td><td><strong>Neovim</strong></td><td>Code editor berbasis Vim</td></tr>
-                <tr><td>pkg install php -y</td><td><strong>PHP</strong></td><td>Server-side scripting language</td></tr>
-                <tr><td>pkg install htop -y</td><td><strong>htop</strong></td><td>Interactive process viewer</td></tr>
-                <tr><td>pkg install tmux -y</td><td><strong>tmux</strong></td><td>Terminal multiplexer</td></tr>
-                <tr><td>pkg install fzf -y</td><td><strong>fzf</strong></td><td>Fuzzy command-line finder</td></tr>
-                <tr><td>pkg install golang -y</td><td><strong>Go (Golang)</strong></td><td>Bahasa pemrograman Go</td></tr>
-                <tr><td>pkg install ruby -y</td><td><strong>Ruby</strong></td><td>Bahasa pemrograman Ruby</td></tr>
-                <tr><td>pkg install perl -y</td><td><strong>Perl</strong></td><td>Diperlukan oleh Nikto</td></tr>
-                <tr><td>pkg install openssh -y</td><td><strong>OpenSSH</strong></td><td>SSH client &amp; server</td></tr>
-                <tr><td>pkg install netcat-openbsd -y</td><td><strong>Netcat</strong></td><td>TCP/UDP networking tool</td></tr>
-                <tr><td>pkg install zsh -y</td><td><strong>Zsh</strong></td><td>Z shell (untuk Oh My Zsh)</td></tr>
-                <tr><td>pkg install figlet -y</td><td><strong>Figlet</strong></td><td>ASCII art text generator</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="tx-sep"></div>
-
-          <p class="tx-section-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
-            Install via Git Clone (GitHub)
-          </p>
-
-          <div class="tx-steps">
-            <div class="tx-step">
-              <div class="tx-step-num">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
-              </div>
-              <div class="tx-step-body">
-                <div class="tx-step-title">SQLmap — SQL Injection Tool</div>
-                <div class="tx-code-wrap">
-                  <div class="tx-code">git clone https://github.com/sqlmapproject/sqlmap
-cd sqlmap && python sqlmap.py --help</div>
-                  <button class="tx-copy-btn">Salin</button>
-                </div>
-              </div>
+          <!-- Redirect ke Tools -->
+          <a href="/tools" class="tx-tools-banner">
+            <div class="tx-tools-banner-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="28" height="28"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
             </div>
-            <div class="tx-step">
-              <div class="tx-step-num">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
-              </div>
-              <div class="tx-step-body">
-                <div class="tx-step-title">Nikto — Web Vulnerability Scanner</div>
-                <div class="tx-code-wrap">
-                  <div class="tx-code">pkg install perl -y
-git clone https://github.com/sullo/nikto
-cd nikto/program && perl nikto.pl -h &lt;target&gt;</div>
-                  <button class="tx-copy-btn">Salin</button>
-                </div>
-              </div>
+            <div class="tx-tools-banner-body">
+              <div class="tx-tools-banner-title">Lihat 20+ Tools &amp; Cara Install Lengkap</div>
+              <div class="tx-tools-banner-sub">Package populer, install via pkg &amp; git clone, semua ada di halaman GitHub Tools — 100% No Root</div>
             </div>
-            <div class="tx-step">
-              <div class="tx-step-num">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
-              </div>
-              <div class="tx-step-body">
-                <div class="tx-step-title">Subfinder — Subdomain Discovery</div>
-                <div class="tx-code-wrap">
-                  <div class="tx-code">pkg install golang -y
-go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-echo 'export PATH=$PATH:$HOME/go/bin' >> ~/.bashrc && source ~/.bashrc</div>
-                  <button class="tx-copy-btn">Salin</button>
-                </div>
-              </div>
+            <div class="tx-tools-banner-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
-            <div class="tx-step">
-              <div class="tx-step-num">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
-              </div>
-              <div class="tx-step-body">
-                <div class="tx-step-title">Oh My Zsh — Shell Framework</div>
-                <div class="tx-code-wrap">
-                  <div class="tx-code">pkg install zsh -y
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"</div>
-                  <button class="tx-copy-btn">Salin</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          </a>
 
         </div>
 
