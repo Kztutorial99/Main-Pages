@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "alias": ["kz.tutorial.site", "www.kz.tutorial.site"],
   "builds": [
     {
       "src": "public/**",
@@ -11,11 +10,10 @@
     { "src": "/topik", "dest": "/public/topik.html" },
     { "src": "/legal", "dest": "/public/legal.html" },
     { "src": "/tools", "dest": "/public/tools.html" },
+    { "src": "/termux", "dest": "/public/termux.html" },
+    { "src": "/quiz", "dest": "/public/quiz.html" },
     { "src": "/404", "dest": "/public/404.html" },
     { "src": "/", "dest": "/public/index.html" },
     { "src": "/(.+)", "dest": "/public/$1", "status": 200 }
-  ],
-  "errorPages": [
-    { "status": 404, "dest": "/public/404.html" }
   ]
 }
