@@ -224,7 +224,14 @@ body {
   border-radius: 1.5rem;
   overflow: hidden;
   box-shadow: 0 8px 48px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.07);
-  background: #000;
+  background: #050e1c;
+}
+.slide-img img {
+  animation: imgFadeIn .4s ease forwards;
+}
+@keyframes imgFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* All slides sit in the same absolute stack */
