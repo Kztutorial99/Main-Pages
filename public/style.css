@@ -226,8 +226,7 @@ body {
   font-size: 0;
   border: none !important;
   box-shadow: none !important;
-  position: relative;
-  z-index: 1;
+  display: block;
   -webkit-user-drag: none; user-drag: none;
   -webkit-user-select: none; user-select: none;
   pointer-events: none;
@@ -242,16 +241,18 @@ body {
   min-width: 37px;
   flex-shrink: 0;
   border-radius: 50%;
-  overflow: hidden;
 }
 .logo-ring::before {
   content: '';
   position: absolute;
-  width: 200%;
-  height: 200%;
+  inset: -2px;
+  border-radius: 50%;
+  padding: 2px;
   background: conic-gradient(from 0deg, #00ffff, #5B9AFF, #bf5fff, #00ff88, #00ffff);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
   animation: spin-ring 2s linear infinite;
-  z-index: 0;
 }
 .nav-iwx-avatar {
   margin-left: 0;
@@ -1171,21 +1172,25 @@ body {
 .pl-ring {
   position: relative;
   display: inline-flex; align-items: center; justify-content: center;
-  width: 58px; height: 58px; border-radius: 50%;
-  overflow: hidden; flex-shrink: 0;
+  width: 56px; height: 56px; border-radius: 50%;
+  flex-shrink: 0;
 }
 .pl-ring::before {
   content: '';
   position: absolute;
-  width: 200%; height: 200%;
+  inset: -3px;
+  border-radius: 50%;
+  padding: 3px;
   background: conic-gradient(from 0deg, #00ffff, #5B9AFF, #bf5fff, #00ff88, #00ffff);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
   animation: spin-ring 1.5s linear infinite;
-  z-index: 0;
 }
 .pl-ring img {
-  position: relative; z-index: 1;
-  width: 52px; height: 52px;
+  width: 56px; height: 56px;
   border-radius: 50%; object-fit: cover;
+  display: block;
 }
 .pl-brand {
   font-family: var(--font);
