@@ -156,6 +156,19 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  /* ── POST /api/admin/reset ── */
+  if (urlPath === '/api/admin/reset' && req.method === 'POST') {
+    try {
+      const body = await parseBody(req);
+      if (!body.password || !verifyPassword(body.password)) {
+        sendJson(res, 401, { error: 'Password salah' }); return;
+      }
+      fs.writeFileSync(VISITORS_FILE, JSON.stringify({ visits: [] }), 'utf8');
+      sendJson(res, 200, { ok: true });
+    } catch { sendJson(res, 400, { error: 'Bad request' }); }
+    return;
+  }
+
   /* ── POST /api/admin ── */
   if (urlPath === '/api/admin' && req.method === 'POST') {
     try {

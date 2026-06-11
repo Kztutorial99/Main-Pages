@@ -36,8 +36,20 @@
     .dash { width: 100%; max-width: 960px; display: none; }
     .dash-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: .75rem; }
     .dash-header h1 { font-size: 1.2rem; font-weight: 700; }
+    .header-btns { display: flex; gap: .5rem; }
     .btn-logout { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); padding: .45rem .9rem; border-radius: 8px; cursor: pointer; font-size: .8rem; transition: color .2s, border-color .2s; }
     .btn-logout:hover { color: var(--red); border-color: var(--red); }
+    .btn-reset { background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3); color: var(--red); padding: .45rem .9rem; border-radius: 8px; cursor: pointer; font-size: .8rem; transition: background .2s, border-color .2s; }
+    .btn-reset:hover { background: rgba(239,68,68,.2); border-color: var(--red); }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.7); display: flex; align-items: center; justify-content: center; z-index: 999; }
+    .modal-overlay.hidden { display: none; }
+    .modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; max-width: 340px; width: 100%; text-align: center; }
+    .modal-box h3 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; color: var(--red); }
+    .modal-box p { font-size: .82rem; color: var(--muted); margin-bottom: 1.4rem; line-height: 1.5; }
+    .modal-btns { display: flex; gap: .75rem; }
+    .modal-btns button { flex: 1; padding: .6rem; border-radius: 10px; cursor: pointer; font-size: .85rem; font-weight: 600; border: none; }
+    .modal-cancel { background: var(--surface2); color: var(--muted); border: 1px solid var(--border) !important; }
+    .modal-confirm { background: var(--red); color: #fff; }
 
     /* ── TABS ── */
     .tabs { display: flex; gap: .5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
@@ -123,7 +135,22 @@
   <div class="dash" id="dash">
     <div class="dash-header">
       <h1>⚙️ Admin Dashboard</h1>
-      <button class="btn-logout" id="btnLogout">Keluar</button>
+      <div class="header-btns">
+        <button class="btn-reset" id="btnReset">🗑️ Reset Data</button>
+        <button class="btn-logout" id="btnLogout">Keluar</button>
+      </div>
+    </div>
+
+    <!-- CONFIRM MODAL -->
+    <div class="modal-overlay hidden" id="modalOverlay">
+      <div class="modal-box">
+        <h3>⚠️ Reset Data Pengunjung</h3>
+        <p>Semua data pengunjung akan dihapus permanen. Tindakan ini tidak bisa dibatalkan.</p>
+        <div class="modal-btns">
+          <button class="modal-cancel" id="modalCancel">Batal</button>
+          <button class="modal-confirm" id="modalConfirm">Ya, Hapus</button>
+        </div>
+      </div>
     </div>
 
     <!-- TABS -->
@@ -192,7 +219,6 @@
                 <th>Kota</th>
                 <th>Browser</th>
                 <th>Device / OS</th>
-                <th>Halaman</th>
               </tr>
             </thead>
             <tbody id="visitTable"></tbody>
@@ -209,6 +235,7 @@
   const btnLogin  = document.getElementById('btnLogin');
   const loginErr  = document.getElementById('loginErr');
   let allVisits   = [];
+  let sessionPw   = '';
 
   /* toggle password visibility */
   document.getElementById('togglePw').addEventListener('click', () => {
@@ -278,7 +305,7 @@
   function renderTable(visits) {
     const tbody = document.getElementById('visitTable');
     if (!visits.length) {
-      tbody.innerHTML = '<tr class="empty-row"><td colspan="8">Belum ada data pengunjung</td></tr>';
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="7">Belum ada data pengunjung</td></tr>';
       return;
     }
     tbody.innerHTML = visits.map((v, i) => `
@@ -290,7 +317,6 @@
         <td class="muted">${v.city || '—'}</td>
         <td><span class="chip browser">${v.browser || '—'}</span></td>
         <td><span class="chip device">${v.device || '—'} · ${v.os || '—'}</span></td>
-        <td class="muted">${v.page || '/'}</td>
       </tr>`).join('');
   }
 
@@ -347,6 +373,7 @@
         btnLogin.disabled = false; btnLogin.textContent = 'Masuk';
         pwInput.value = ''; pwInput.focus();
       } else {
+        sessionPw = pw;
         loginWrap.style.display = 'none';
         dash.style.display = 'block';
         renderRating(d.rating);
@@ -366,8 +393,37 @@
   document.getElementById('btnLogout').addEventListener('click', () => {
     dash.style.display = 'none';
     loginWrap.style.display = 'block';
-    pwInput.value = ''; loginErr.textContent = '';
+    sessionPw = ''; pwInput.value = ''; loginErr.textContent = '';
     btnLogin.disabled = false; btnLogin.textContent = 'Masuk';
+  });
+
+  /* reset */
+  const modalOverlay = document.getElementById('modalOverlay');
+  document.getElementById('btnReset').addEventListener('click', () => {
+    modalOverlay.classList.remove('hidden');
+  });
+  document.getElementById('modalCancel').addEventListener('click', () => {
+    modalOverlay.classList.add('hidden');
+  });
+  document.getElementById('modalConfirm').addEventListener('click', () => {
+    const btn = document.getElementById('modalConfirm');
+    btn.disabled = true; btn.textContent = 'Menghapus…';
+    fetch('/api/admin/reset', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: sessionPw })
+    }).then(r => r.json()).then(d => {
+      modalOverlay.classList.add('hidden');
+      btn.disabled = false; btn.textContent = 'Ya, Hapus';
+      if (d.ok) {
+        allVisits = [];
+        renderSummary([]);
+        renderTable([]);
+      }
+    }).catch(() => {
+      modalOverlay.classList.add('hidden');
+      btn.disabled = false; btn.textContent = 'Ya, Hapus';
+    });
   });
   </script>
 </body>
