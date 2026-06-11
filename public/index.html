@@ -505,7 +505,6 @@
     const prev = localStorage.getItem(KEY);
     if (prev) {
       highlightStars(Number(prev));
-      msgEl.textContent = 'Rating kamu: ' + prev + ' ★ — klik untuk ubah';
       msgEl.classList.add('rated');
     }
     setInteractive(true);
@@ -527,7 +526,6 @@
           localStorage.setItem(KEY, val);
           avgEl.textContent  = d.avg.toFixed(1);
           countEl.textContent= d.count + ' penilaian';
-          msgEl.textContent  = 'Rating kamu: ' + val + ' ★ — klik untuk ubah';
           msgEl.classList.add('rated');
         }).catch(() => {});
       });

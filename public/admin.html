@@ -9,25 +9,15 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0a0a0f;
-      --surface: #111118;
-      --surface2: #1a1a24;
-      --border: rgba(255,255,255,.08);
-      --text: #e8eaf0;
-      --muted: #8a8da8;
-      --accent: #0ea5e9;
-      --gold: #f59e0b;
-      --green: #22c55e;
-      --red: #ef4444;
+      --bg: #0a0a0f; --surface: #111118; --surface2: #1a1a24; --surface3: #22222e;
+      --border: rgba(255,255,255,.08); --text: #e8eaf0; --muted: #8a8da8;
+      --accent: #0ea5e9; --gold: #f59e0b; --green: #22c55e; --red: #ef4444;
     }
     body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
 
-    /* LOGIN */
+    /* ── LOGIN ── */
     .login-wrap { width: 100%; max-width: 380px; }
-    .login-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; padding: 2.5rem 2rem; text-align: center;
-    }
+    .login-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem 2rem; text-align: center; }
     .login-logo { display: flex; align-items: center; justify-content: center; gap: .6rem; margin-bottom: 1.5rem; }
     .login-logo img { width: 36px; height: 36px; border-radius: 50%; }
     .login-logo span { font-weight: 700; font-size: 1.1rem; }
@@ -35,55 +25,76 @@
     .login-title { font-size: 1.1rem; font-weight: 600; margin-bottom: .4rem; }
     .login-sub { font-size: .8rem; color: var(--muted); margin-bottom: 1.8rem; }
     .input-wrap { position: relative; margin-bottom: 1rem; }
-    .input-wrap input {
-      width: 100%; padding: .75rem 1rem; padding-right: 3rem;
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 12px; color: var(--text); font-size: .95rem;
-      outline: none; letter-spacing: .2em; font-family: 'Inter', sans-serif;
-      transition: border-color .2s;
-    }
+    .input-wrap input { width: 100%; padding: .75rem 1rem; padding-right: 3rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-size: .95rem; outline: none; letter-spacing: .2em; font-family: 'Inter', sans-serif; transition: border-color .2s; }
     .input-wrap input:focus { border-color: var(--accent); }
-    .input-wrap .toggle-pw {
-      position: absolute; right: .75rem; top: 50%; transform: translateY(-50%);
-      background: none; border: none; cursor: pointer; color: var(--muted);
-      display: flex; align-items: center;
-    }
-    .btn-login {
-      width: 100%; padding: .75rem; background: var(--accent); color: #fff;
-      border: none; border-radius: 12px; font-size: .95rem; font-weight: 600;
-      cursor: pointer; transition: filter .2s;
-    }
+    .toggle-pw { position: absolute; right: .75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--muted); display: flex; align-items: center; }
+    .btn-login { width: 100%; padding: .75rem; background: var(--accent); color: #fff; border: none; border-radius: 12px; font-size: .95rem; font-weight: 600; cursor: pointer; transition: filter .2s; }
     .btn-login:hover { filter: brightness(1.1); }
     .login-err { color: var(--red); font-size: .8rem; margin-top: .75rem; min-height: 1.2em; }
 
-    /* DASHBOARD */
-    .dash { width: 100%; max-width: 700px; display: none; }
+    /* ── DASHBOARD ── */
+    .dash { width: 100%; max-width: 960px; display: none; }
     .dash-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: .75rem; }
     .dash-header h1 { font-size: 1.2rem; font-weight: 700; }
-    .btn-logout { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); padding: .45rem .9rem; border-radius: 8px; cursor: pointer; font-size: .8rem; }
+    .btn-logout { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); padding: .45rem .9rem; border-radius: 8px; cursor: pointer; font-size: .8rem; transition: color .2s, border-color .2s; }
     .btn-logout:hover { color: var(--red); border-color: var(--red); }
 
+    /* ── TABS ── */
+    .tabs { display: flex; gap: .5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+    .tab-btn { background: none; border: none; color: var(--muted); font-size: .88rem; font-weight: 500; padding: .6rem 1rem; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .2s, border-color .2s; }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── RATING CARDS ── */
     .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
-    @media (max-width: 500px) { .cards { grid-template-columns: 1fr 1fr; } }
-    .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 16px; padding: 1.2rem 1rem; text-align: center;
-    }
+    @media (max-width: 520px) { .cards { grid-template-columns: 1fr 1fr; } }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.2rem 1rem; text-align: center; }
     .card-val { font-size: 2rem; font-weight: 700; line-height: 1; }
     .card-val.gold { color: var(--gold); }
     .card-val.blue { color: var(--accent); }
     .card-label { font-size: .72rem; color: var(--muted); margin-top: .4rem; text-transform: uppercase; letter-spacing: .08em; }
+    .stars-row { display: flex; gap: .2rem; justify-content: center; margin: .4rem 0; }
+    .stars-row svg { width: 16px; height: 16px; }
 
     .dist-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; }
-    .dist-title { font-size: .85rem; font-weight: 600; margin-bottom: 1.2rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
-    .dist-row { display: flex; align-items: center; gap: .75rem; margin-bottom: .65rem; }
-    .dist-label { font-size: .82rem; color: var(--muted); width: 40px; text-align: right; flex-shrink: 0; }
+    .section-title { font-size: .78rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 1rem; }
+    .dist-row { display: flex; align-items: center; gap: .75rem; margin-bottom: .6rem; }
+    .dist-label { font-size: .82rem; color: var(--muted); width: 38px; text-align: right; flex-shrink: 0; }
     .dist-bar-wrap { flex: 1; background: var(--surface2); border-radius: 99px; height: 8px; overflow: hidden; }
     .dist-bar { height: 100%; background: var(--gold); border-radius: 99px; transition: width .6s ease; }
-    .dist-count { font-size: .78rem; color: var(--muted); width: 36px; text-align: right; flex-shrink: 0; }
+    .dist-count { font-size: .78rem; color: var(--muted); width: 32px; text-align: right; flex-shrink: 0; }
 
-    .stars-display { display: flex; gap: .2rem; justify-content: center; margin: .5rem 0; }
-    .stars-display svg { width: 20px; height: 20px; }
+    /* ── VISITOR STATS SUMMARY ── */
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+    @media (max-width: 600px) { .summary-grid { grid-template-columns: 1fr; } }
+    .summary-box { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.2rem; }
+    .summary-list { list-style: none; display: flex; flex-direction: column; gap: .5rem; margin-top: .75rem; }
+    .summary-list li { display: flex; align-items: center; justify-content: space-between; font-size: .82rem; }
+    .summary-list li span.key { color: var(--muted); }
+    .summary-list li span.val { font-weight: 600; color: var(--text); }
+    .badge { display: inline-block; background: var(--surface3); border: 1px solid var(--border); border-radius: 6px; padding: .1rem .45rem; font-size: .72rem; color: var(--muted); }
+
+    /* ── VISITOR TABLE ── */
+    .tbl-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .tbl-head { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.2rem .75rem; gap: .75rem; flex-wrap: wrap; }
+    .tbl-search { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: .4rem .75rem; color: var(--text); font-size: .82rem; outline: none; width: 200px; }
+    .tbl-search:focus { border-color: var(--accent); }
+    .tbl-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+    thead th { padding: .65rem 1rem; text-align: left; color: var(--muted); font-weight: 500; font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; border-bottom: 1px solid var(--border); white-space: nowrap; background: var(--surface2); }
+    tbody tr { border-bottom: 1px solid rgba(255,255,255,.04); transition: background .15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--surface2); }
+    tbody td { padding: .65rem 1rem; color: var(--text); white-space: nowrap; vertical-align: middle; }
+    tbody td.muted { color: var(--muted); }
+    .flag { font-size: 1rem; }
+    .empty-row td { text-align: center; color: var(--muted); padding: 2rem; font-size: .85rem; }
+
+    .chip { display: inline-flex; align-items: center; gap: .3rem; background: var(--surface3); border: 1px solid var(--border); border-radius: 6px; padding: .15rem .5rem; font-size: .72rem; color: var(--muted); }
+    .chip.browser { color: var(--accent); border-color: rgba(14,165,233,.25); background: rgba(14,165,233,.08); }
+    .chip.device  { color: var(--green); border-color: rgba(34,197,94,.25);  background: rgba(34,197,94,.08); }
   </style>
 </head>
 <body>
@@ -92,15 +103,15 @@
   <div class="login-wrap" id="loginWrap">
     <div class="login-card">
       <div class="login-logo">
-        <img src="iwx-team.webp" alt="IWX Team" />
+        <img src="iwx-team.webp" alt="IWX" />
         <span>IWX <span class="accent">TEAM</span></span>
       </div>
       <p class="login-title">Admin Dashboard</p>
       <p class="login-sub">Masukkan password untuk mengakses statistik</p>
       <div class="input-wrap">
         <input type="password" id="pwInput" placeholder="Password" autocomplete="current-password" />
-        <button class="toggle-pw" id="togglePw" tabindex="-1" aria-label="Tampilkan password">
-          <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <button class="toggle-pw" id="togglePw" tabindex="-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
         </button>
       </div>
       <button class="btn-login" id="btnLogin">Masuk</button>
@@ -111,29 +122,83 @@
   <!-- DASHBOARD -->
   <div class="dash" id="dash">
     <div class="dash-header">
-      <h1>📊 Statistik Rating</h1>
+      <h1>⚙️ Admin Dashboard</h1>
       <button class="btn-logout" id="btnLogout">Keluar</button>
     </div>
 
-    <div class="cards">
-      <div class="card">
-        <div class="card-val gold" id="dAvg">—</div>
-        <div class="stars-display" id="dStars"></div>
-        <div class="card-label">Rata-rata</div>
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="rating">⭐ Rating</button>
+      <button class="tab-btn" data-tab="visitors">👥 Pengunjung</button>
+    </div>
+
+    <!-- RATING TAB -->
+    <div class="tab-panel active" id="tab-rating">
+      <div class="cards">
+        <div class="card">
+          <div class="card-val gold" id="dAvg">—</div>
+          <div class="stars-row" id="dStars"></div>
+          <div class="card-label">Rata-rata</div>
+        </div>
+        <div class="card">
+          <div class="card-val blue" id="dCount">—</div>
+          <div class="card-label">Total Penilaian</div>
+        </div>
+        <div class="card">
+          <div class="card-val" id="dTop">—</div>
+          <div class="card-label">Bintang Terbanyak</div>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-val blue" id="dCount">—</div>
-        <div class="card-label">Total Penilaian</div>
-      </div>
-      <div class="card">
-        <div class="card-val" id="dTop">—</div>
-        <div class="card-label">Bintang Terbanyak</div>
+      <div class="dist-wrap">
+        <p class="section-title">Distribusi Bintang</p>
+        <div id="distRows"></div>
       </div>
     </div>
 
-    <div class="dist-wrap">
-      <p class="dist-title">Distribusi Bintang</p>
-      <div id="distRows"></div>
+    <!-- VISITORS TAB -->
+    <div class="tab-panel" id="tab-visitors">
+      <div class="summary-grid">
+        <div class="summary-box">
+          <p class="section-title">Ringkasan Pengunjung</p>
+          <ul class="summary-list" id="summaryList"></ul>
+        </div>
+        <div class="summary-box">
+          <p class="section-title">Browser Teratas</p>
+          <ul class="summary-list" id="browserList"></ul>
+        </div>
+        <div class="summary-box">
+          <p class="section-title">Negara Teratas</p>
+          <ul class="summary-list" id="countryList"></ul>
+        </div>
+        <div class="summary-box">
+          <p class="section-title">Device Teratas</p>
+          <ul class="summary-list" id="deviceList"></ul>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <div class="tbl-head">
+          <p class="section-title" style="margin:0">Log Pengunjung</p>
+          <input class="tbl-search" id="searchInput" placeholder="Cari IP / negara / browser…" />
+        </div>
+        <div class="tbl-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Waktu</th>
+                <th>IP</th>
+                <th>Negara</th>
+                <th>Kota</th>
+                <th>Browser</th>
+                <th>Device / OS</th>
+                <th>Halaman</th>
+              </tr>
+            </thead>
+            <tbody id="visitTable"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -143,33 +208,62 @@
   const pwInput   = document.getElementById('pwInput');
   const btnLogin  = document.getElementById('btnLogin');
   const loginErr  = document.getElementById('loginErr');
-  const togglePw  = document.getElementById('togglePw');
+  let allVisits   = [];
 
-  togglePw.addEventListener('click', () => {
+  /* toggle password visibility */
+  document.getElementById('togglePw').addEventListener('click', () => {
     pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
   });
 
-  function renderDash(data) {
-    loginWrap.style.display = 'none';
-    dash.style.display = 'block';
-    document.getElementById('dAvg').textContent   = data.count > 0 ? data.avg.toFixed(1) : '—';
-    document.getElementById('dCount').textContent = data.count;
+  /* tabs */
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
 
-    const starsEl = document.getElementById('dStars');
-    const avg = data.avg || 0;
-    starsEl.innerHTML = [1,2,3,4,5].map(i => {
-      const filled = avg >= i ? '#f59e0b' : (avg >= i - 0.5 ? 'url(#hg)' : 'none');
-      return `<svg viewBox="0 0 24 24" fill="${filled}" stroke="#f59e0b" stroke-width="1.8"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>`;
-    }).join('');
+  /* helpers */
+  function flag(code) {
+    if (!code || code === '—' || code.length !== 2) return '🌐';
+    return String.fromCodePoint(...[...code.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
+  }
+  function timeAgo(iso) {
+    const diff = Date.now() - new Date(iso).getTime();
+    const m = Math.floor(diff / 60000);
+    if (m < 1) return 'baru saja';
+    if (m < 60) return m + ' mnt lalu';
+    const h = Math.floor(m / 60);
+    if (h < 24) return h + ' jam lalu';
+    return Math.floor(h / 24) + ' hari lalu';
+  }
+  function fmtTime(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString('id-ID', { day:'2-digit', month:'short' }) + ' ' +
+           d.toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' });
+  }
+  function topN(arr, key, n = 5) {
+    const m = {};
+    arr.forEach(v => { const k = v[key] || '—'; m[k] = (m[k] || 0) + 1; });
+    return Object.entries(m).sort((a, b) => b[1] - a[1]).slice(0, n);
+  }
 
-    const dist = data.dist || {};
-    const max  = Math.max(1, ...Object.values(dist));
+  /* render rating tab */
+  function renderRating(r) {
+    document.getElementById('dAvg').textContent   = r.count > 0 ? r.avg.toFixed(1) : '—';
+    document.getElementById('dCount').textContent = r.count;
+    const avg = r.avg || 0;
+    document.getElementById('dStars').innerHTML = [1,2,3,4,5].map(i =>
+      `<svg viewBox="0 0 24 24" fill="${avg >= i ? '#f59e0b' : 'none'}" stroke="#f59e0b" stroke-width="1.8"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>`
+    ).join('');
+    const dist = r.dist || {};
+    const max = Math.max(1, ...Object.values(dist));
     let topStar = '—', topCount = 0;
     [5,4,3,2,1].forEach(s => { if ((dist[s]||0) > topCount) { topCount = dist[s]; topStar = s + ' ★'; } });
     document.getElementById('dTop').textContent = topStar;
-
-    const rows = document.getElementById('distRows');
-    rows.innerHTML = [5,4,3,2,1].map(s => {
+    document.getElementById('distRows').innerHTML = [5,4,3,2,1].map(s => {
       const cnt = dist[s] || 0;
       const pct = max > 0 ? (cnt / max * 100).toFixed(1) : 0;
       return `<div class="dist-row">
@@ -180,32 +274,89 @@
     }).join('');
   }
 
+  /* render visitor table */
+  function renderTable(visits) {
+    const tbody = document.getElementById('visitTable');
+    if (!visits.length) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="8">Belum ada data pengunjung</td></tr>';
+      return;
+    }
+    tbody.innerHTML = visits.map((v, i) => `
+      <tr>
+        <td class="muted">${i + 1}</td>
+        <td class="muted" title="${v.time}">${fmtTime(v.time)}</td>
+        <td><code style="font-size:.75rem;color:#a5b4fc">${v.ip || '—'}</code></td>
+        <td>${flag(v.countryCode)} ${v.country || '—'}</td>
+        <td class="muted">${v.city || '—'}</td>
+        <td><span class="chip browser">${v.browser || '—'}</span></td>
+        <td><span class="chip device">${v.device || '—'} · ${v.os || '—'}</span></td>
+        <td class="muted">${v.page || '/'}</td>
+      </tr>`).join('');
+  }
+
+  /* render summary lists */
+  function renderSummary(visits) {
+    const total = visits.length;
+    const today = visits.filter(v => new Date(v.time).toDateString() === new Date().toDateString()).length;
+    const unique = new Set(visits.map(v => v.ip)).size;
+    document.getElementById('summaryList').innerHTML = [
+      ['Total Log', total],
+      ['Hari Ini', today],
+      ['IP Unik', unique],
+    ].map(([k, v]) => `<li><span class="key">${k}</span><span class="val">${v}</span></li>`).join('');
+
+    const topBrowsers = topN(visits, 'browser');
+    document.getElementById('browserList').innerHTML = topBrowsers.length
+      ? topBrowsers.map(([k,v]) => `<li><span class="key">${k}</span><span class="val badge">${v}x</span></li>`).join('')
+      : '<li><span class="muted">—</span></li>';
+
+    const topCountries = topN(visits, 'country');
+    document.getElementById('countryList').innerHTML = topCountries.length
+      ? topCountries.map(([k,v]) => `<li><span class="key">${flag('')} ${k}</span><span class="val badge">${v}x</span></li>`).join('')
+      : '<li><span class="muted">—</span></li>';
+
+    const topDevices = topN(visits, 'device');
+    document.getElementById('deviceList').innerHTML = topDevices.length
+      ? topDevices.map(([k,v]) => `<li><span class="key">${k}</span><span class="val badge">${v}x</span></li>`).join('')
+      : '<li><span class="muted">—</span></li>';
+  }
+
+  /* search */
+  document.getElementById('searchInput').addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    const filtered = q ? allVisits.filter(v =>
+      (v.ip||'').includes(q) || (v.country||'').toLowerCase().includes(q) ||
+      (v.browser||'').toLowerCase().includes(q) || (v.device||'').toLowerCase().includes(q) ||
+      (v.page||'').includes(q) || (v.os||'').toLowerCase().includes(q)
+    ) : allVisits;
+    renderTable(filtered);
+  });
+
+  /* login */
   function doLogin() {
     const pw = pwInput.value.trim();
     if (!pw) { loginErr.textContent = 'Masukkan password terlebih dahulu.'; return; }
-    btnLogin.disabled = true;
-    btnLogin.textContent = 'Memverifikasi…';
+    btnLogin.disabled = true; btnLogin.textContent = 'Memverifikasi…';
     fetch('/api/admin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password: pw })
-    })
-    .then(r => r.json())
-    .then(d => {
+    }).then(r => r.json()).then(d => {
       if (d.error) {
         loginErr.textContent = d.error === 'Password salah' ? 'Password salah. Coba lagi.' : 'Terjadi kesalahan.';
-        btnLogin.disabled = false;
-        btnLogin.textContent = 'Masuk';
-        pwInput.value = '';
-        pwInput.focus();
+        btnLogin.disabled = false; btnLogin.textContent = 'Masuk';
+        pwInput.value = ''; pwInput.focus();
       } else {
-        renderDash(d);
+        loginWrap.style.display = 'none';
+        dash.style.display = 'block';
+        renderRating(d.rating);
+        allVisits = d.visitors || [];
+        renderSummary(allVisits);
+        renderTable(allVisits);
       }
-    })
-    .catch(() => {
+    }).catch(() => {
       loginErr.textContent = 'Gagal terhubung ke server.';
-      btnLogin.disabled = false;
-      btnLogin.textContent = 'Masuk';
+      btnLogin.disabled = false; btnLogin.textContent = 'Masuk';
     });
   }
 
@@ -215,10 +366,8 @@
   document.getElementById('btnLogout').addEventListener('click', () => {
     dash.style.display = 'none';
     loginWrap.style.display = 'block';
-    pwInput.value = '';
-    loginErr.textContent = '';
-    btnLogin.disabled = false;
-    btnLogin.textContent = 'Masuk';
+    pwInput.value = ''; loginErr.textContent = '';
+    btnLogin.disabled = false; btnLogin.textContent = 'Masuk';
   });
   </script>
 </body>
