@@ -338,6 +338,16 @@ body {
   width: 46px; height: 46px; border-radius: var(--r-full);
   cursor: pointer; display: flex; align-items: center; justify-content: center;
   transition: background var(--ease), border-color var(--ease), box-shadow var(--ease), transform .2s ease;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  user-select: none;
+}
+.slider-btn:focus { outline: none; }
+.slider-btn:active {
+  transform: translateY(-50%) scale(0.93);
+  background: rgba(10,132,255,.25);
 }
 .slider-btn:hover {
   background: rgba(10,132,255,.30);
