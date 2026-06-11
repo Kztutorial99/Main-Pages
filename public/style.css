@@ -1149,20 +1149,20 @@ body {
 
 /* IWX TEAM SUPPORT */
 .footer-support {
-  display: flex; align-items: center; gap: .6rem;
-  justify-content: center; padding: .55rem 0 .45rem;
+  display: flex; align-items: center; gap: .75rem;
+  justify-content: center; padding: .9rem 0 .75rem;
 }
 .footer-support-label {
-  font-size: .65rem; font-weight: 500; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--md-on-surface-variant); opacity: .55;
+  font-size: .78rem; font-weight: 500; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--md-on-surface-variant); opacity: .65;
 }
 /* MD3 Suggestion Chip */
 .footer-support-badge {
-  display: flex; align-items: center; gap: .4rem;
+  display: flex; align-items: center; gap: .55rem;
   background: var(--md-surface-container-high);
   border: 1px solid var(--md-outline-variant);
   border-radius: var(--md-shape-full);
-  padding: .2rem .6rem .2rem .3rem;
+  padding: .3rem .85rem .3rem .4rem;
   transition: background var(--md-dur-short4) var(--md-ease-standard),
               border-color var(--md-dur-short4) var(--md-ease-standard);
 }
@@ -1170,10 +1170,10 @@ body {
   background: var(--md-surface-container-highest);
   border-color: var(--md-outline);
 }
-.iwx-logo { width: 18px; height: 18px; border-radius: var(--md-shape-full); object-fit: cover; flex-shrink: 0; }
+.iwx-logo { width: 24px; height: 24px; border-radius: var(--md-shape-full); object-fit: cover; flex-shrink: 0; }
 .iwx-name {
-  font-size: .7rem; font-weight: 500;
-  color: var(--md-on-surface); letter-spacing: .04em;
+  font-size: .82rem; font-weight: 600;
+  color: var(--md-on-surface); letter-spacing: .05em;
 }
 .iwx-accent {
   background: linear-gradient(90deg, var(--md-secondary) 0%, var(--md-on-secondary-container) 100%);
