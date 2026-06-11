@@ -1,3 +1,21 @@
+// ===== LOADING SCREEN =====
+(function() {
+  const loader = document.getElementById('page-loader');
+  if (!loader) return;
+  function hideLoader() {
+    setTimeout(function() {
+      loader.classList.add('hide');
+      setTimeout(function() { loader.style.display = 'none'; }, 520);
+    }, 300);
+  }
+  if (document.readyState === 'complete') {
+    hideLoader();
+  } else {
+    window.addEventListener('load', hideLoader);
+    setTimeout(hideLoader, 2500);
+  }
+})();
+
 // ===== PAGE TRANSITION =====
 (function () {
   const COVER_DURATION = 420; // ms slide-in (covering)

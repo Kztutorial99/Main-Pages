@@ -342,6 +342,24 @@ document.querySelectorAll('.video-card, .about-card').forEach(card => {
   });
 })();
 
+// ===== FAQ ACCORDION =====
+(function() {
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const item = this.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => {
+        el.classList.remove('open');
+        el.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        this.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+})();
+
 // ===== GLITCH EFFECT on logo text =====
 (function() {
   const logo = document.querySelector('.logo-text');

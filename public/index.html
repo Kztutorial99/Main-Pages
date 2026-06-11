@@ -14,6 +14,20 @@
 </head>
 <body>
 
+  <!-- LOADING SCREEN -->
+  <div id="page-loader">
+    <div class="loader-terminal">
+      <div class="loader-tbar"><span></span><span></span><span></span></div>
+      <div class="loader-body">
+        <p class="lt-line" style="--d:0s"><span class="lt-prompt">$</span> boot <span class="lt-arg">kz.tutorial</span></p>
+        <p class="lt-line" style="--d:.35s"><span class="lt-ok">[OK]</span> Menghubungkan server...</p>
+        <p class="lt-line" style="--d:.65s"><span class="lt-ok">[OK]</span> Memuat konten...</p>
+        <p class="lt-line" style="--d:.9s"><span class="lt-ok">[OK]</span> Siap!</p>
+        <p class="lt-line lt-ready" style="--d:1.1s"><span class="lt-prompt">$</span> <span class="lt-cursor">_</span></p>
+      </div>
+    </div>
+  </div>
+
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
@@ -275,6 +289,54 @@
     </div>
   </section>
 
+  <!-- FAQ SECTION -->
+  <section class="faq-section" id="faq">
+    <div class="section-inner">
+      <div class="faq-header">
+        <p class="section-eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> FAQ</p>
+        <h2>Pertanyaan <span class="accent">Umum</span></h2>
+        <p class="faq-sub">Hal-hal yang sering ditanyakan seputar Kz.tutorial</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>Dari mana saya harus mulai belajar Termux?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a"><p>Mulai dari halaman <a href="/termux" class="faq-link">Tutorial Termux</a> — ada panduan instalasi, perintah dasar, hingga tips lanjutan secara berurutan. Lanjut ke <a href="/topik" class="faq-link">Topik</a> untuk materi spesifik.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>Apakah semua tutorial gratis?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a"><p>Ya, semua konten di Kz.tutorial 100% gratis. Tutorial, tools, dan panduan tersedia tanpa biaya apapun.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>Apakah perlu root untuk menggunakan tools di sini?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a"><p>Tidak! Semua tools dan tutorial dirancang untuk berjalan tanpa root. Cukup install Termux dari F-Droid dan langsung bisa digunakan.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>Bagaimana cara menghubungi tim Kz.tutorial?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a"><p>Hubungi kami lewat <a href="https://t.me/Kz.tutorial" target="_blank" class="faq-link">Telegram</a> atau <a href="https://wa.me/62895325844493" target="_blank" class="faq-link">WhatsApp</a>. Klik tombol chat di pojok kanan bawah.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>Apakah ada komunitas untuk diskusi?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a"><p>Ya! Bergabung ke komunitas <a href="https://t.me/Kz.tutorial" target="_blank" class="faq-link">Telegram</a> dan subscribe <a href="https://www.youtube.com/@Kz.tutorial" target="_blank" class="faq-link">YouTube @Kz.tutorial</a> untuk update terbaru.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ABOUT SECTION -->
   <section class="about-section" id="about">
     <div class="section-inner">
@@ -351,7 +413,7 @@
 
       <!-- Bottom row -->
       <div class="footer-bottom">
-        <p class="footer-copy">&copy; 2025 Kz.tutorial. All rights reserved.</p>
+        <p class="footer-copy">&copy; 2026 Kz.tutorial. All rights reserved.</p>
         <p class="footer-made">Made with <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" width="13" height="13" style="vertical-align:middle;color:#ff6b6b;display:inline;margin:0 1px"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> for the Open Source community</p>
       </div>
 
