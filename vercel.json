@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "alias": ["kz.tutorial.site", "www.kz.tutorial.site"],
   "builds": [
     {
       "src": "public/**",
