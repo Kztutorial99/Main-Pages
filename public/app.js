@@ -163,14 +163,35 @@ makeRevealGroup('.video-card',  '.3s',  0.07);
 makeRevealGroup('.about-card',  '.32s', 0.09);
 makeRevealGroup('.intro-badge', '.35s', 0.05);
 
-// ===== SMOOTH ANCHOR =====
+// ===== SMOOTH ANCHOR (eased, no jank) =====
+function smoothScrollTo(targetY, duration) {
+  const startY = window.scrollY;
+  const dist   = targetY - startY;
+  if (Math.abs(dist) < 2) return;
+  let startTime = null;
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+  function step(now) {
+    if (!startTime) startTime = now;
+    const elapsed  = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    window.scrollTo(0, startY + dist * easeInOutCubic(progress));
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
+    const href = a.getAttribute('href');
+    if (href === '#') return;
+    const target = document.querySelector(href);
     if (!target) return;
     e.preventDefault();
-    const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'));
-    window.scrollTo({ top: target.offsetTop - navH, behavior: 'smooth' });
+    const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 64;
+    const targetY = Math.max(0, target.getBoundingClientRect().top + window.scrollY - navH);
+    smoothScrollTo(targetY, 700);
   });
 });
 
