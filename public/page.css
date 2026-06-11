@@ -165,11 +165,12 @@
 
 /* ===== LEGAL PAGE TAB BAR ===== */
 .legal-page-tabbar {
-  display: flex; gap: .75rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .75rem;
   margin-bottom: 2rem;
 }
 .legal-page-tab {
-  flex: 1;
   display: flex; align-items: center; justify-content: center; gap: .5rem;
   padding: .85rem 1rem;
   border-radius: 12px;
@@ -179,6 +180,12 @@
   cursor: pointer; font-family: var(--font);
   text-align: center; white-space: nowrap;
   transition: background var(--ease), color var(--ease), border-color var(--ease), box-shadow var(--ease);
+}
+.legal-page-tab:last-child {
+  grid-column: 1 / -1;
+  max-width: calc(50% - .375rem);
+  margin: 0 auto;
+  width: 100%;
 }
 .legal-page-tab:hover {
   background: rgba(10,132,255,.08);
