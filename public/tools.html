@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="page.css" />
+  <link rel="preload" as="image" href="/logo.jpg" fetchpriority="high" />
+  <link rel="preload" as="image" href="/iwx-team.webp" type="image/webp" fetchpriority="high" />
   <style>
     /* ===== TOOLS PAGE STYLES ===== */
     .tools-filter-bar {
@@ -248,8 +250,8 @@
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
       <a class="nav-logo" href="/">
-        <span class="logo-ring"><img class="logo-icon logo-avatar" src="logo.jpg" alt="Kz.tutorial" /></span>
-        <span class="logo-ring"><img class="logo-icon logo-avatar nav-iwx-avatar" src="iwx-team.webp" alt="IWX Team" /></span>
+        <span class="logo-ring"><img class="logo-icon logo-avatar" src="logo.jpg" alt="Kz.tutorial" fetchpriority="high" /></span>
+        <span class="logo-ring"><img class="logo-icon logo-avatar nav-iwx-avatar" src="iwx-team.webp" alt="IWX Team" fetchpriority="high" /></span>
         <span class="logo-text">IWX<span class="accent"> TEAM</span></span>
       </a>
       <ul class="nav-links">
