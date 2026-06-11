@@ -204,6 +204,11 @@ body {
   transition: opacity var(--md-dur-short4) var(--md-ease-standard);
 }
 .nav-logo:hover { opacity: .8; }
+.nav-logo .accent {
+  color: #7dd3fc;
+  text-shadow: 0 0 12px rgba(125,211,252,.70), 0 0 24px rgba(56,189,248,.40);
+  font-weight: 700;
+}
 .logo-icon {
   font-family: var(--mono); font-size: .9rem; font-weight: 700;
   background: var(--grad); color: #fff;
@@ -220,8 +225,8 @@ body {
   padding: 0 !important;
   background: none !important;
   font-size: 0;
-  border: 2px solid rgba(130,176,255,.45);
-  box-shadow: 0 0 8px var(--blue-glow);
+  border: 2px solid #38bdf8;
+  box-shadow: 0 0 10px rgba(56,189,248,.70), 0 0 20px rgba(56,189,248,.35);
   transition: box-shadow var(--md-dur-med2) var(--md-ease-standard),
               border-color var(--md-dur-med2) var(--md-ease-standard);
   -webkit-user-drag: none; user-drag: none;
@@ -231,13 +236,13 @@ body {
 .nav-logo { pointer-events: auto; }
 .iwx-logo { -webkit-user-drag: none; user-drag: none; pointer-events: none; }
 .nav-logo:hover .logo-avatar {
-  border-color: #38bdf8;
-  box-shadow: 0 0 20px rgba(56,189,248,.70), 0 0 40px rgba(56,189,248,.30);
+  border-color: #7dd3fc;
+  box-shadow: 0 0 24px rgba(56,189,248,.90), 0 0 48px rgba(56,189,248,.45);
 }
 .nav-iwx-avatar {
   margin-left: -.1rem;
-  border-color: rgba(187,195,255,.45) !important;
-  box-shadow: 0 0 8px rgba(187,195,255,.25) !important;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 10px rgba(56,189,248,.70), 0 0 20px rgba(56,189,248,.35) !important;
 }
 
 /* MD3 Nav Items */
