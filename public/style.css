@@ -119,13 +119,6 @@ body {
   color: var(--md-on-surface);
   line-height: 1.6;
   overflow-x: hidden;
-  /* Dark Black + Bright Blue gradient */
-  background-image:
-    radial-gradient(ellipse 110% 65% at 15% 0%,  rgba(2, 132, 199, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 80% 55% at 85% 85%,  rgba(29, 78, 216, 0.40) 0%, transparent 50%),
-    radial-gradient(ellipse 65% 50% at 50% 45%,  rgba(14, 116, 144, 0.25) 0%, transparent 60%),
-    linear-gradient(180deg, #020409 0%, #000000 40%, #020409 100%);
-  background-attachment: fixed;
 }
 
 /* ===== MD3 SCROLLBAR ===== */
@@ -315,8 +308,27 @@ body {
 /* ===== MD3 HERO SLIDER ===== */
 .hero {
   position: relative; width: 100%;
-  background: var(--md-surface-dim);
+  background:
+    radial-gradient(ellipse 160% 90% at 0%   0%,  rgba(56,189,248,.60) 0%, rgba(2,132,199,.35) 30%, transparent 55%),
+    radial-gradient(ellipse 120% 80% at 100% 100%, rgba(37,99,235,.70) 0%, rgba(29,78,216,.40)  30%, transparent 58%),
+    radial-gradient(ellipse 80%  70% at 100% 0%,   rgba(34,211,238,.50) 0%, transparent 48%),
+    radial-gradient(ellipse 60%  50% at 0%   100%, rgba(14,165,233,.40) 0%, transparent 50%),
+    linear-gradient(160deg, #000000 0%, #010e20 50%, #000000 100%);
   padding: calc(var(--nav-h) + 1.5rem) 1.5rem 1.5rem;
+}
+/* Vivid blue glow ring around slider */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: calc(var(--nav-h) + .5rem) .5rem .5rem;
+  border-radius: var(--md-shape-xl);
+  background: transparent;
+  box-shadow:
+    0 0 60px 20px rgba(56,189,248,.28),
+    0 0 120px 40px rgba(37,99,235,.18),
+    inset 0 0 40px 10px rgba(56,189,248,.06);
+  pointer-events: none;
+  z-index: 0;
 }
 .slider-container {
   position: relative; width: 100%;
@@ -325,14 +337,13 @@ body {
 .slider-wrapper {
   position: relative; width: 100%;
   aspect-ratio: 5 / 2;
-  /* MD3 shape: extra-large */
   border-radius: var(--md-shape-xl);
   overflow: hidden;
-  /* MD3 elevation level 3 */
   box-shadow:
-    0 4px 8px rgba(0,0,0,.4),
-    0 8px 32px rgba(0,0,0,.35),
-    0 0 0 1px var(--md-outline-variant);
+    0 0 0 1px rgba(56,189,248,.35),
+    0 0 40px  8px rgba(56,189,248,.30),
+    0 0 80px 16px rgba(37,99,235,.22),
+    0 8px 32px rgba(0,0,0,.50);
   background: var(--md-surface-container-lowest);
 }
 .slide-img img { animation: imgFadeIn .35s var(--md-ease-decel) forwards; }
@@ -351,9 +362,10 @@ body {
 .slide-styled-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
 .slide-styled-android {
   background:
-    radial-gradient(ellipse 70% 80% at 80% 50%, rgba(34,211,238,.15) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 60% at 10% 90%, rgba(2,132,199,.25) 0%, transparent 60%),
-    linear-gradient(135deg, #000000 0%, #020a18 50%, #000000 100%);
+    radial-gradient(ellipse 70% 80% at 80% 50%, rgba(34,211,238,.30) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 10% 90%, rgba(56,189,248,.35) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 50% 20%, rgba(14,165,233,.20) 0%, transparent 60%),
+    linear-gradient(135deg, #000000 0%, #020c1b 50%, #000000 100%);
 }
 .slide-styled-android::after {
   content: ''; position: absolute; inset: 0;
@@ -361,9 +373,10 @@ body {
 }
 .slide-styled-latest {
   background:
-    radial-gradient(ellipse 70% 80% at 20% 50%, rgba(2,132,199,.50) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 60% at 90% 80%, rgba(29,78,216,.30) 0%, transparent 60%),
-    linear-gradient(135deg, #000000 0%, #020a18 50%, #000000 100%);
+    radial-gradient(ellipse 70% 80% at 20% 50%, rgba(56,189,248,.55) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 90% 80%, rgba(37,99,235,.50) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 55% 20%, rgba(34,211,238,.25) 0%, transparent 55%),
+    linear-gradient(135deg, #000000 0%, #020c1b 50%, #000000 100%);
 }
 .slide-styled-latest::after {
   content: ''; position: absolute; inset: 0;
@@ -455,15 +468,17 @@ body {
 
 /* ===== INTRO STRIP ===== */
 .intro-strip {
-  background: rgba(0, 8, 20, 0.95);
-  backdrop-filter: blur(20px);
+  background:
+    radial-gradient(ellipse 100% 100% at 50% 50%, rgba(56,189,248,.18) 0%, transparent 65%),
+    linear-gradient(135deg, rgba(2,132,199,.25) 0%, rgba(29,78,216,.18) 100%),
+    #000000;
   position: relative; padding: 2rem 1.5rem 1.75rem;
-  border-top: 1px solid rgba(56,189,248,.25);
+  border-top: 1px solid rgba(56,189,248,.30);
 }
 .intro-strip::before {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(2,132,199,.15) 0%, rgba(29,78,216,.08) 100%);
+  background: linear-gradient(135deg, rgba(56,189,248,.08) 0%, rgba(37,99,235,.06) 100%);
   pointer-events: none;
 }
 .intro-inner {
@@ -559,10 +574,9 @@ body {
 /* ===== MD3 TICKER ===== */
 .ticker-wrap {
   position: relative; overflow: hidden;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(56,189,248,.20);
-  border-bottom: 1px solid rgba(56,189,248,.20);
+  background: linear-gradient(90deg, rgba(2,132,199,.22) 0%, rgba(37,99,235,.18) 50%, rgba(2,132,199,.22) 100%), #000000;
+  border-top: 1px solid rgba(56,189,248,.35);
+  border-bottom: 1px solid rgba(56,189,248,.35);
   padding: .7rem 0;
 }
 .ticker-wrap::before,
@@ -595,10 +609,9 @@ body {
 
 /* ===== MD3 QNAV TABS (Chip Row) ===== */
 .qnav-wrap {
-  background: rgba(0, 0, 0, 0.80);
-  backdrop-filter: blur(16px);
-  border-top: 1px solid rgba(56,189,248,.18);
-  border-bottom: 1px solid rgba(56,189,248,.18);
+  background: linear-gradient(90deg, rgba(2,132,199,.15) 0%, rgba(37,99,235,.12) 50%, rgba(2,132,199,.15) 100%), #000000;
+  border-top: 1px solid rgba(56,189,248,.28);
+  border-bottom: 1px solid rgba(56,189,248,.28);
   padding: .6rem 1.5rem;
 }
 .qnav-inner {
@@ -669,8 +682,10 @@ body {
 
 /* ===== MD3 VIDEOS SECTION ===== */
 .videos-section {
-  background: rgba(0, 0, 0, 0.90);
-  backdrop-filter: blur(8px);
+  background:
+    radial-gradient(ellipse 120% 60% at 80% 50%, rgba(37,99,235,.35) 0%, transparent 55%),
+    radial-gradient(ellipse 90%  55% at 10% 80%, rgba(56,189,248,.25) 0%, transparent 55%),
+    linear-gradient(180deg, #000000 0%, #010d1f 100%);
   position: relative;
 }
 .videos-section::before {
@@ -899,8 +914,10 @@ body {
 
 /* ===== MD3 ABOUT SECTION ===== */
 .about-section {
-  background: rgba(0, 0, 0, 0.92);
-  backdrop-filter: blur(8px);
+  background:
+    radial-gradient(ellipse 130% 65% at 15% 50%, rgba(56,189,248,.30) 0%, transparent 55%),
+    radial-gradient(ellipse 90%  55% at 90% 20%, rgba(37,99,235,.40)  0%, transparent 55%),
+    linear-gradient(180deg, #010d1f 0%, #000000 100%);
   position: relative; overflow: hidden;
 }
 .about-section::before {
@@ -968,7 +985,12 @@ body {
 .about-cta { text-align: center; position: relative; z-index: 1; }
 
 /* ===== MD3 FOOTER ===== */
-.footer { background: rgba(0, 0, 0, 0.98); position: relative; }
+.footer {
+  background:
+    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(37,99,235,.30) 0%, transparent 60%),
+    linear-gradient(180deg, #000000 0%, #010d1f 100%);
+  position: relative;
+}
 .footer::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, transparent 0%, #0ea5e9 25%, #38bdf8 75%, transparent 100%);
