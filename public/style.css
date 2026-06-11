@@ -237,14 +237,12 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
+  width: 37px;
+  height: 37px;
+  min-width: 37px;
   flex-shrink: 0;
   border-radius: 50%;
   overflow: hidden;
-  filter: drop-shadow(0 0 6px #00ffff) drop-shadow(0 0 12px #5B9AFF);
-  transition: filter var(--md-dur-med2) var(--md-ease-standard);
 }
 .logo-ring::before {
   content: '';
@@ -254,9 +252,6 @@ body {
   background: conic-gradient(from 0deg, #00ffff, #5B9AFF, #bf5fff, #00ff88, #00ffff);
   animation: spin-ring 2s linear infinite;
   z-index: 0;
-}
-.nav-logo:hover .logo-ring {
-  filter: drop-shadow(0 0 10px #00ffff) drop-shadow(0 0 20px #5B9AFF) drop-shadow(0 0 30px #bf5fff);
 }
 .nav-iwx-avatar {
   margin-left: 0;
