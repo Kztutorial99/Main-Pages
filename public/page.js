@@ -63,7 +63,7 @@ if (legalTabs.length) {
   resize();
   window.addEventListener('resize', resize, { passive: true });
 
-  const COLORS = ['rgba(10,132,255,', 'rgba(94,92,230,', 'rgba(90,200,250,'];
+  const COLORS = ['rgba(192,132,252,', 'rgba(244,114,182,', 'rgba(232,121,249,'];
 
   function Particle() {
     this.reset = function() {
@@ -101,7 +101,7 @@ if (legalTabs.length) {
 (function() {
   if (window.matchMedia('(pointer: coarse)').matches) return;
   const trail = document.createElement('div');
-  trail.style.cssText = `position:fixed;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,rgba(10,132,255,.7) 0%,transparent 70%);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen;`;
+  trail.style.cssText = `position:fixed;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,rgba(192,132,252,.7) 0%,transparent 70%);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen;`;
   document.body.appendChild(trail);
   document.addEventListener('mousemove', e => {
     trail.style.left = e.clientX + 'px';
